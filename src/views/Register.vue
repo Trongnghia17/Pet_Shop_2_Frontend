@@ -1,109 +1,134 @@
 <template>
-  <v-container class="mt-5">
-    <v-row justify="center">
-      <v-col cols="12" md="8" lg="6">
-        <v-card class="elevation-2">
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-img
-                  src="@/assets/gpet.jpg"
-                  alt="Logo"
-                  class="rounded-t"
-                  contain
-                  height="250px"
-              ></v-img>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-card-title class="text-center">
-                <h2 class="text-uppercase">Đăng ký</h2>
-              </v-card-title>
-              <v-card-text>
-                <v-form ref="form">
-                  <v-text-field
-                      v-model="registerInput.name"
-                      label="Họ và tên"
-                      outlined
-                      dense
-                      :error-messages="errorList.name"
-                  ></v-text-field>
-                  <v-text-field
-                      v-model="registerInput.email"
-                      label="Email"
-                      outlined
-                      dense
-                      :error-messages="errorList.email"
-                  ></v-text-field>
-                  <v-text-field
-                      v-model="registerInput.password"
-                      label="Mật khẩu"
-                      type="password"
-                      outlined
-                      dense
-                      :error-messages="errorList.password"
-                  ></v-text-field>
-                  <v-btn
-                      block
-                      color="primary"
-                      class="mt-4"
-                      @click="registerSubmit"
-                  >
-                    Đăng ký
-                  </v-btn>
-                </v-form>
-                <v-row class="mt-4" justify="center">
-                  <p>Bạn đã có tài khoản rồi?</p>
-                  <v-btn text to="/login" class="ml-2">
-                    Đăng nhập
-                  </v-btn>
-                </v-row>
-              </v-card-text>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="register-page">
+    <img src="../assets/logo.jpg"  alt="logo" class="logo">
+    <div class="register-form">
+      <h1>ĐĂNG KÝ</h1>
+      <v-form @submit.prevent="checkComfirmPassword">
+        <div class="form-input">
+          <label for="email">Email:</label>
+          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
+        </div>
+        <div class="form-input">
+          <label for="username">Tài khoản:</label>
+          <v-text-field class="input" outlined type="text" id="username" v-model="username"  required />
+        </div>
+        <div class="form-input">
+          <label for="password">Mật khẩu:</label>
+          <v-text-field
+              outlined
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="togglePasswordVisibility('password')"
+              class="input"
+              required />
+        </div>
+        <div class="form-input">
+          <label for="confirm-password">Nhập lại mật khẩu:</label>
+          <v-text-field
+              outlined
+              :type="showConfirmPassword ? 'text' : 'password'"
+              id="confirm-password"
+              v-model="confirmPassword"
+              :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="togglePasswordVisibility('confirmPassword')"
+              class="input"
+              required />
+        </div>
+        <div class="button">
+          <v-btn type="submit" class="register-btn">Đăng ký</v-btn>
+          <div>
+            Bạn đã có tài khoản, <router-link class="login-router" to="login">Đăng nhập ngay</router-link>
+          </div>
+        </div>
+      </v-form>
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
-
-
 export default {
   name: 'RegisterPage',
   data() {
     return {
-      registerInput: {
-        name: "",
-        email: "",
-        password: "",
-      },
-      errorList: {},
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      showConfirmPassword: false,
+      showPassword: false,
     };
   },
   methods: {
-    async registerSubmit() {
-      try {
-        const response = await axios.post("/api/register", this.registerInput);
-        if (response.data.status === 200) {
-          console.log(response)
-
-          this.$router.push("/");
-        } else {
-          console.log(response);
-          console.log(response.data.validation_errors);
-          this.errorList = response.data.validation_errors;
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    checkComfirmPassword(){
+      console.log(`Email: ${this.email},Username: ${this.username} , Password: ${this.password}, Confirm Password: ${this.confirmPassword}`)
+      alert('Đăng ký thành công');
     },
+    togglePasswordVisibility(field) {
+      if (field === 'password') {
+        this.showPassword = !this.showPassword
+      } else if (field === 'confirmPassword') {
+        this.showConfirmPassword = !this.showConfirmPassword
+      }
+
+
+    }
   },
 };
 </script>
 
 <style scoped>
-.v-container {
-  max-width: 800px;
+.register-page {
+  border: 1px solid #ccc;
+  box-shadow: 0 0  10px rgba(0, 0, 0, 0.1);
+  margin: 20px 20px;
+  padding: 20px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  border-radius: 12px;
 }
+.logo {
+  max-width: 30%;
+  height: auto;
+}
+.register-form {
+  width: 40%;
+}
+.register-form h1 {
+  margin: 20px;
+  text-align: center;
+  color:#FEA910;
+}
+.button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-input .input{
+  margin-top: 10px;
+  border-radius: 12px;
+}
+.login-router{
+  text-decoration: none;
+  color: #000000;
+}
+.login-router:hover{
+  font-weight: bold;
+  color: orange;
+}
+.button .register-btn{
+  width: 50%;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #FEA910, #FEA910, #FEA910);
+}
+.button .register-btn:hover{
+  background: linear-gradient(45deg,  #f8c555, orange);
+  color: white;
+}
+
 </style>
