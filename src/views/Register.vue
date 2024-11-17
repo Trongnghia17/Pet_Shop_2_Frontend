@@ -5,12 +5,12 @@
       <h1>ĐĂNG KÝ</h1>
       <v-form @submit.prevent="checkComfirmPassword">
         <div class="form-input">
-          <label for="email">Email:</label>
-          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
+          <label for="username">Tên:</label>
+          <v-text-field class="input" outlined type="text" id="username" v-model="username"  required />
         </div>
         <div class="form-input">
-          <label for="username">Tài khoản:</label>
-          <v-text-field class="input" outlined type="text" id="username" v-model="username"  required />
+          <label for="email">Email:</label>
+          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
         </div>
         <div class="form-input">
           <label for="password">Mật khẩu:</label>
@@ -39,7 +39,7 @@
         <div class="button">
           <v-btn type="submit" class="register-btn">Đăng ký</v-btn>
           <div>
-            Bạn đã có tài khoản, <router-link class="login-router" to="login">Đăng nhập ngay</router-link>
+            Bạn đã có tài khoản ? <router-link class="login-router" to="login">Đăng nhập ngay</router-link>
           </div>
         </div>
       </v-form>
@@ -47,7 +47,10 @@
   </div>
 </template>
 
+
 <script>
+import apiConfig from '@/apiConfig';
+
 export default {
   name: 'RegisterPage',
   data() {
@@ -61,9 +64,25 @@ export default {
     };
   },
   methods: {
-    checkComfirmPassword(){
-      console.log(`Email: ${this.email},Username: ${this.username} , Password: ${this.password}, Confirm Password: ${this.confirmPassword}`)
-      alert('Đăng ký thành công');
+    async checkComfirmPassword() {
+      if (this.password !== this.confirmPassword) {
+        alert('Mật khẩu và xác nhận mật khẩu không khớp!');
+        return;
+      }
+      try {
+        const response = await apiConfig.register({
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          confirmPassword: this.confirmPassword,
+        });
+        console.log('Đăng ký thành công:', response.data);
+        alert('Đăng ký thành công!');
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Lỗi khi đăng ký:', error.response?.data || error.message);
+        alert('Đăng ký thất bại, vui lòng thử lại!');
+      }
     },
     togglePasswordVisibility(field) {
       if (field === 'password') {
@@ -115,7 +134,7 @@ export default {
 }
 .login-router{
   text-decoration: none;
-  color: #000000;
+  color: orange;
 }
 .login-router:hover{
   font-weight: bold;
