@@ -66,7 +66,7 @@ export default {
   methods: {
     async checkComfirmPassword() {
       if (this.password !== this.confirmPassword) {
-        alert('Mật khẩu và xác nhận mật khẩu không khớp!');
+        this.$toast.warning('Mật khẩu và xác nhận mật khẩu không khớp!');
         return;
       }
       try {
@@ -77,11 +77,11 @@ export default {
           confirmPassword: this.confirmPassword,
         });
         console.log('Đăng ký thành công:', response.data);
-        alert('Đăng ký thành công!');
+        this.$toast.success('Đăng ký thành công!');
         this.$router.push('/login');
       } catch (error) {
         console.error('Lỗi khi đăng ký:', error.response?.data || error.message);
-        alert('Đăng ký thất bại, vui lòng thử lại!');
+        this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
       }
     },
     togglePasswordVisibility(field) {
@@ -110,13 +110,14 @@ export default {
   justify-content: center;
   gap: 10%;
   border-radius: 12px;
+  min-height: 95vh;
 }
 .logo {
-  max-width: 30%;
+  max-width: 30vw;
   height: auto;
 }
 .register-form {
-  width: 40%;
+  min-width: 40vw;
 }
 .register-form h1 {
   margin: 20px;
