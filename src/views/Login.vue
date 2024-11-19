@@ -1,25 +1,32 @@
 <template>
-  <div class="auth-container">
-    <div class="auth-form">
-      <h2>Đăng Nhập</h2>
-      <form @submit.prevent="handleLogin">
-        <div>
-          <label>Email:</label>
-          <input type="email" v-model="formData.email" required />
+  <div class="login-page">
+    <img src="../assets/logo.jpg"  alt="logo" class="logo">
+    <div class="login-form">
+      <h1>ĐĂNG NHẬP</h1>
+      <v-form @submit.prevent="handleLogin">
+        <div class="form-input">
+          <label for="email">Email:</label>
+          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
         </div>
-
-        <div>
-          <label>Mật khẩu:</label>
-          <input type="password" v-model="formData.password" required />
+        <div class="form-input">
+          <label for="password">Mật khẩu:</label>
+          <v-text-field
+              outlined
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="togglePasswordVisibility"
+              class="input"
+              required />
         </div>
-
-        <button type="submit">Đăng Nhập</button>
-      </form>
-
-      <p>
-        Chưa có tài khoản?
-        <router-link to="/register">Đăng Ký</router-link>
-      </p>
+        <div class="button">
+          <v-btn type="submit" class="login-btn">Đăng nhập</v-btn>
+          <div>
+            Bạn chưa có tài khoản ? <router-link class="register-router" to="register">Đăng ký ngay</router-link>
+          </div>
+        </div>
+      </v-form>
     </div>
   </div>
 </template>
@@ -31,74 +38,88 @@ export default {
   name: 'LoginPage',
   data() {
     return {
-      formData: {
         email: '',
         password: '',
-      },
+        showPassword: false,
     };
   },
   methods: {
     async handleLogin() {
       try {
         const response = await apiConfig.login({
-          email: this.formData.email,
-          password: this.formData.password,
+          email: this.email,
+          password: this.password,
+          
         });
         console.log('Đăng nhập thành công:', response.data);
-        alert('Đăng nhập thành công!');
+        this.$toast.success('Đăng nhập thành công!');
         localStorage.setItem('token', response.data.token); // Lưu token nếu API trả về
         this.$router.push('/dashboard'); // Điều hướng đến dashboard sau khi đăng nhập
       } catch (error) {
         console.error('Lỗi khi đăng nhập:', error.response?.data || error.message);
-        alert('Đăng nhập thất bại, vui lòng thử lại!');
+        this.$toast.error('Đăng nhập thất bại, vui lòng thử lại!');
       }
+    },    
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
     },
+    
   },
 };
 </script>
 
 <style scoped>
-/* Tái sử dụng CSS từ ví dụ trước */
-.auth-container {
-  max-width: 400px;
-  margin: 50px auto;
+.login-page {
+  border: 1px solid #ccc;
+  box-shadow: 0 0  10px rgba(0, 0, 0, 0.1);
+  margin: 20px 20px;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  border-radius: 12px;
+  min-height: 95vh;
+}
+.logo {
+  max-width: 30vw;
+  height: auto;
+}
+.login-form {
+  min-width: 40vw;
+}
+.login-form h1 {
+  margin: 20px;
   text-align: center;
+  color:#FEA910;
 }
-.auth-form h2 {
+.button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-input .input{
+  margin-top: 10px;
+  border-radius: 12px;
+}
+.register-router{
+  text-decoration: none;
+  color: orange;
+}
+.register-router:hover{
+  font-weight: bold;
+  color: orange;
+}
+.button .login-btn{
+  width: 50%;
   margin-bottom: 20px;
+  background: linear-gradient(to right, #FEA910, #FEA910, #FEA910);
 }
-.auth-form label {
-  display: block;
-  margin: 10px 0 5px;
-}
-.auth-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.auth-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+.button .login-btn:hover{
+  background: linear-gradient(45deg,  #f8c555, orange);
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
-.auth-form button:hover {
-  background-color: #0056b3;
-}
-.auth-form p {
-  margin-top: 15px;
-}
-.auth-form a {
-  color: #007bff;
-  text-decoration: underline;
-  cursor: pointer;
-}
+
 </style>
