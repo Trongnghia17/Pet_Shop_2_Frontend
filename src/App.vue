@@ -13,7 +13,7 @@
 import Navbar from './views/Navbar.vue'
 import Footer from "./views/Footer.vue";
 export default {
-  components: { Navbar },
+  components: { Navbar, Footer },
   name: 'App',
   computed: {
     showNavbar() {
