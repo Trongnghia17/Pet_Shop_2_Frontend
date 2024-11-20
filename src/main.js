@@ -6,6 +6,9 @@ import Toast from 'vue-toastification';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import 'vue-toastification/dist/index.css';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
