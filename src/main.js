@@ -3,16 +3,27 @@ import App from './App.vue';
 import router from './router';
 import Vuetify from 'vuetify';
 import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
+import 'vue-toastification/dist/index.css';
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(Toast, {
-  duration: 1500,
-  hideProgressBar: true,
+  position: 'top-right',
+  timeout: 5000,
+  closeOnClick: true,
+  pauseOnFocusLoss: true,
+  pauseOnHover: true,
+  draggable: true,
+  draggablePercent: 0.6,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  closeButton: 'button',
+  icon: true,
+  rtl: false,
 });
+
 new Vue({
   router,
   vuetify: new Vuetify(),

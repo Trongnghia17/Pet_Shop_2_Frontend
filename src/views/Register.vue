@@ -69,18 +69,20 @@ export default {
         this.$toast.warning('Mật khẩu và xác nhận mật khẩu không khớp!');
         return;
       }
+      if (this.password.length < 8 || this.confirmPassword.length < 8) {
+        this.$toast.warning('Mật khẩu và xác nhận mật khẩu phải có ít nhất 8 ký tự!');
+        return;
+      }
       try {
         const response = await apiConfig.register({
-          username: this.username,
+          name: this.username,
           email: this.email,
           password: this.password,
-          confirmPassword: this.confirmPassword,
         });
         console.log('Đăng ký thành công:', response.data);
         this.$toast.success('Đăng ký thành công!');
         this.$router.push('/login');
       } catch (error) {
-        console.error('Lỗi khi đăng ký:', error.response?.data || error.message);
         this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
       }
     },
@@ -100,7 +102,7 @@ export default {
 <style scoped>
 .register-page {
   border: 1px solid #ccc;
-  box-shadow: 0 0  10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px 20px;
   padding: 20px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -112,42 +114,51 @@ export default {
   border-radius: 12px;
   min-height: 95vh;
 }
+
 .logo {
   max-width: 30vw;
   height: auto;
 }
+
 .register-form {
   min-width: 40vw;
 }
+
 .register-form h1 {
   margin: 20px;
   text-align: center;
-  color:#FEA910;
+  color: #FEA910;
 }
-.button{
+
+.button {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.form-input .input{
+
+.form-input .input {
   margin-top: 10px;
   border-radius: 12px;
 }
-.login-router{
+
+.login-router {
   text-decoration: none;
   color: orange;
 }
-.login-router:hover{
+
+.login-router:hover {
   font-weight: bold;
   color: orange;
 }
-.button .register-btn{
+
+.button .register-btn {
   width: 50%;
   margin-bottom: 20px;
   background: linear-gradient(to right, #FEA910, #FEA910, #FEA910);
 }
-.button .register-btn:hover{
-  background: linear-gradient(45deg,  #f8c555, orange);
+
+.button .register-btn:hover {
+  background: linear-gradient(45deg, #f8c555, orange);
   color: white;
 }
 

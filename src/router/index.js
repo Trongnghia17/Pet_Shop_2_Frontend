@@ -6,10 +6,20 @@ import RegisterPage from '../views/Register.vue';
 Vue.use(VueRouter);
 
 const routes = [
-    { path: '/login',
+    {
+        path: '/',
+        redirect: '/login'
+    },
+    {
+        path: '/login',
         name: 'Login',
-        component: LoginPage },
-    { path: '/register', name: 'Register', component: RegisterPage },
+        component: LoginPage
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: RegisterPage
+    },
 ];
 
 const router = new VueRouter({
