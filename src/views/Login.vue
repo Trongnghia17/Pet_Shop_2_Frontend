@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <img src="../assets/logo.jpg"  alt="logo" class="logo">
+    <img src="../assets/logo.png"  alt="logo" class="logo">
     <div class="login-form">
       <h1>ĐĂNG NHẬP</h1>
       <v-form @submit.prevent="handleLogin">
@@ -93,7 +93,7 @@ export default {
 .login-form h1 {
   margin: 20px;
   text-align: center;
-  color:#FEA910;
+  color:#ED1D22;
 }
 .button{
   display: flex;
@@ -106,19 +106,19 @@ export default {
 }
 .register-router{
   text-decoration: none;
-  color: orange;
+  color: #ED1D22;
 }
 .register-router:hover{
   font-weight: bold;
-  color: orange;
+  color: #ED1D22;
 }
 .button .login-btn{
   width: 50%;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #FEA910, #FEA910, #FEA910);
+  background: linear-gradient(45deg, #ff0044, #ff7070);
 }
 .button .login-btn:hover{
-  background: linear-gradient(45deg,  #f8c555, orange);
+  background: linear-gradient(45deg,  #ed2775, #fb6452);
   color: white;
 }
 

@@ -2,7 +2,7 @@
   <nav class="navbar">
     <ul class="navbar-list">
         <li class="navbar-img">
-            <img   alt="logo" class="logo">
+            <img src="../assets/logo.png"  alt="logo" class="logo">
         </li>
         <li class="navbar-item">
             <div class="nav-home">
@@ -11,7 +11,7 @@
             class="navbar-link" 
             active-class="active-link" 
             exact-active-class="exact-active-link">
-            <span class="fa-solid fa-house"></span>Trang chủ</router-link>
+            <span style="margin-right: 8px; font-size: 20px;" class="fa-solid fa-house"></span>Trang chủ</router-link>
             </div>
         </li>
         <li class="navbar-item">
@@ -20,7 +20,7 @@
             class="navbar-link"
             active-class="active-link"
             exact-active-class="exact-active-link">
-            <span class="fa-solid fa-circle-info"></span>Giới thiệu</router-link>
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-circle-info"></span>Giới thiệu</router-link>
         </li>
         <li class="navbar-item">
             <router-link
@@ -28,38 +28,54 @@
             class="navbar-link"
             active-class="active-link"
             exact-active-class="exact-active-link">
-            <span class="fa-brands fa-stack-overflow"></span>Album</router-link>
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-brands fa-stack-overflow"></span>Album</router-link>
         </li>
         <li class="navbar-item">
             <router-link
             to="/collection"
             class="navbar-link"
             active-class="active-link"
-            exact-active-class="exact-active-link">Bộ sưu tập</router-link>
+            exact-active-class="exact-active-link">
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-image"></span>Bộ sưu tập</router-link>
         </li>
         <li class="navbar-item">
             <router-link
             to="/contact"
             class="navbar-link"
             active-class="active-link"
-            exact-active-class="exact-active-link">Liên hệ</router-link>
+            exact-active-class="exact-active-link">
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-phone"></span>Liên hệ</router-link>
         </li>
         <li class="navbar-item">
             <router-link
             to="shopping-cart"
             class="navbar-link"
             active-class="active-link"
-            exact-active-class="exact-active-link">Giỏ hàng</router-link>
+            exact-active-class="exact-active-link">
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-cart-shopping"></span>Giỏ hàng</router-link>
         </li>
-        <li class="nav-logout">
-        <button
-          class="icon-button"
-          style="color: red; white-space: nowrap"
-          @click="handleEvent('logout')"
-        >
-          <span class="fa-solid fa-sign-out-alt"></span>Đăng xuất
-        </button>
-      </li>
+        <div class="nav-avatar">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-avatar
+            v-bind="attrs"
+            v-on="on"
+            size="40"
+            class="cursor-pointer"
+          >
+            <img src="../assets/avatar.png" alt="User Avatar" class="avatar-img">
+          </v-avatar>
+        </template>
+        <v-list class="avatar-list">
+          <v-list-item  @click="handleEvent('profile')">
+            <v-list-item-title class="profile-item"><span>Thông tin cá nhân</span></v-list-item-title>
+          </v-list-item>
+          <v-list-item  @click="handleEvent('logout')">
+            <v-list-item-title class="logout-item" style="color: red;"><span style="margin-right: 8px; color: red;" class="fa-solid fa-sign-out-alt logout-icon"></span>Đăng xuất</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     </ul>
   </nav>
 </template>
@@ -70,23 +86,28 @@
 export default {
 name: 'AppNavbar',
 methods: {
-    handleEvent(event) {
-        if (event === 'logout') {
-            // localStorage.removeItem('token');
-            this.$router.push('/login');
-        }
-    },
+    handleEvent(action) {
+      if (action === 'profile') {
+        this.$router.push('/profile');
+      } else if (action === 'logout') {
+        this.$router.push("/login");
+      }
+    }
 },
 }
 </script>
 <style scoped>
+.logo{
+    width: 120px;
+    height: auto;
+}
 .navbar{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     background-color:white ;
-    border-bottom:1px solid #fff ;
+    border-bottom:1px solid white;
     width: 100%;
-    padding: 20px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 .navbar-list{
     display: flex;
@@ -95,9 +116,61 @@ methods: {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    padding: 0 50px;
 }
 .navbar ul li a{
     text-decoration: none;
     color: black;
+    font-size: 15px;
+    transition: color 0.3s, font-weight 0.3s;
+}
+.navbar ul li a:hover{
+    color: #ff7070;
+    font-weight: bold;
+}
+.navbar-item .active-link{
+    color:#ff7070;
+    font-weight: bold;
+    border-bottom:2px solid #ff7070;
+    padding-bottom: 5px;
+}
+.nav-logout{
+    font-size: 15px;
+    cursor: pointer;
+    color: white;
+    transition: font-weight 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px 20px;
+}
+.nav-logout:hover{
+    font-weight: bold;
+}
+.navbar-text{
+    display: flex;
+    flex-direction: column;
+}
+.navbar-item{
+    margin: 20px;
+}
+.nav-avatar{
+    margin-right: 30px;
+}
+.avatar-list{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+.profile-item{
+    color: black;
+    transition: color 0.3s, font-weight 0.3s;
+}
+.profile-item:hover{
+    color: #ff7070;
+    font-weight: bold;
+}
+.logout-item:hover{
+    font-weight: bold;
+    transition: color 0.3s, font-weight 0.3s;
 }
 </style>
