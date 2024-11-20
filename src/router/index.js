@@ -9,11 +9,13 @@ import CollectionPage from '@/views/Collection.vue';
 import ContactPage from '@/views/Contact.vue';
 import ShoppingCartPage from '@/views/ShoppingCart.vue';
 import ProfilePage from '@/views/Profile.vue';
+import AdminPage from '../views/admin/Admin.vue';
+
 
 Vue.use(VueRouter);
 
 const routes = [
-    { path: '/', redirect: '/login'},
+    { path: '/', redirect: '/login' },
     { path: '/login', name: 'Login', meta: { title: "Đăng nhập" }, component: LoginPage },
     { path: '/register', name: 'Register', meta: { title: "Đăng ký" }, component: RegisterPage },
     { path: '/home', name: 'HomePage', component: HomePage },
@@ -23,6 +25,8 @@ const routes = [
     { path: '/contact', name: 'ContactPage', component: ContactPage },
     { path: '/shopping-cart', name: 'ShoppingCartPage', component: ShoppingCartPage },
     { path: '/profile', name: 'ProfilePage', component: ProfilePage },
+    { path: '/admin', name: 'Admin', component: AdminPage },
+
 ];
 
 const router = new VueRouter({
