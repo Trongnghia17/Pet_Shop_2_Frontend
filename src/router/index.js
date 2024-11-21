@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import VueRouter from 'vue-router';
 import LoginPage from '../views/Login.vue';
 import RegisterPage from '../views/Register.vue';
@@ -35,7 +35,7 @@ const router = new VueRouter({
     routes,
 });
 router.beforeEach((to, from, next) => {
-    const isLoggedIn = Cookies.get("token");
+    const isLoggedIn = Cookies.get("accountId");
     if (!isLoggedIn && to.path !== "/login" && to.path !== "/register") {
         Vue.prototype.$toast.error("Vui lòng đăng nhập");
         next("/login");
