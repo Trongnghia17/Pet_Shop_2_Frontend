@@ -45,16 +45,25 @@ export default {
   },
   methods: {
     async handleLogin() {
+      if(!this.email || !this.password) {
+        this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
+        return;
+      }
       try {
         const response = await apiConfig.login({
           email: this.email,
           password: this.password,
           
         });
+        if(response.data.role === 'admin'){
+          this.$toast.success('Đăng nhập dưới quyền quản trị viên!');
+          this.$router.push('/admin');
+        } else {
         console.log('Đăng nhập thành công:', response.data);
         this.$toast.success('Đăng nhập thành công!');
-        localStorage.setItem('token', response.data.token); // Lưu token nếu API trả về
-        this.$router.push('/dashboard'); // Điều hướng đến dashboard sau khi đăng nhập
+        localStorage.setItem('token', response.data.token); 
+        this.$router.push('/home'); 
+        }
       } catch (error) {
         console.error('Lỗi khi đăng nhập:', error.response?.data || error.message);
         this.$toast.error('Đăng nhập thất bại, vui lòng thử lại!');

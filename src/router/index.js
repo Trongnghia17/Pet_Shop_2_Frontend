@@ -1,4 +1,5 @@
 import Vue from 'vue';
+// import Cookies from 'js-cookie';
 import VueRouter from 'vue-router';
 import LoginPage from '../views/Login.vue';
 import RegisterPage from '../views/Register.vue';
@@ -33,10 +34,5 @@ const router = new VueRouter({
     mode: 'history',
     routes,
 });
-router.beforeEach((to, from, next) => {
-    if (to.meta.title) {
-        document.title = to.meta.title || 'Pet Shop';
-    }
-    next();
-});
+
 export default router;
