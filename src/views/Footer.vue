@@ -10,50 +10,54 @@
           /> -->
           <ul>
             <li>
-              <i class="fa fa-angle-right"></i>
-              <a href="#"> Trang chủ</a>
+              <div class="footer1">
+            <router-link 
+            to="/home" 
+            active-class="active-link" 
+            exact-active-class="exact-active-link">
+            <span style="margin-right: 8px; font-size: 20px;" class="fa-solid fa-house"></span>Trang chủ</router-link>
+            </div>
             </li>
+            <li class="footer1">
+            <router-link 
+            to="/introduce"
+            class="navbar-link"
+            active-class="active-link"
+            exact-active-class="exact-active-link">
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-circle-info"></span>Giới thiệu</router-link>
+        </li>
             <li>
-              <i class="fa fa-angle-right"></i>
-              <a href="#"> Giới thiệu</a>
-            </li>
-            <li>
-              <i class="fa fa-angle-right"></i>
-              <a href="#"> Dịch vụ</a>
-            </li>
-            <li>
-              <i class="fa fa-angle-right"></i>
-              <a href="#"> F.A.Q</a>
-            </li>
-            <li>
-              <i class="fa fa-angle-right"></i>
+              <i style="margin-right: 8px; font-size: 20px;" class="fa fa-handshake"></i>
               <a href="#"> Hoạt động xã hội</a>
             </li>
             <li>
-              <i class="fa fa-angle-right"></i>
+              <i style="margin-right: 8px; font-size: 20px;" class="fa fa-exchange-alt"></i>
               <a href="#"> Chính sách thanh toán đổi trả - hoàn tiền</a>
             </li>
             <li>
-              <i class="fa fa-angle-right"></i>
+              <i style="margin-right: 8px; font-size: 20px;" class="fa fa-lock"></i>
               <a href="#"> Điều khoản bảo mật thông tin</a>
             </li>
             <li>
-              <i class="fa fa-angle-right"></i>
+              <i style="margin-right: 8px; font-size: 20px;" class="fa fa-envelope"></i>
               <a href="#"> Liên hệ quảng cáo</a>
             </li>
           </ul>
         </div>
+        <img src="../assets/logo.png"  alt="logo" class="logo">
+
+        
         <div class="footer-right">
           <h3>LIÊN HỆ</h3>
           <p>
             <span class="mdi mdi-facebook"></span>
-            <a href="https://www.facebook.com/thanhthuongvu52" target="_blank">
+            <a href="https://www.facebook.com/" target="_blank">
               facebook.com
             </a>
           </p>
           <p>
             <span class="mdi mdi-instagram"></span>
-            <a href="https://www.instagram.com/phucng.hiii/" target="_blank">
+            <a href="https://www.instagram.com/" target="_blank">
               instagram.com
             </a>
           </p>
@@ -69,7 +73,7 @@
           </p>
           <p>
             <span class="fa-solid fa-envelope"></span>
-            <a href="mailto:lettocinema@gmail.com">hphuc2401@gmail.com</a>
+            <a href="mailto:petshop@gmail.com">petshop@gmail.com</a>
           </p>
         </div>
       </div>
@@ -105,6 +109,7 @@
 .footer-left {
   text-align: left;
   width: 25%;
+  margin: 30px;
 }
 
 .footer-content {
@@ -112,6 +117,8 @@
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
 }
 
 .footer-content p {
@@ -150,7 +157,7 @@
 
 h3 {
   margin-bottom: 20px;
-  color: #dc0004;
+  color: #3d0bf0b6;
 }
 
 .footer-right p {
@@ -164,16 +171,9 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-.name-cinema {
-  cursor: pointer;
-  margin-bottom: 20px;
-  margin-left: 5px;
-}
-.name-cinema:hover {
-  color: #1db4f0;
-  text-decoration: underline;
-}
-.address-cinema {
-  margin: 10px;
+.logo{
+  width: 20%;
+  margin-right: 12%;
+  top : 0;
 }
 </style>
