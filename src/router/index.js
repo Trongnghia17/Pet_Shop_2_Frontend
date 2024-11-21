@@ -35,7 +35,7 @@ const router = new VueRouter({
     routes,
 });
 router.beforeEach((to, from, next) => {
-    const isLoggedIn = Cookies.get("accountId");
+    const isLoggedIn = localStorage.getItem("token");
     if (!isLoggedIn && to.path !== "/login" && to.path !== "/register") {
         Vue.prototype.$toast.error("Vui lòng đăng nhập");
         next("/login");
