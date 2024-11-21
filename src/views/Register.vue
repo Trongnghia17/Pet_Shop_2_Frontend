@@ -1,6 +1,6 @@
 <template>
   <div class="register-page">
-    <img src="../assets/logo.jpg"  alt="logo" class="logo">
+    <img src="../assets/logo.png"  alt="logo" class="logo">
     <div class="register-form">
       <h1>ĐĂNG KÝ</h1>
       <v-form @submit.prevent="checkComfirmPassword">
@@ -65,6 +65,10 @@ export default {
   },
   methods: {
     async checkComfirmPassword() {
+      if(!this.email || !this.password) {
+        this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
+        return;
+      }
       if (this.password !== this.confirmPassword) {
         this.$toast.warning('Mật khẩu và xác nhận mật khẩu không khớp!');
         return;
@@ -127,7 +131,7 @@ export default {
 .register-form h1 {
   margin: 20px;
   text-align: center;
-  color: #FEA910;
+  color:#ED1D22;
 }
 
 .button {
@@ -143,22 +147,21 @@ export default {
 
 .login-router {
   text-decoration: none;
-  color: orange;
+  color: #ED1D22;
 }
 
 .login-router:hover {
   font-weight: bold;
-  color: orange;
+  color: #ED1D22;
 }
 
 .button .register-btn {
   width: 50%;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #FEA910, #FEA910, #FEA910);
+  background: linear-gradient(45deg, #ff0044, #ff7070);
 }
-
-.button .register-btn:hover {
-  background: linear-gradient(45deg, #f8c555, orange);
+.button .register-btn:hover{
+  background: linear-gradient(45deg,  #ed2775, #fb6452);
   color: white;
 }
 
