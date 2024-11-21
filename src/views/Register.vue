@@ -65,6 +65,10 @@ export default {
   },
   methods: {
     async checkComfirmPassword() {
+      if(!this.email || !this.password) {
+        this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
+        return;
+      }
       if (this.password !== this.confirmPassword) {
         this.$toast.warning('Mật khẩu và xác nhận mật khẩu không khớp!');
         return;
