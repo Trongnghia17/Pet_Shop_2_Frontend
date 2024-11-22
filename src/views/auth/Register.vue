@@ -94,9 +94,14 @@ export default {
           email: this.email,
           password: this.password,
         });
-        console.log('Đăng ký thành công:', response.data);
+      if (response.data.status === 200){
         this.$toast.success('Đăng ký thành công!');
         this.$router.push('/login');
+      } else if(response.data.status === 409){
+        this.$toast.warning(response.data.message);
+      } else {  
+        this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
+      }
       } catch (error) {
         this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
       }
