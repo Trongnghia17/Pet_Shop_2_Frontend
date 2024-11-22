@@ -1,19 +1,16 @@
 import Vue from 'vue';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import VueRouter from 'vue-router';
-import LoginPage from '../views/Login.vue';
-import RegisterPage from '../views/Register.vue';
-import HomePage from '@/views/Home.vue';
-import IntroducePage from '@/views/Introduce.vue';
-import AlbumPage from '@/views/Album.vue';
-import CollectionPage from '@/views/Collection.vue';
-import ContactPage from '@/views/Contact.vue';
-import ShoppingCartPage from '@/views/ShoppingCart.vue';
-import ProfilePage from '@/views/Profile.vue';
+import LoginPage from '../views/auth/Login.vue';
+import RegisterPage from '../views/auth/Register.vue';
+import HomePage from '../views/user/Home.vue';
+import IntroducePage from '../views/user/Introduce.vue';
+import AlbumPage from '../views/user/Album.vue';
+import CollectionPage from '../views/user/Collection.vue';
+import ContactPage from '../views/user/Contact.vue';
+import ShoppingCartPage from '../views/user/ShoppingCart.vue';
+import ProfilePage from '../views/user/Profile.vue';
 import AdminPage from '../views/admin/Admin.vue';
-import MainPage from '@/views/Main.vue';
-
-
 
 Vue.use(VueRouter);
 
@@ -29,7 +26,6 @@ const routes = [
     { path: '/shopping-cart', name: 'ShoppingCartPage', component: ShoppingCartPage },
     { path: '/profile', name: 'ProfilePage', component: ProfilePage },
     { path: '/admin', name: 'Admin', component: AdminPage },
-    { path: '/main', name: 'Main', component: MainPage },
 
 ];
 
@@ -38,12 +34,20 @@ const router = new VueRouter({
     routes,
 });
 router.beforeEach((to, from, next) => {
-    const isLoggedIn = localStorage.getItem("token");
-    if (!isLoggedIn && to.path !== "/login" && to.path !== "/register") {
+    const isLoggedIn = Cookies.get("auth_token");
+    if (isLoggedIn && (to.path === "/login" || to.path === "/register")) {
+        Vue.prototype.$toast.info("Bạn đã đăng nhập!");
+        next("/home"); // Chuyển hướng đến trang chủ hoặc trang khác
+    }
+    // Nếu chưa đăng nhập và truy cập các trang khác login/register
+    else if (!isLoggedIn && to.path !== "/login" && to.path !== "/register") {
         Vue.prototype.$toast.error("Vui lòng đăng nhập");
-        next("/login");
-    } else {
+        next("/login"); // Chuyển hướng đến trang đăng nhập
+    }
+    // Cho phép truy cập nếu không vi phạm điều kiện trên
+    else {
         next();
     }
 });
+
 export default router;

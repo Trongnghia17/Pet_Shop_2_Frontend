@@ -1,6 +1,6 @@
 <template>
   <div class="register-page">
-    <img src="../assets/logo.png"  alt="logo" class="logo">
+    <img src="../../assets/logo.png" alt="logo" class="logo">
     <div class="register-form">
       <h1>ĐĂNG KÝ</h1>
       <v-form @submit.prevent="checkComfirmPassword">
@@ -50,6 +50,8 @@
 
 <script>
 import apiConfig from '@/apiConfig';
+import { validateEmail } from '@/utils/validators';
+
 
 export default {
   name: 'RegisterPage',
@@ -67,6 +69,15 @@ export default {
     async checkComfirmPassword() {
       if(!this.email || !this.password) {
         this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
+        return;
+      }
+      if (!validateEmail(this.email)) {
+        this.$toast.error('Email không đúng định dạng!');
+        return;
+      }
+
+      if (this.password.length < 8) {
+        this.$toast.error('Mật khẩu phải có ít nhất 8 ký tự!');
         return;
       }
       if (this.password !== this.confirmPassword) {

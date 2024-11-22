@@ -81,7 +81,8 @@
 </template>
 
 <script>
-// import router from '@/router';
+
+import Cookies from 'js-cookie';
 
 export default {
 name: 'AppNavbar',
@@ -90,6 +91,8 @@ methods: {
       if (action === 'profile') {
         this.$router.push('/profile');
       } else if (action === 'logout') {
+        Cookies.remove('auth_token');
+        Cookies.remove('auth_name');
         this.$router.push("/login");
       }
     }

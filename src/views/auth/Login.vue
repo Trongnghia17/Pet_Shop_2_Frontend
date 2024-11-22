@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <img src="../assets/logo.png"  alt="logo" class="logo">
+    <img src="../../assets/logo.png" alt="logo" class="logo">
     <div class="login-form">
       <h1>ĐĂNG NHẬP</h1>
       <v-form @submit.prevent="handleLogin">
@@ -33,6 +33,9 @@
 
 <script>
 import apiConfig from '@/apiConfig';
+import Cookies from 'js-cookie';
+import { validateEmail } from '@/utils/validators';
+
 
 export default {
   name: 'LoginPage',
@@ -45,34 +48,51 @@ export default {
   },
   methods: {
     async handleLogin() {
-      if(!this.email || !this.password) {
+      if (!this.email || !this.password) {
         this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
         return;
       }
+
+      if (!validateEmail(this.email)) {
+        this.$toast.error('Email không đúng định dạng!');
+        return;
+      }
+      if (this.password.length < 8) {
+        this.$toast.error('Mật khẩu phải có ít nhất 8 ký tự!');
+        return;
+      }
+
       try {
-        const response = await apiConfig.login({
+        const data = {
           email: this.email,
           password: this.password,
-          
-        });
-        if(response.data.role === 'admin'){
-          this.$toast.success('Đăng nhập dưới quyền quản trị viên!');
-          this.$router.push('/admin');
+        };
+        const response = await apiConfig.login(data);
+        if (response.data.status === 200) {
+          Cookies.set('auth_token', response.data.token, { expires: 365 });
+          Cookies.set('auth_name', response.data.username, { expires: 365 });
+          if (response.data.role === 'admin') {
+            this.$toast.success('Đăng nhập dưới quyền quản trị viên!');
+            this.$router.push('/admin');
+          } else {
+            console.log('Đăng nhập thành công:', response.data);
+            this.$toast.success('Đăng nhập thành công!');
+            this.$router.push('/home');
+          }
+        } else if (response.data.status === 401) {
+          this.$toast.warning(response.data.message);
         } else {
-        console.log('Đăng nhập thành công:', response.data);
-        this.$toast.success('Đăng nhập thành công!');
-        localStorage.setItem('token', response.data.token); 
-        this.$router.push('/home'); 
+          this.$toast.error('Đăng nhập thất bại, vui lòng thử lại!');
         }
       } catch (error) {
         console.error('Lỗi khi đăng nhập:', error.response?.data || error.message);
         this.$toast.error('Đăng nhập thất bại, vui lòng thử lại!');
       }
-    },    
+    },
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
-    
+
   },
 };
 </script>
