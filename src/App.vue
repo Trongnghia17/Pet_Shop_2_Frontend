@@ -19,14 +19,17 @@ export default {
     showNavbar() {
       const path = this.$route.path;
       {
-        return path !== '/login' && path !== '/register';
+        return path !== '/login' && 
+               path !== '/register' &&
+               path !== '/admin';
       }
     },
     showFooter() {
       const path = this.$route.path;
       return (
         path !== "/login" &&
-        path !== "/register"
+        path !== "/register" &&
+        path !== '/admin'
       );
     },
   }
