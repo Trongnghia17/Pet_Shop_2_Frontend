@@ -11,15 +11,21 @@
     </div>
 
     <div class="main-content">
-      <div class="banner">
-        <div class="banner-item">
-          <img src="../../assets/anh4.jpg" alt="An Tâm Đón Pet" class="banner-image">
+      <div class="banner-slider">
+        <div class="banner">
+          <div class="banner-item">
+            <img src="../../assets/anh4.jpg" alt="An Tâm Đón Pet" class="banner-image">
+          </div>
+          <div class="banner-item">
+            <img src="../../assets/anh2.jpeg" alt="Trả Góp 0%" class="banner-image">
+          </div>
+          <div class="banner-item">
+            <img src="../../assets/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
+          </div>
         </div>
-        <div class="banner-item">
-          <img src="../../assets/anh2.jpeg" alt="Trả Góp 0%" class="banner-image">
-        </div>
-        <div class="banner-item">
-          <img src="../../assets/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
+        <div class="banner-controls">
+          <button @click="prevBanner">Previous</button>
+          <button @click="nextBanner">Next</button>
         </div>
       </div>
       <div class="dog-breeds-container-with-banner">
@@ -31,42 +37,52 @@
             <div class="dog-breed-item">
               <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
               <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/border_collie.jpg" alt="Border Collie" class="dog-breed-image">
-              <p>Border Collie</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/bull_phap.jpg" alt="Bull Pháp" class="dog-breed-image">
-              <p>Bull Pháp</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/corgi.jpg" alt="Corgi" class="dog-breed-image">
-              <p>Corgi</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/golden.jpg" alt="Golden" class="dog-breed-image">
-              <p>Golden</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/husky.jpg" alt="Husky" class="dog-breed-image">
-              <p>Husky</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/labrador.jpg" alt="Labrador" class="dog-breed-image">
-              <p>Labrador</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/phoc_soc.jpg" alt="Phốc Sóc" class="dog-breed-image">
-              <p>Phốc Sóc</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/poodle.jpg" alt="Poodle" class="dog-breed-image">
-              <p>Poodle</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
             <div class="dog-breed-item">
-              <img src="../../assets/pug.jpg" alt="Pug" class="dog-breed-image">
-              <p>Pug</p>
+              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <p>Alaska</p>
+              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
           </div>
         </div>
@@ -80,22 +96,27 @@
             <div class="cat-breed-item">
               <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
               <p>Siamese</p>
+              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
             <div class="cat-breed-item">
-              <img src="../../assets/persian.jpg" alt="Persian" class="cat-breed-image">
-              <p>Persian</p>
+              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
+              <p>Siamese</p>
+              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
             <div class="cat-breed-item">
-              <img src="../../assets/bengal.jpg" alt="Bengal" class="cat-breed-image">
-              <p>Bengal</p>
+              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
+              <p>Siamese</p>
+              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
             <div class="cat-breed-item">
-              <img src="../../assets/maine_coon.jpg" alt="Maine Coon" class="cat-breed-image">
-              <p>Maine Coon</p>
+              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
+              <p>Siamese</p>
+              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
             <div class="cat-breed-item">
-              <img src="../../assets/ngan.jpg" alt="ngan" class="cat-breed-image">
-              <p>Ragdoll</p>
+              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
+              <p>Siamese</p>
+              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
           </div>
         </div>
@@ -113,10 +134,25 @@ export default {
         {type: 'h2', text: 'An Tâm Đón Pet', description: 'Với Gói Bảo Hành Toàn Diện 365 Ngày'},
         {type: 'h3', text: 'Trả Góp 0% Trong 12 Tháng'},
         {type: 'h3', text: 'Bảo Hiểm Sức Khỏ Lên Tới 1.000.000Đ'}
-      ]
+      ],
+      currentBannerIndex: 0
     };
   },
+  mounted() {
+    this.startBannerSlider();
+  },
   methods: {
+    startBannerSlider() {
+      setInterval(() => {
+        this.nextBanner();
+      }, 3000);
+    },
+    nextBanner() {
+      this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
+    },
+    prevBanner() {
+      this.currentBannerIndex = (this.currentBannerIndex - 1 + this.banners.length) % this.banners.length;
+    },
     handleClick(item) {
       alert(`Bạn đã chọn: ${item.text}`);
     }
@@ -174,11 +210,28 @@ body {
   padding: 20px;
 }
 
+.banner-slider {
+  position: relative;
+}
+
 .banner {
   display: flex;
   gap: 40px;
   flex-wrap: wrap;
   justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  animation: slide 15s linear infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .banner-item {
@@ -186,12 +239,12 @@ body {
   background-color: #ffcccb;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   cursor: pointer;
   position: relative;
   max-width: 30%;
   transition: transform 0.3s ease;
+  display: inline-block;
 }
 
 .banner-item:hover {
@@ -201,7 +254,15 @@ body {
 .banner-image {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.banner-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
 }
 
 .banner-text {
@@ -230,19 +291,15 @@ body {
 }
 
 .dog-breeds-banner-image {
-  width: 100%;
-  height: 7.45cm;
+  width: 110%;
+  height: 15.45cm;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .dog-breeds-container {
   flex: 4;
-  max-height: 280px;
-  overflow-y: auto;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 .dog-breeds {
@@ -260,7 +317,11 @@ body {
 .dog-breed-image {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.dog-breed-image:hover {
+  transform: scale(1.1);
 }
 
 .cat-breeds-container-with-banner {
@@ -275,19 +336,15 @@ body {
 }
 
 .cat-breeds-banner-image {
-  width: 100%;
-  height: 7.5cm;
+  width: 110%;
+  height: 15.45cm;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .cat-breeds-container {
   flex: 4;
-  max-height: 280px;
-  overflow-y: auto;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 .cat-breeds {
@@ -305,6 +362,10 @@ body {
 .cat-breed-image {
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.cat-breed-image:hover {
+  transform: scale(1.1);
 }
 </style>
