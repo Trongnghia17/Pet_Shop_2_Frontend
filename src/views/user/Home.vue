@@ -5,7 +5,7 @@
         <li><a href="#"><span class="icon">&#128054;</span> Giống Chó Cảnh</a></li>
         <li><a href="#"><span class="icon">&#128049;</span> Giống Mèo Cảnh</a></li>
         <li><a href="#"><span class="icon">&#129309;</span> Hợp Tác</a></li>
-        <li><a href="#"><span class="icon">&#128230;</span> Phụ Kiện Chó Mèo</a></li>
+        <li><a href="#" @click.prevent="navigateToAccessory"><span class="icon">&#128230;</span> Phụ Kiện Chó Mèo</a></li>
         <li><a href="#"><span class="icon">&#9986;&#65039;</span> Spa & Grooming</a></li>
       </ul>
     </div>
@@ -23,10 +23,6 @@
             <img src="../../assets/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
           </div>
         </div>
-        <div class="banner-controls">
-          <button @click="prevBanner">Previous</button>
-          <button @click="nextBanner">Next</button>
-        </div>
       </div>
       <div class="dog-breeds-container-with-banner">
         <div class="dog-breeds-banner">
@@ -34,52 +30,7 @@
         </div>
         <div class="dog-breeds-container">
           <div class="dog-breeds">
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-            <div class="dog-breed-item">
+            <div v-for="index in 10" :key="index" class="dog-breed-item" @click="navigateToCart">
               <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
               <p>Alaska</p>
               <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
@@ -93,27 +44,7 @@
         </div>
         <div class="cat-breeds-container">
           <div class="cat-breeds">
-            <div class="cat-breed-item">
-              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
-              <p>Siamese</p>
-              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
-            </div>
-            <div class="cat-breed-item">
-              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
-              <p>Siamese</p>
-              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
-            </div>
-            <div class="cat-breed-item">
-              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
-              <p>Siamese</p>
-              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
-            </div>
-            <div class="cat-breed-item">
-              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
-              <p>Siamese</p>
-              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
-            </div>
-            <div class="cat-breed-item">
+            <div v-for="index in 5" :key="index" class="cat-breed-item" @click="navigateToCart">
               <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
               <p>Siamese</p>
               <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
@@ -138,15 +69,7 @@ export default {
       currentBannerIndex: 0
     };
   },
-  mounted() {
-    this.startBannerSlider();
-  },
   methods: {
-    startBannerSlider() {
-      setInterval(() => {
-        this.nextBanner();
-      }, 3000);
-    },
     nextBanner() {
       this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
     },
@@ -155,6 +78,12 @@ export default {
     },
     handleClick(item) {
       alert(`Bạn đã chọn: ${item.text}`);
+    },
+    navigateToAccessory() {
+      this.$router.push({ name: 'Accessory' });
+    },
+    navigateToCart() {
+      this.$router.push('shopping-cart');
     }
   }
 };
@@ -162,21 +91,29 @@ export default {
 
 <style scoped>
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
 }
 
 .container {
   display: flex;
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+  flex-wrap: wrap;
 }
 
 .sidebar {
-  width: 20%;
-  height: 22.3cm;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  background-color: #ff6f61;
+  color: #fff;
+  padding: 20px;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-menu {
@@ -185,13 +122,17 @@ body {
 }
 
 .sidebar-menu li {
-  padding: 15px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #ff8a75;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar-menu li a {
   text-decoration: none;
-  color: #333;
+  color: #fff;
+  font-weight: bold;
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
@@ -199,19 +140,21 @@ body {
 
 .sidebar-menu li a:hover {
   transform: scale(1.1);
+  color: #ffd3b6;
 }
 
 .sidebar-menu li a .icon {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .main-content {
-  width: 80%;
-  padding: 20px;
+  width: 100%;
+  padding: 30px;
 }
 
 .banner-slider {
   position: relative;
+  margin-bottom: 30px;
 }
 
 .banner {
@@ -221,24 +164,13 @@ body {
   justify-content: center;
   overflow: hidden;
   width: 100%;
-  white-space: nowrap;
-  animation: slide 15s linear infinite;
-}
-
-@keyframes slide {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
 }
 
 .banner-item {
   flex: 1;
-  background-color: #ffcccb;
+  background-color: #ffd3b6;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 15px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -249,11 +181,12 @@ body {
 
 .banner-item:hover {
   transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .banner-image {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 15px;
 }
 
 .banner-controls {
@@ -265,107 +198,67 @@ body {
   gap: 10px;
 }
 
-.banner-text {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  border-radius: 5px;
-}
-
 .banner-item h2, .banner-item h3 {
   margin: 0;
+  color: #444;
 }
 
-.dog-breeds-container-with-banner {
+.dog-breeds-container-with-banner, .cat-breeds-container-with-banner {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
-.dog-breeds-banner {
-  flex: 0 0 15%;
-  margin-right: 20px;
+.dog-breeds-banner, .cat-breeds-banner {
+  flex: 0 0 100%;
+  max-width: 300px;
+  margin-right: 30px;
 }
 
-.dog-breeds-banner-image {
-  width: 110%;
-  height: 15.45cm;
+.dog-breeds-banner-image, .cat-breeds-banner-image {
+  width: 100%;
+  height: auto;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
 }
 
-.dog-breeds-container {
-  flex: 4;
-  padding: 10px;
+.dog-breeds-container, .cat-breeds-container {
+  flex: 1;
+  padding: 20px;
 }
 
-.dog-breeds {
+.dog-breeds, .cat-breeds {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 30px;
   justify-content: center;
 }
 
-.dog-breed-item {
-  width: 18%;
+.dog-breed-item, .cat-breed-item {
+  width: calc(50% - 30px);
+  max-width: 200px;
   text-align: center;
-}
-
-.dog-breed-image {
-  width: 100%;
-  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
-.dog-breed-image:hover {
-  transform: scale(1.1);
-}
-
-.cat-breeds-container-with-banner {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.cat-breeds-banner {
-  flex: 0 0 15%;
-  margin-right: 20px;
-}
-
-.cat-breeds-banner-image {
-  width: 110%;
-  height: 15.45cm;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.cat-breeds-container {
-  flex: 4;
-  padding: 10px;
-}
-
-.cat-breeds {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.cat-breed-item {
-  width: 18%;
-  text-align: center;
-}
-
-.cat-breed-image {
+.dog-breed-image, .cat-breed-image {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 15px;
   transition: transform 0.3s ease;
 }
 
-.cat-breed-image:hover {
+.dog-breed-item:hover, .cat-breed-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dog-breed-image:hover, .cat-breed-image:hover {
   transform: scale(1.1);
 }
 </style>
