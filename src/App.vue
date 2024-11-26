@@ -21,7 +21,10 @@ export default {
       {
         return path !== '/login' && 
                path !== '/register' &&
-               path !== '/admin';
+               path !== '/admin' &&
+               path !== '/admin/statistical' &&
+               path !== '/admin/species' &&
+               path !== '/admin/pet';
       }
     },
     showFooter() {
@@ -29,7 +32,10 @@ export default {
       return (
         path !== "/login" &&
         path !== "/register" &&
-        path !== '/admin'
+        path !== '/admin' &&
+        path !== '/admin/statistical' &&
+        path !== '/admin/species' &&
+        path !== '/admin/pet'
       );
     },
   }

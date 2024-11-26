@@ -1,59 +1,118 @@
 <template>
   <div class="admin-container">
-    <div class="sidebar">
-      <ul class="admin-list">
-        <li class="admin-block"><a href="#">Danh mục</a></li>
-        <li class="admin-block"><a href="#">Users</a></li>
-        <li class="admin-block"><a href="#">Settings</a></li>
-        <li class="admin-block"><a href="#">Reports</a></li>
-        <li class="admin-block"><a href="#">Logs</a></li>
+    <div :class="['sidebar', { 'sidebar-closed': !isSidebarOpen }]">
+      <div :class="['logo', { 'logo-closed': !isSidebarOpen }]">
+        <img src="../../assets/logo.png" alt="Logo" />
+      </div>
+      <ul class="admin-list" v-if="isSidebarOpen">
+        <li class="admin-block"><router-link 
+          to="/admin/statistical" 
+          active-class="active-link" 
+          exact-active-class="exact-active-link">Thống kê
+        </router-link>
+        </li>
+        <li class="admin-block"><router-link 
+          to="/admin/pet" 
+          active-class="active-link" 
+          exact-active-class="exact-active-link">
+          Thú cưng
+        </router-link>
+      </li>
+        <li class="admin-block"><router-link 
+          to="/admin/species" 
+          active-class="active-link" 
+          exact-active-class="exact-active-link">
+          Giống loài
+        </router-link></li>
+
       </ul>
     </div>
     <div class="main-content">
-      <h1>Welcome to Admin</h1>
+      <div class="nav-toggle">
+        <button class="icon-button" @click="toggleMenu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AdminPage"
+  name: "AdminPage",
+  data() {
+    return {
+      isSidebarOpen: false,
+      isdashLined: false
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+      this.isdashLined= !this.isdashLined;
+    }
+  }
 };
 </script>
 
 <style scoped>
 .admin-container {
   display: flex;
-  min-height: 100vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.admin-container .admin-list li a{
+  text-decoration: none;
+  color: white;
+}
+.sidebar {
+  height: 100vh;
+  width: 250px;
+  transition: width 0.3s;
+  background-color: #2c3e50;
+  color: white; 
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.sidebar {
-  width: 250px;
-  background-color: #2c3e50;
-  color: white;
-  padding: 20px;
+.sidebar-closed {
+  width: 100px;
+}
+
+.nav-toggle {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  height: 50px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .admin-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 .admin-block {
-  margin: 10px 0;
-}
-
-.admin-block a {
-  color: white;
-  text-decoration: none;
-}
-
-.admin-block a:hover {
-  text-decoration: underline;
+  padding: 30px;
 }
 
 .main-content {
-  flex: 1;
+  flex-grow: 1;
   padding: 20px;
+}
+.logo img {
+  max-width: 150px; /* Điều chỉnh kích thước logo */
+  height: auto;
+}
+.logo-closed img {
+  max-width: 70px; /* Kích thước logo khi sidebar đóng */
+  height: auto;
 }
 </style>
