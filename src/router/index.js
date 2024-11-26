@@ -12,7 +12,9 @@ import ShoppingCartPage from '../views/user/ShoppingCart.vue';
 import ProfilePage from '../views/user/Profile.vue';
 import AdminPage from '../views/admin/Admin.vue';
 import AccessoryPage from '../views/user/Accessory.vue';
-
+import StatisticalPage from '../views/admin/Statistical.vue';
+import PetPage from '../views/admin/Pet.vue';
+import SpeciesPage from '../views/admin/Species.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -28,6 +30,15 @@ const routes = [
     { path: '/profile', name: 'ProfilePage', component: ProfilePage },
     { path: '/admin', name: 'Admin', component: AdminPage },
     { path: '/accessory', name: 'Accessory', component: AccessoryPage },
+    {
+        path: '/admin', name: 'Admin', component: AdminPage,
+        children:
+            [
+                { path: 'statistical', name: 'Statistical', component: StatisticalPage },
+                { path: 'pet', name: 'PetPage', component: PetPage },
+                { path: 'species', name: 'SpeciesPage', component: SpeciesPage },
+            ]
+    },
 ];
 
 const router = new VueRouter({
