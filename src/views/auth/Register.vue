@@ -1,6 +1,6 @@
 <template>
   <div class="register-page">
-    <img src="../../assets/logo.png" alt="logo" class="logo">
+    <img src="../../assets/images/logo.png" alt="logo" class="logo">
     <div class="register-form">
       <h1>ĐĂNG KÝ</h1>
       <v-form @submit.prevent="checkComfirmPassword">

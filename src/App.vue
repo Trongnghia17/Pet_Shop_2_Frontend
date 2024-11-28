@@ -22,9 +22,9 @@ export default {
         return path !== '/login' && 
                path !== '/register' &&
                path !== '/admin' &&
-               path !== '/admin/statistical' &&
-               path !== '/admin/species' &&
-               path !== '/admin/pet';
+               path !== '/admin/dashboard' &&
+               path !== '/admin/product' &&
+               path !== '/admin/category';
       }
     },
     showFooter() {
@@ -33,9 +33,9 @@ export default {
         path !== "/login" &&
         path !== "/register" &&
         path !== '/admin' &&
-        path !== '/admin/statistical' &&
-        path !== '/admin/species' &&
-        path !== '/admin/pet'
+        path !== '/admin/dashboard' &&
+        path !== '/admin/product' &&
+        path !== '/admin/category'
       );
     },
   }

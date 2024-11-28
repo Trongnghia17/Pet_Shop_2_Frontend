@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <img src="../../assets/logo.png" alt="logo" class="logo">
+    <img src="../../assets/images/logo.png" alt="logo" class="logo">
     <div class="login-form">
       <h1>ĐĂNG NHẬP</h1>
       <v-form @submit.prevent="handleLogin">
@@ -69,13 +69,12 @@ export default {
         };
         const response = await apiConfig.login(data);
         if (response.data.status === 200) {
-          Cookies.set('auth_token', response.data.token, { expires: 365 });
+          Cookies.set('token', response.data.token, { expires: 365 });
           Cookies.set('auth_name', response.data.username, { expires: 365 });
           if (response.data.role === 'admin') {
             this.$toast.success('Đăng nhập dưới quyền quản trị viên!');
             this.$router.push('/admin');
           } else {
-            console.log('Đăng nhập thành công:', response.data);
             this.$toast.success('Đăng nhập thành công!');
             this.$router.push('/home');
           }

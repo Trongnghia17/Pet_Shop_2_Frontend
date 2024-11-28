@@ -39,10 +39,10 @@
 </template>
 
 <script>
-// import apiClient from '@/api.js';
+
 
 export default {
-  name: 'PetPage',
+  name: 'ProductPage',
   data() {
     return {
       pets: [

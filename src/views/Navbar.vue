@@ -2,7 +2,7 @@
   <nav class="navbar">
     <ul class="navbar-list">
         <li class="navbar-img">
-            <img src="../assets/logo.png"  alt="logo" class="logo">
+            <img src="../assets/images/logo.png" alt="logo" class="logo">
         </li>
         <li class="navbar-item">
             <div class="nav-home">
@@ -63,7 +63,7 @@
             size="40"
             class="cursor-pointer"
           >
-            <img src="../assets/avatar.png" alt="User Avatar" class="avatar-img">
+            <img src="../assets/images/avatar.png" alt="User Avatar" class="avatar-img">
           </v-avatar>
         </template>
         <v-list class="avatar-list">
@@ -91,7 +91,7 @@ methods: {
       if (action === 'profile') {
         this.$router.push('/profile');
       } else if (action === 'logout') {
-        Cookies.remove('auth_token');
+        Cookies.remove('token');
         Cookies.remove('auth_name');
         this.$router.push("/login");
       }

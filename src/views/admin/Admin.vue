@@ -2,24 +2,24 @@
   <div class="admin-container">
     <div :class="['sidebar', { 'sidebar-closed': !isSidebarOpen }]">
       <div :class="['logo', { 'logo-closed': !isSidebarOpen }]">
-        <img src="../../assets/logo.png" alt="Logo" />
+        <img src="../../assets/images/logo.png" alt="Logo" />
       </div>
       <ul class="admin-list" v-if="isSidebarOpen">
         <li class="admin-block"><router-link 
-          to="/admin/statistical" 
+          to="/admin/dashboard"
           active-class="active-link" 
           exact-active-class="exact-active-link">Thống kê
         </router-link>
         </li>
         <li class="admin-block"><router-link 
-          to="/admin/pet" 
+          to="/admin/product"
           active-class="active-link" 
           exact-active-class="exact-active-link">
           Thú cưng
         </router-link>
       </li>
         <li class="admin-block"><router-link 
-          to="/admin/species" 
+          to="/admin/category"
           active-class="active-link" 
           exact-active-class="exact-active-link">
           Giống loài
@@ -84,7 +84,6 @@ export default {
 .nav-toggle {
   display: flex;
   justify-content: left;
-  align-items: left;
   height: 50px;
 }
 

@@ -195,7 +195,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* General Styling */
 * {
   margin: 0;

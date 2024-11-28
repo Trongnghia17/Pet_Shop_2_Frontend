@@ -44,7 +44,7 @@
             </li>
           </ul>
         </div>
-        <img src="../assets/logo.png"  alt="logo" class="logo">
+        <img src="../assets/images/logo.png" alt="logo" class="logo">
 
         
         <div class="footer-right">

@@ -14,24 +14,24 @@
       <div class="banner-slider">
         <div class="banner">
           <div class="banner-item">
-            <img src="../../assets/anh4.jpg" alt="An Tâm Đón Pet" class="banner-image">
+            <img src="../../assets/images/anh4.jpg" alt="An Tâm Đón Pet" class="banner-image">
           </div>
           <div class="banner-item">
-            <img src="../../assets/anh2.jpeg" alt="Trả Góp 0%" class="banner-image">
+            <img src="../../assets/images/anh2.jpeg" alt="Trả Góp 0%" class="banner-image">
           </div>
           <div class="banner-item">
-            <img src="../../assets/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
+            <img src="../../assets/images/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
           </div>
         </div>
       </div>
       <div class="dog-breeds-container-with-banner">
         <div class="dog-breeds-banner">
-          <img src="../../assets/banner1.jpg" alt="Giống Chó Cảnh Banner" class="dog-breeds-banner-image">
+          <img src="../../assets/images/banner1.jpg" alt="Giống Chó Cảnh Banner" class="dog-breeds-banner-image">
         </div>
         <div class="dog-breeds-container">
           <div class="dog-breeds">
             <div v-for="index in 10" :key="index" class="dog-breed-item" @click="navigateToCart">
-              <img src="../../assets/Alaska.jpg" alt="Alaska" class="dog-breed-image">
+              <img src="../../assets/images/Alaska.jpg" alt="Alaska" class="dog-breed-image">
               <p>Alaska</p>
               <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
             </div>
@@ -40,12 +40,12 @@
       </div>
       <div class="cat-breeds-container-with-banner">
         <div class="cat-breeds-banner">
-          <img src="../../assets/banner_cat.jpg" alt="Giống Mèo Cảnh Banner" class="cat-breeds-banner-image">
+          <img src="../../assets/images/banner_cat.jpg" alt="Giống Mèo Cảnh Banner" class="cat-breeds-banner-image">
         </div>
         <div class="cat-breeds-container">
           <div class="cat-breeds">
             <div v-for="index in 5" :key="index" class="cat-breed-item" @click="navigateToCart">
-              <img src="../../assets/siamese.jpg" alt="Siamese" class="cat-breed-image">
+              <img src="../../assets/images/siamese.jpg" alt="Siamese" class="cat-breed-image">
               <p>Siamese</p>
               <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
             </div>
