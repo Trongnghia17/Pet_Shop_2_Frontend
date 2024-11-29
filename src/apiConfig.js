@@ -26,7 +26,39 @@ const apiConfig = {
             },
         });
     },
-
+    getAllProduct: () => {
+        return axiosInstance.get('/api/view-product', {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
+    addProduct: (data) => {
+        return axiosInstance.post('/api/store-product', data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
+    updateProduct: (data) => {
+        return axiosInstance.put('/api/update-product/{id}', data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
 };
 
 export default apiConfig;
