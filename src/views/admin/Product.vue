@@ -156,6 +156,13 @@
     @toggle="openUpdateProduct = !openUpdateProduct"
     @success="getListItems"
     ></Update>
+    <Delete
+        :open="openDelete"
+        :check="true"
+        :alert-msg="message_noti"
+        @toggle="openDelete = !openDelete"
+        @OK="deleteProduct"
+    />
   </div>
 </template>
 
@@ -164,12 +171,14 @@ import Insert from '@/components/product/Insert.vue';
 import { isNullOrEmpty } from "@/utils/validators";
 import apiConfig from "@/apiConfig";
 import Update from '@/components/product/Update.vue';
+import Delete from '@/components/product/Delete.vue';
 
 export default {
   name: 'ProductPage',
   components: {
     Insert,
-    Update
+    Update,
+    Delete,
   },
   data() {
     return {
@@ -328,12 +337,29 @@ export default {
       this.dataItem = item
       this.openDialogDetail = true
     },
+    async deleteProduct() {
+      try {
+        const response = await apiConfig.deleteProduct(this.id);
+        if (response.status === 200) {
+          this.$toast.success('Xóa thành công');
+          this.getListItems();
+        } else {
+          this.$toast.warning('Xóa thất bại');
+        }
+      } catch (error) {
+        console.error(error);
+        this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
+      } finally {
+        this.openDelete = false;
+      }
+    },
+
 
     //ask to delete
-    askForDeleteItem(item) {
-      this.id = item.id
-      ;(this.openDelete = true),
-          (this.message_noti = `Bạn có xác nhận xóa bản ghi không?`)
+    askForDeleteItemProduct(item) {
+      this.id = item.id;
+      (this.openDelete = true),
+      (this.message_noti = `Bạn có xác nhận xóa bản ghi không?`)
     },
   }
 };

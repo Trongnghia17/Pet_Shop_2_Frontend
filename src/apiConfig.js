@@ -59,6 +59,17 @@ const apiConfig = {
             },
         });
     },
+    deleteProduct: (id) => {
+        return axiosInstance.delete(`/api/delete-product/${id}`, {
+            headers: {
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
+
 };
 
 export default apiConfig;
