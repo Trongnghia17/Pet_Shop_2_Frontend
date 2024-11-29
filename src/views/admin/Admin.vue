@@ -4,27 +4,36 @@
       <div :class="['logo', { 'logo-closed': !isSidebarOpen }]">
         <img src="../../assets/images/logo.png" alt="Logo" />
       </div>
-      <ul class="admin-list" v-if="isSidebarOpen">
+      <ul class="admin-list" >
         <li class="admin-block"><router-link 
           to="/admin/dashboard"
           active-class="active-link" 
-          exact-active-class="exact-active-link">Thống kê
+          exact-active-class="exact-active-link">
+          <i class="fa-solid fa-chart-line menu-icon"></i>
+          <span v-if="isSidebarOpen">Thống kê</span>
         </router-link>
         </li>
         <li class="admin-block"><router-link 
           to="/admin/product"
           active-class="active-link" 
           exact-active-class="exact-active-link">
-          Thú cưng
+          <i class="fa-solid fa-paw menu-icon"></i>
+          <span v-if="isSidebarOpen">Thú cưng</span> 
         </router-link>
       </li>
         <li class="admin-block"><router-link 
           to="/admin/category"
           active-class="active-link" 
           exact-active-class="exact-active-link">
-          Giống loài
+          <i class="fa-solid fa-layer-group menu-icon"></i>
+          <span v-if="isSidebarOpen">Giống loài</span>
         </router-link></li>
-
+        <v-list-item @click="handleEvent('logout')">
+          <v-list-item-title class="logout-item">
+            <i class="fa-solid fa-right-from-bracket menu-icon logout-icon"></i>
+            <span v-if="isSidebarOpen" class="logout-text">Đăng xuất</span>
+          </v-list-item-title>
+        </v-list-item>
       </ul>
     </div>
     <div class="main-content">
@@ -48,6 +57,11 @@ export default {
     };
   },
   methods: {
+    handleEvent(action) {
+      if (action === 'logout') {
+        this.$router.push("/login");
+      }
+    },
     toggleMenu() {
       this.isSidebarOpen = !this.isSidebarOpen;
       this.isdashLined= !this.isdashLined;
@@ -113,5 +127,17 @@ export default {
 .logo-closed img {
   max-width: 70px; /* Kích thước logo khi sidebar đóng */
   height: auto;
+}
+.logout-item{
+  color: red;
+  text-align: center;
+  padding-top: 30px;
+}
+.menu-icon {
+  font-size: 20px;
+  margin-right: 20px; /* Khoảng cách giữa icon và text */
+}
+.sidebar-closed .menu-icon {
+  margin-right: 0;
 }
 </style>

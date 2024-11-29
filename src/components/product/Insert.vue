@@ -265,7 +265,7 @@
           console.log(response);
           if (response.data.status === 200) {
             this.$toast.success(response.data.message);
-            this.reset();
+            this.toggle();
             this.$emit('success'); // Trigger sự kiện thành công
           } else {
             this.$toast.warning(response.data.message);
