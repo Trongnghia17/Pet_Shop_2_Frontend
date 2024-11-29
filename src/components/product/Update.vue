@@ -160,7 +160,7 @@
   </template>
   <script>
   import apiConfig from '@/apiConfig';
-//   import { isNullOrEmpty } from '@/utils/validators';
+  import { isNullOrEmpty } from '@/utils/validators';
   export default {
     name: 'UpdateProduct',
     props: {
@@ -168,15 +168,14 @@
         type: Boolean,
         required: true,
       },
-    },
-    dataItem : {
-        open:{
-            type:Boolean,
+      dataItem : {
+            type:Object,
             required:true,
-        }
     },
+    },
+    
     data() {
-            return {
+          return {
         categoryList: [],
         category_id: null,
         name: null,
@@ -211,12 +210,54 @@
             : '';
       },
     },
+    mounted(){
+     this.getListItems()
+    },
     methods: {
-    getListItems(){
+      checkValidate() {
+      let hasError = false;
+
+      if (isNullOrEmpty(this.name)) {
+        hasError = true;
+        this.nameError = ['Thông tin tên không được để trống'];
+        return;
+      }
+
+      if (!hasError) {
+        this.save();
+      }
+    },
+    async save() {
+      try {
+        let id = this.dataItem.id;
+        const formData = {
+          name: this.name,
+          brand: this.brand,
+          selling_price: this.sellingPrice,
+          original_price: this.originalPrice,
+          quantity: this.quantity,
+          category_id: this.category_id,
+          slug: this.slug,
+          image: this.picture,
+        }
+        const response = await apiConfig.updateProduct(id, formData);
+        console.log(response);
+        if (response.data.status === 200) {
+          this.$toast.success(response.data.message);
+          this.toggle();
+          this.$emit('success');
+        } else {
+          this.$toast.warning(response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+        this.$toast.error('An error occurred, please try again');
+      }
+    },
+      getListItems(){
         apiConfig.getAllCategory().then((res) => {
         if (res.status === 200) {
           console.log(res.data.category);
-          
           this.listItemCategory = res.data.category;
         }
       });
@@ -243,6 +284,23 @@
       name() {
         this.slug = this.generatedSlug;
       },
+      open(value) {
+      if (value) {
+        this.name = this.dataItem.name
+        this.brand = this.dataItem.brand
+        this.sellingPrice = this.dataItem.sellingPrice
+        this.originalPrice = this.dataItem.originalPrice
+        this.quantity = this.dataItem.quantity
+        this.category_id = this.dataItem.category_id
+        this.slug = this.dataItem.slug
+        // this.picture = null; // Reset ảnh mới
+        // this.picturePreview = this.dataItem.image
+        //     ? `http://127.0.0.1:8000/${this.dataItem.image}`
+        //     : null; // URL của ảnh từ dữ liệu
+
+      }
+    },
+
     }
   };
   </script>

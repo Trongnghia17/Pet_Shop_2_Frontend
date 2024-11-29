@@ -40,7 +40,7 @@ const apiConfig = {
     addProduct: (data) => {
         return axiosInstance.post('/api/store-product', data, {
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                "Content-Type": "multipart/form-data",
                 Authorization:
                     Cookies.get('token') != (null || undefined)
                         ? `Bearer ${Cookies.get('token')}`
@@ -48,10 +48,10 @@ const apiConfig = {
             },
         });
     },
-    updateProduct: (data) => {
-        return axiosInstance.put('/api/update-product/{id}', data, {
+    updateProduct: (id, data) => {
+        return axiosInstance.put(`/api/update-product/${id}`, data, {
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                // 'Access-Control-Allow-Origin': '*',
                 Authorization:
                     Cookies.get('token') != (null || undefined)
                         ? `Bearer ${Cookies.get('token')}`

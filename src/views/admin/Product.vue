@@ -107,7 +107,7 @@
                     </template>
                     <span> Sửa </span>
                   </v-tooltip>
-                  <v-tooltip bottom
+                  <!-- <v-tooltip bottom
                   >
                     <template v-slot:activator="{ on }">
                       <v-icon
@@ -120,7 +120,7 @@
                       >
                     </template>
                     <span>Chi tiết</span>
-                  </v-tooltip>
+                  </v-tooltip> -->
 
                   <!--xóa-->
                   <v-tooltip bottom
@@ -268,16 +268,23 @@ export default {
         }
       }, 10)
     },
-    getListItems(){
-      apiConfig.getAllProduct().then((res) => {
+    getListItems() {
+      const payload = {
+        name: this.name,
+      };
+      const data = {
+        params: {
+          ...payload,
+        },
+      };
+      apiConfig.getAllProduct(data).then((res) => {
         console.log(res);
                 
         if (res.status === 200) {
           this.listItemProduct = res.data.products;
         }
       });
-    },
-    
+  },
     searchBySort(value, type) {
       this.valueSort = value
       this.sortAsc = type
