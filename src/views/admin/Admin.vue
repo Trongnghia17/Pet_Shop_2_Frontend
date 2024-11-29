@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+
 export default {
   name: "AdminPage",
   data() {
@@ -59,6 +61,8 @@ export default {
   methods: {
     handleEvent(action) {
       if (action === 'logout') {
+        Cookies.remove('token');
+        Cookies.remove('auth_name');
         this.$router.push("/login");
       }
     },
