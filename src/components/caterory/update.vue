@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title class="border-title-dialog"  style="padding-left: 33px">
-        Tạo mới giống loài
+       Sửa giống loài
         <v-btn
             @click="toggle"
             icon
@@ -65,57 +65,39 @@
                 class="pt-1"
                 v-model="status"
                 :items="statusList"
+                item-text="text"
                 outlined
                 dense
             ></v-autocomplete>
           </v-col>
-
-<!--          <v-col cols="6" style="padding-right: 10px; padding-left: 10px">-->
-<!--            <span class="fw-500">Hình ảnh sản phẩm</span>-->
-<!--            <div-->
-<!--                style="border: 2px dashed rgb(152, 157, 255); border-radius: 10px;"-->
-<!--                @click="selectFileOpen"-->
-<!--            >-->
-<!--              <v-row-->
-<!--                  class="ma-0"-->
-<!--                  justify="center"-->
-<!--                  align="center"-->
-<!--                  style="height: 47px"-->
-<!--              >-->
-<!--                <v-col cols="12" class="d-flex justify-center py-0">-->
-<!--                  <v-btn icon>-->
-<!--                    <v-icon size="40" color="primary">mdi-upload</v-icon>-->
-<!--                  </v-btn>-->
-<!--                </v-col>-->
-
-<!--                <v-file-input-->
-<!--                    multiple-->
-<!--                    @change="inputFile"-->
-<!--                    accept="image/*"-->
-<!--                    class="d-none"-->
-<!--                    id="input_file_add"-->
-<!--                ></v-file-input>-->
-<!--              </v-row>-->
-<!--            </div>-->
-<!--            <div v-if="imagePreview" class="mt-2">-->
-<!--              <v-img :src="imagePreview" max-height="150" max-width="150" contain></v-img>-->
-<!--            </div>-->
-<!--          </v-col>-->
+          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+            <span class="fw-500">Hình ảnh</span>
+<!--            <v-file-input-->
+<!--                ref="fileInput"-->
+<!--                outlined-->
+<!--                accept="image/*"-->
+<!--                @change="handleImage"-->
+<!--            ></v-file-input>-->
+            <!-- Thêm thẻ img để hiển thị ảnh -->
+            <div v-if="picturePreview" style="margin-top: 10px;">
+              <img
+                  :src="picturePreview"
+                  alt="Hình ảnh"
+                  style="max-width: 100%; max-height: 200px; border: 1px solid #ccc; border-radius: 5px;"
+              />
+            </div>
+          </v-col>
 
         </v-row>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions style="position: sticky; bottom: 0; background: #f6f9ff; padding-right: 2rem; padding-top: 10px; padding-bottom: 10px;">
         <v-spacer></v-spacer>
-        <v-btn class="text-none primary" depressed @click="checkValidate()"
+        <v-btn class="text-none primary ma" depressed @click="checkValidate()"
         ><span class="caption-btn">Lưu</span>
         </v-btn
         >
-        <v-btn class="text-none primary" depressed @click="reset"
-        ><span class="caption-btn">Nhập lại</span>
-        </v-btn
-        >
-        <v-btn class="text-none secondary" depressed @click="toggle">
+        <v-btn class="text-none secondary ma" depressed @click="toggle">
           <span class="caption-btn">Hủy</span>
         </v-btn>
       </v-card-actions>
@@ -129,10 +111,14 @@ import apiConfig from '@/apiConfig';
 import { isNullOrEmpty } from "@/utils/validators";
 
 export default {
-  name: 'InsertCategory',
+  name: 'UpdateCategory',
   props: {
     open: {
       type: Boolean,
+      required: true,
+    },
+    dataItem: {
+      type: Object,
       required: true,
     },
   },
@@ -145,15 +131,15 @@ export default {
       nameError: [],
       descriptionError: [],
       description: null,
-      status: null,
+      status: 1,
       openLoading: false,
       statusList: [
-        {text: 'Mở bán', value: '0'},
-        {text: 'Đừng bán', value: '1'},
+        {text: 'Mở bán', value: 1},
+        {text: 'Đừng bán', value: 2},
       ],
-      selectedFile: null,
-      imagePreview: null,
       slug: null,
+      picture: null,
+      picturePreview: null, // URL để hiển thị ảnh preview
     }
   },
   computed: {
@@ -175,6 +161,15 @@ export default {
     },
   },
   methods: {
+    handleImage(file) {
+      if (file) {
+        this.picture = file;
+        this.picturePreview = URL.createObjectURL(file);
+      } else {
+        this.picture = null;
+        this.picturePreview = null;
+      }
+    },
 
     checkValidate() {
       let hasError = false;
@@ -189,39 +184,35 @@ export default {
         this.save();
       }
     },
-    selectFileOpen() {
-      document.getElementById('input_file_add').click();
-    },
-    inputFile(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.selectedFile = file;
-        this.imagePreview = URL.createObjectURL(file);
-      }
-    },
+
     async save() {
       try {
-        const formData = new FormData();
-        formData.append('name', this.name);
-        formData.append('description', this.description);
-        formData.append('status', this.status);
-        formData.append('slug', this.slug);
-        // if (this.selectedFile) {
-        //   formData.append('image', this.selectedFile);
-        // }
+        let id = this.dataItem.id;
+        const formData = {
+          name: this.name,
+          description: this.description,
+          status: this.status,
+          slug: this.slug,
+          image: this.picture,
+        }
+        // const formData = new FormData();
+        // formData.append('name', this.name);
+        // formData.append('description', this.description);
+        // formData.append('status', this.status);
+        // formData.append('slug', this.slug);
+        // formData.append('image', this.picture);
 
-        const response = await apiConfig.addCategory(formData);
-        console.log(response);
+        const response = await apiConfig.updateCategory(id, formData);
         if (response.data.status === 200) {
           this.$toast.success(response.data.message);
-          this.reset();
-          this.$emit('success'); // Trigger sự kiện thành công
+          this.toggle();
+          this.$emit('success');
         } else {
           this.$toast.warning(response.data.message);
         }
       } catch (error) {
         console.error(error);
-        this.$toast.error('Có lỗi xảy ra, vui lòng thử lại');
+        this.$toast.error('An error occurred, please try again');
       }
     },
     reset() {
@@ -230,8 +221,9 @@ export default {
       this.description = null;
       this.descriptionError = [];
       this.status = null;
-      this.selectedFile = null;
-      this.imagePreview = null;
+      this.picture = null;
+      this.slug = null;
+      // this.$refs.fileInput.reset();
     },
 
     toggle() {
@@ -245,9 +237,15 @@ export default {
     },
     open(value) {
       if (value) {
-        setTimeout(() => {
-          this.reset()
-        }, 300)
+        this.name = this.dataItem.name
+        this.description = this.dataItem.description
+        this.status = this.dataItem.status
+        this.slug = this.dataItem.slug
+        this.picture = null; // Reset ảnh mới
+        this.picturePreview = this.dataItem.image
+            ? `http://127.0.0.1:8000/${this.dataItem.image}`
+            : null; // URL của ảnh từ dữ liệu
+
       }
     },
   },

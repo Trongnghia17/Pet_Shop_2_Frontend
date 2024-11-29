@@ -75,10 +75,10 @@
               <template v-slot:[`item.status`]="{ item }">
                 <div class="">
                   <v-chip v-if="item.status === 1" small outlined color="green">
-                    Hủy
-                  </v-chip>
-                  <v-chip v-if="item.status === 0" small outlined color="orange">
                     Mở bán
+                  </v-chip>
+                  <v-chip v-if="item.status === 2" small outlined color="orange">
+                    Đừng bán
                   </v-chip>
                 </div>
               </template>
@@ -106,20 +106,6 @@
                       >
                     </template>
                     <span> Sửa </span>
-                  </v-tooltip>
-                  <v-tooltip bottom
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                          class="mr-2"
-                          @click="setActionDetail(item)"
-                          v-on="on"
-                      >
-                        mdi-eye
-                      </v-icon
-                      >
-                    </template>
-                    <span>Chi tiết</span>
                   </v-tooltip>
 
                   <!--xóa-->
@@ -150,17 +136,34 @@
         @toggle="openDialogInsert = !openDialogInsert"
         @success="getListItems"
     ></Insert>
+    <Update
+        :dataItem="dataItemUpdateCategory"
+        :open="openUpdateCategory"
+        @toggle="openUpdateCategory = !openUpdateCategory"
+        @success="getListItems"
+    ></Update>
+    <Delete
+        :open="openDelete"
+        :check="true"
+        :alert-msg="message_noti"
+        @toggle="openDelete = !openDelete"
+        @OK="deleteCategory"
+    />
   </div>
 </template>
 <script>
 import { isNullOrEmpty } from "@/utils/validators";
 import apiConfig from "@/apiConfig";
-import Insert from "../../components/caterory/Insert.vue";
+import Insert from "../../components/caterory/insert.vue";
+import Update from "../../components/caterory/update.vue";
+import Delete from "../../components/caterory/delete.vue";
 
 export default {
   name: 'CategoryPage',
   components: {
-    Insert
+    Insert,
+    Update,
+    Delete,
   },
   data() {
     return {
@@ -279,8 +282,16 @@ export default {
       this.page = value
       this.getListItems()
     },
-    getListItems(){
-      apiConfig.getAllCategory().then((res) => {
+    getListItems() {
+      const payload = {
+        name: this.name,
+      };
+      const data = {
+        params: {
+          ...payload,
+        },
+      };
+      apiConfig.getAllCategory(data).then((res) => {
         if (res.status === 200) {
           this.listItem = res.data.category;
         }
@@ -313,11 +324,27 @@ export default {
       this.openDialogDetail = true
     },
 
-    //ask to delete
+    async deleteCategory() {
+      try {
+        const response = await apiConfig.deleteCategory(this.id);
+        if (response.status === 200) {
+          this.$toast.success('Xóa thành công');
+          this.getListItems();
+        } else {
+          this.$toast.warning('Xóa thất bại');
+        }
+      } catch (error) {
+        console.error(error);
+        this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
+      } finally {
+        this.openDelete = false;
+      }
+    },
+
     askForDeleteItem(item) {
-      this.id = item.id
-      ;(this.openDelete = true),
-          (this.message_noti = `Bạn có xác nhận xóa bản ghi không?`)
+      this.id = item.id;
+      this.openDelete = true;
+      this.message_noti = `Bạn có xác nhận xóa bản ghi không?`;
     },
 
   }

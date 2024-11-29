@@ -3,9 +3,27 @@
   color: white; /* màu chữ */
   text-transform: none; /* bỏ viết hoa */
 }
+.primary.text-none.ma {
+  background-color: #1976d2 !important;
+  color: white; /* màu chữ */
+  text-transform: none; /* bỏ viết hoa */
+  margin-left: 5px;
+  margin-right: 5px;
+}
 .secondary.text-none {
   background-color: #515151 !important;
   color: white; /* màu chữ */
+  text-transform: none; /* bỏ viết hoa */
+}
+.secondary.text-none.ma {
+  background-color: #515151 !important;
+  color: white; /* màu chữ */
+  text-transform: none; /* bỏ viết hoa */
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.red--text {
+  color: #ff5252; /* màu chữ */
   text-transform: none; /* bỏ viết hoa */
 }
 .textDeco {
@@ -469,4 +487,24 @@ span.v-tooltip.v-tooltip--bottom {
 .pb-2{
     padding-bottom: 1rem !important;
     padding-top: 1rem !important;
+}
+.v-data-table td, .v-data-table th {
+  text-align: center !important; /* Nội dung trong ô căn giữa */
+  vertical-align: middle; /* Nội dung căn giữa theo chiều dọc */
+}
+.v-data-table__wrapper img {
+  display: block;
+  margin: 0 auto; /* Căn giữa hình ảnh trong các ô */
+}
+.text-center {
+  text-align: center;
+}
+.custom-card-actions {
+  padding: 16px;
+
+
+  .v-btn {
+    margin: 0 8px;
+    width: 130px !important;
+  }
 }

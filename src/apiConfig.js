@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 const apiConfig = {
     login: (data) => axiosInstance.post('/api/login', data),
     register: (data) => axiosInstance.post('/api/register', data),
-    getAllCategory: () => {
-        return axiosInstance.get('/api/view-category', {
+    getAllCategory: (data) => {
+        return axiosInstance.get('/api/view-category', data,{
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 Authorization:
@@ -18,7 +18,27 @@ const apiConfig = {
     addCategory: (data) => {
         return axiosInstance.post('/api/store-category', data, {
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                "Content-Type": "multipart/form-data",
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
+    updateCategory: (id, data) => {
+        return axiosInstance.put(`/api/update-category/${id}`, data, {
+            headers: {
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    },
+    deleteCategory: (id) => {
+        return axiosInstance.delete(`/api/delete-category/${id}`, {
+            headers: {
                 Authorization:
                     Cookies.get('token') != (null || undefined)
                         ? `Bearer ${Cookies.get('token')}`
