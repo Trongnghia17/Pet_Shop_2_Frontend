@@ -127,15 +127,15 @@
         <v-divider></v-divider>
         <v-card-actions style="position: sticky; bottom: 0; background: #f6f9ff; padding-right: 2rem; padding-top: 10px; padding-bottom: 10px;">
           <v-spacer></v-spacer>
-          <v-btn class="text-none primary" depressed @click="checkValidate()"
+          <v-btn class="text-none primary ma" depressed @click="checkValidate()"
           ><span class="caption-btn">Lưu</span>
           </v-btn
           >
-          <v-btn class="text-none primary" depressed @click="reset()"
+          <v-btn class="text-none primary ma" depressed @click="reset()"
           ><span class="caption-btn">Nhập lại</span>
           </v-btn
           >
-          <v-btn class="text-none secondary" depressed @click="toggle">
+          <v-btn class="text-none secondary ma" depressed @click="toggle">
             <span class="caption-btn">Hủy</span>
           </v-btn>
         </v-card-actions>
@@ -302,8 +302,3 @@
   };
   </script>
   
-  <style scoped>
-  .text-none{
-    margin-right: 30px;
-  }
-  </style>
