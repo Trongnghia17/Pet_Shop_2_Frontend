@@ -8,7 +8,7 @@
     >
       <v-card>
         <v-card-title class="border-title-dialog"  style="padding-left: 33px">
-            Sửa sản phẩm
+            Sửa thông tin thú cưng
           <v-btn
               @click="toggle"
               icon
@@ -282,10 +282,11 @@
       },
       open(value) {
       if (value) {
+        console.log(this.dataItem)
         this.name = this.dataItem.name
         this.brand = this.dataItem.brand
-        this.sellingPrice = this.dataItem.sellingPrice
-        this.originalPrice = this.dataItem.originalPrice
+        this.sellingPrice = this.dataItem.selling_price
+        this.originalPrice = this.dataItem.original_price
         this.quantity = this.dataItem.quantity
         this.category_id = this.dataItem.category_id
         this.slug = this.dataItem.slug

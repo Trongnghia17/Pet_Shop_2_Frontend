@@ -46,8 +46,8 @@ const apiConfig = {
             },
         });
     },
-    getAllProduct: () => {
-        return axiosInstance.get('/api/view-product', {
+    getAllProduct: (data ) => {
+        return axiosInstance.get('/api/view-product', data,{
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 Authorization:
