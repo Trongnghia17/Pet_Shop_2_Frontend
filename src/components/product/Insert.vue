@@ -104,53 +104,38 @@
                   v-model="quantity"
               ></v-text-field>
             </v-col>
-  
-  <!--          <v-col cols="6" style="padding-right: 10px; padding-left: 10px">-->
-  <!--            <span class="fw-500">Hình ảnh sản phẩm</span>-->
-  <!--            <div-->
-  <!--                style="border: 2px dashed rgb(152, 157, 255); border-radius: 10px;"-->
-  <!--                @click="selectFileOpen"-->
-  <!--            >-->
-  <!--              <v-row-->
-  <!--                  class="ma-0"-->
-  <!--                  justify="center"-->
-  <!--                  align="center"-->
-  <!--                  style="height: 47px"-->
-  <!--              >-->
-  <!--                <v-col cols="12" class="d-flex justify-center py-0">-->
-  <!--                  <v-btn icon>-->
-  <!--                    <v-icon size="40" color="primary">mdi-upload</v-icon>-->
-  <!--                  </v-btn>-->
-  <!--                </v-col>-->
-  
-  <!--                <v-file-input-->
-  <!--                    multiple-->
-  <!--                    @change="inputFile"-->
-  <!--                    accept="image/*"-->
-  <!--                    class="d-none"-->
-  <!--                    id="input_file_add"-->
-  <!--                ></v-file-input>-->
-  <!--              </v-row>-->
-  <!--            </div>-->
-  <!--            <div v-if="imagePreview" class="mt-2">-->
-  <!--              <v-img :src="imagePreview" max-height="150" max-width="150" contain></v-img>-->
-  <!--            </div>-->
-  <!--          </v-col>-->
-  
+            <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+             <span class="fw-500">
+                  Hình ảnh
+                 </span>
+            <v-file-input
+                ref="fileInput"
+                outlined
+                accept="image/*"
+                @change="handleImage"
+            ></v-file-input>
+            <div v-if="picturePreview" style="margin-top: 10px;">
+              <img
+                  :src="picturePreview"
+                  alt="Hình ảnh"
+                  style="max-width: 100%; max-height: 200px; border: 1px solid #ccc; border-radius: 5px;"
+              />
+            </div>
+          </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions style="position: sticky; bottom: 0; background: #f6f9ff; padding-right: 2rem; padding-top: 10px; padding-bottom: 10px;">
           <v-spacer></v-spacer>
-          <v-btn class="text-none primary" depressed @click="checkValidate()"
+          <v-btn class="text-none primary ma" depressed @click="checkValidate()"
           ><span class="caption-btn">Lưu</span>
           </v-btn
           >
-          <v-btn class="text-none primary" depressed @click="reset"
+          <v-btn class="text-none primary ma" depressed @click="reset"
           ><span class="caption-btn">Nhập lại</span>
           </v-btn
           >
-          <v-btn class="text-none secondary" depressed @click="toggle">
+          <v-btn class="text-none secondary ma" depressed @click="toggle">
             <span class="caption-btn">Hủy</span>
           </v-btn>
         </v-card-actions>
@@ -187,8 +172,9 @@
         originalPrice: null,
         quantity: null,
         selectedFile: null,
-        imagePreview: null,
+        picturePreview: null,
         slug: null,
+        picture: null,
         listItemCategory: []
       }
     },
@@ -214,7 +200,15 @@
      this.getListItems()
     },
     methods: {
- 
+      handleImage(file) {
+      if (file) {
+        this.picture = file;
+        this.picturePreview = URL.createObjectURL(file);
+      } else {
+        this.picture = null;
+        this.picturePreview = null;
+      }
+    },
       checkValidate() {
         let hasError = false;
   
@@ -226,16 +220,6 @@
   
         if (!hasError) {
           this.save();
-        }
-      },
-      selectFileOpen() {
-        document.getElementById('input_file_add').click();
-      },
-      inputFile(event) {
-        const file = event.target.files[0];
-        if (file) {
-          this.selectedFile = file;
-          this.imagePreview = URL.createObjectURL(file);
         }
       },
       getListItems(){
@@ -257,6 +241,7 @@
           formData.append('slug', this.slug);
           formData.append('quantity', this.quantity);
           formData.append('category_id', this.category_id);
+          formData.append('image',this.picture);
           // if (this.selectedFile) {
           //   formData.append('image', this.selectedFile);
           // }
@@ -284,9 +269,9 @@
         this.originalPrice = null;
         this.quantity = null;
         this.selectedFile = null;
-        this.imagePreview = null;
         this.slug = null;
         this.category_id = null;
+        this.picture=null;
       },
   
       toggle() {
@@ -308,8 +293,3 @@
     },
   }
   </script>
-  <style scoped>
-  .text-none{
-    margin-right: 30px;
-  }
-  </style>

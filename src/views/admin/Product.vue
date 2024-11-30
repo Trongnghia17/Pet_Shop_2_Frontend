@@ -72,16 +72,7 @@
                   {{ getItemIndex(item) }}
                 </div>
               </template>
-              <template v-slot:[`item.status`]="{ item }">
-                <div class="">
-                  <v-chip v-if="item.status === 1" small outlined color="green">
-                    Hủy
-                  </v-chip>
-                  <v-chip v-if="item.status === 0" small outlined color="orange">
-                    Mở bán
-                  </v-chip>
-                </div>
-              </template>
+
               <template v-slot:[`item.image`]="{ item }">
                 <img
                     v-if="item.image"
@@ -107,22 +98,7 @@
                     </template>
                     <span> Sửa </span>
                   </v-tooltip>
-                  <!-- <v-tooltip bottom
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                          class="mr-2"
-                          @click="setActionDetailProduct(item)"
-                          v-on="on"
-                      >
-                        mdi-eye
-                      </v-icon
-                      >
-                    </template>
-                    <span>Chi tiết</span>
-                  </v-tooltip> -->
-
-                  <!--xóa-->
+      
                   <v-tooltip bottom
                   >
                     <template v-slot:activator="{ on }">
@@ -222,6 +198,13 @@ export default {
           text: 'Tên sản phẩm',
           sortable: false,
           value: 'name',
+          width: '4%',
+          align: 'center'
+        },
+        {
+          text: 'Hình ảnh',
+          sortable: false,
+          value: 'image',
           width: '4%',
           align: 'center'
         },
