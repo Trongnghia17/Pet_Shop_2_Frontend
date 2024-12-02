@@ -2,7 +2,7 @@
   <div class="product-detail-container">
     <div class="product-detail-content">
       <div class="product-image">
-        <img src="../../assets/Alaska.jpg" alt="Product Image" class="product-main-image">
+        <img src="../../assets/images/Alaska.jpg" alt="Product Image" class="product-main-image">
       </div>
       <div class="product-info">
         <h1 class="product-title">Giống Chó Alaska</h1>
