@@ -2,11 +2,11 @@
   <div class="container">
     <div class="sidebar">
       <ul class="sidebar-menu">
-        <li><a href="#"><span class="icon">&#128054;</span> Giống Chó Cảnh</a></li>
-        <li><a href="#"><span class="icon">&#128049;</span> Giống Mèo Cảnh</a></li>
-        <li><a href="#"><span class="icon">&#129309;</span> Hợp Tác</a></li>
-        <li><a href="#" @click.prevent="navigateToAccessory"><span class="icon">&#128230;</span> Phụ Kiện Chó Mèo</a></li>
-        <li><a href="#"><span class="icon">&#9986;&#65039;</span> Spa & Grooming</a></li>
+        <li><a href="#"><span class="icon">🐶</span> Giống Chó Cảnh</a></li>
+        <li><a href="#"><span class="icon">🐱</span> Giống Mèo Cảnh</a></li>
+        <li><a href="#"><span class="icon">💍</span> Hợp Tác</a></li>
+        <li><a href="#" @click.prevent="navigateToAccessory"><span class="icon">📦</span> Phụ Kiện Chó Mèo</a></li>
+        <li><a href="#"><span class="icon">✂️</span> Spa & Grooming</a></li>
       </ul>
     </div>
 
@@ -30,7 +30,7 @@
         </div>
         <div class="dog-breeds-container">
           <div class="dog-breeds">
-            <div v-for="index in 10" :key="index" class="dog-breed-item" @click="navigateToCart">
+            <div v-for="index in 10" :key="index" class="dog-breed-item" @click="navigateToDetail">
               <img src="../../assets/images/Alaska.jpg" alt="Alaska" class="dog-breed-image">
               <p>Alaska</p>
               <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
@@ -44,7 +44,7 @@
         </div>
         <div class="cat-breeds-container">
           <div class="cat-breeds">
-            <div v-for="index in 5" :key="index" class="cat-breed-item" @click="navigateToCart">
+            <div v-for="index in 5" :key="index" class="cat-breed-item" @click="navigateToDetail">
               <img src="../../assets/images/siamese.jpg" alt="Siamese" class="cat-breed-image">
               <p>Siamese</p>
               <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
@@ -70,6 +70,9 @@ export default {
     };
   },
   methods: {
+    navigateToDetail() {
+      window.location.href = 'http://localhost:8080/detail';
+    },
     nextBanner() {
       this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
     },
@@ -81,9 +84,6 @@ export default {
     },
     navigateToAccessory() {
       this.$router.push({ name: 'Accessory' });
-    },
-    navigateToCart() {
-      this.$router.push('shopping-cart');
     }
   }
 };
