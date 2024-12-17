@@ -140,6 +140,9 @@ export default {
   text-align: center;
   padding: 20px;
 }
+.list-menu:hover{
+  background-color: #315b84;
+}
 .sidebar .list-menu {
   width: 180px;
   transition: width 0.3s;
