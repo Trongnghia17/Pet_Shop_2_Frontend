@@ -32,11 +32,11 @@
         </li>
         <li class="navbar-item">
             <router-link
-            to="/collection"
+            to="/accessory"
             class="navbar-link"
             active-class="active-link"
             exact-active-class="exact-active-link">
-            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-image"></span>Bộ sưu tập</router-link>
+            <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-image"></span>Phụ kiện</router-link>
         </li>
         <li class="navbar-item">
             <router-link
