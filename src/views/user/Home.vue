@@ -1,264 +1,251 @@
 <template>
-  <div class="container">
-    <div class="sidebar">
-      <ul class="sidebar-menu">
-        <li><a href="#"><span class="icon">🐶</span> Giống Chó Cảnh</a></li>
-        <li><a href="#"><span class="icon">🐱</span> Giống Mèo Cảnh</a></li>
-        <li><a href="#"><span class="icon">💍</span> Hợp Tác</a></li>
-        <li><a href="#" @click.prevent="navigateToAccessory"><span class="icon">📦</span> Phụ Kiện Chó Mèo</a></li>
-        <li><a href="#"><span class="icon">✂️</span> Spa & Grooming</a></li>
-      </ul>
+  <div>
+    <!-- Banner Section -->
+    <div class="banner-container">
+      <img src="../../assets/images/banner1.jpg" alt="Banner 1" class="banner-image" />
+      <img src="../../assets/images/banner2.jpg" alt="Banner 2" class="banner-image" />
+      <img src="../../assets/images/banner3.jpg" alt="Banner 3" class="banner-image" />
     </div>
 
-    <div class="main-content">
-      <div class="banner-slider">
-        <div class="banner">
-          <div class="banner-item">
-            <img src="../../assets/images/anh4.jpg" alt="An Tâm Đón Pet" class="banner-image">
-          </div>
-          <div class="banner-item">
-            <img src="../../assets/images/anh2.jpeg" alt="Trả Góp 0%" class="banner-image">
-          </div>
-          <div class="banner-item">
-            <img src="../../assets/images/anh1.jpeg" alt="Bảo Hiểm Sức Khỏe" class="banner-image">
-          </div>
+    <h1>PETSHOP</h1>
+    <h2>Khám phá các sản phẩm thú cưng tuyệt vời.</h2>
+
+    <!-- Featured Products Section -->
+    <section>
+      <h2>Sản phẩm nổi bật</h2>
+      <div class="product-list">
+        <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card">
+          <!-- Sử dụng ảnh từ API -->
+          <img
+              v-if="product.image"
+              :src="`http://127.0.0.1:8000/${product.image}`"
+              alt="Product Image"
+              width="200px"
+          />
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <p>Giá: {{ product.selling_price }} VND</p>
+          <button @click="addToCart(product)">Thêm vào giỏ</button>
         </div>
       </div>
-      <div class="dog-breeds-container-with-banner">
-        <div class="dog-breeds-banner">
-          <img src="../../assets/images/banner1.jpg" alt="Giống Chó Cảnh Banner" class="dog-breeds-banner-image">
-        </div>
-        <div class="dog-breeds-container">
-          <div class="dog-breeds">
-            <div v-for="index in 10" :key="index" class="dog-breed-item" @click="navigateToDetail">
-              <img src="../../assets/images/Alaska.jpg" alt="Alaska" class="dog-breed-image">
-              <p>Alaska</p>
-              <p class="price">Giá: 10.000.000 - 20.000.000 VNĐ</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="cat-breeds-container-with-banner">
-        <div class="cat-breeds-banner">
-          <img src="../../assets/images/banner_cat.jpg" alt="Giống Mèo Cảnh Banner" class="cat-breeds-banner-image">
-        </div>
-        <div class="cat-breeds-container">
-          <div class="cat-breeds">
-            <div v-for="index in 5" :key="index" class="cat-breed-item" @click="navigateToDetail">
-              <img src="../../assets/images/siamese.jpg" alt="Siamese" class="cat-breed-image">
-              <p>Siamese</p>
-              <p class="price">Giá: 5.000.000 - 15.000.000 VNĐ</p>
-            </div>
-          </div>
+    </section>
+
+    <!-- Popular Products Section -->
+    <section>
+      <h2>Sản phẩm phổ biến</h2>
+      <div class="product-list">
+        <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card">
+          <!-- Sử dụng ảnh từ API -->
+          <img
+              v-if="product.image"
+              :src="`http://127.0.0.1:8000/${product.image}`"
+              alt="Product Image"
+              width="200px"
+          />
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <p>Giá: {{ product.selling_price }} VND</p>
+          <button @click="addToCart(product)">Thêm vào giỏ</button>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Product Categories Section -->
+    <section>
+      <h2>Danh mục sản phẩm</h2>
+      <div class="category-list">
+        <div v-for="category in homePageData.categories" :key="category.id" class="category-card">
+          <!-- Sử dụng ảnh danh mục từ API -->
+          <img
+              v-if="category.image"
+              :src="`http://127.0.0.1:8000/${category.image}`"
+              alt="Category Image"
+              width="200px"
+          />
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description }}</p>
+          <button @click="viewCategoryProducts(category)">Xem sản phẩm trong danh mục</button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+// Adjust the import path if needed
+import apiConfig from '@/apiConfig'; // Ensure this path points correctly to apiConfig.js
+
 export default {
-  name: 'MainPage',
+  name: 'HomePage',  // Ensure the name is multi-word to avoid ESLint error
   data() {
     return {
-      banners: [
-        {type: 'h2', text: 'An Tâm Đón Pet', description: 'Với Gói Bảo Hành Toàn Diện 365 Ngày'},
-        {type: 'h3', text: 'Trả Góp 0% Trong 12 Tháng'},
-        {type: 'h3', text: 'Bảo Hiểm Sức Khỏ Lên Tới 1.000.000Đ'}
-      ],
-      currentBannerIndex: 0
+      homePageData: null,
     };
   },
+  mounted() {
+    this.fetchHomePageData();
+  },
   methods: {
-    navigateToDetail() {
-      window.location.href = 'http://localhost:8080/detail';
+    // Fetch homepage data from the API
+    async fetchHomePageData() {
+      try {
+        const response = await apiConfig.getHomePageData();
+        this.homePageData = response.data;
+      } catch (error) {
+        console.error('Error fetching homepage data:', error);
+      }
     },
-    nextBanner() {
-      this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
+
+    // Add product to cart
+    addToCart(product) {
+      console.log('Adding to cart:', product);
+      // Add logic to handle cart addition here
     },
-    prevBanner() {
-      this.currentBannerIndex = (this.currentBannerIndex - 1 + this.banners.length) % this.banners.length;
-    },
-    handleClick(item) {
-      alert(`Bạn đã chọn: ${item.text}`);
-    },
-    navigateToAccessory() {
-      this.$router.push({ name: 'Accessory' });
+
+    // View products by category
+    viewCategoryProducts(category) {
+      console.log(`View products in ${category.name} category`);
+      // Add logic to navigate or display category products
     }
   }
 };
 </script>
 
 <style scoped>
-body {
-  font-family: 'Roboto', sans-serif;
+/* Tổng thể layout */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #f1f1f1;
+  font-family: 'Arial', sans-serif;
 }
 
-.container {
-  display: flex;
-  background-color: #fff;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  overflow: hidden;
-  flex-wrap: wrap;
+body {
+  background-color: #f8f8f8;
+  color: #333;
+  line-height: 1.6;
 }
 
-.sidebar {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  background-color: #ff6f61;
-  color: #fff;
-  padding: 20px;
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-menu {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar-menu li {
-  padding: 20px;
+h1, h2, h3 {
+  color: #333;
   margin-bottom: 10px;
-  background-color: #ff8a75;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
 }
 
-.sidebar-menu li a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-.sidebar-menu li a:hover {
-  transform: scale(1.1);
-  color: #ffd3b6;
-}
-
-.sidebar-menu li a .icon {
-  margin-right: 15px;
-}
-
-.main-content {
-  width: 100%;
-  padding: 30px;
-}
-
-.banner-slider {
-  position: relative;
-  margin-bottom: 30px;
-}
-
-.banner {
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
-  justify-content: center;
-  overflow: hidden;
-  width: 100%;
-}
-
-.banner-item {
-  flex: 1;
-  background-color: #ffd3b6;
-  padding: 20px;
-  border-radius: 15px;
+h1 {
+  font-size: 2rem;
   text-align: center;
-  cursor: pointer;
-  position: relative;
-  max-width: 30%;
-  transition: transform 0.3s ease;
-  display: inline-block;
+  margin-top: 20px;
 }
 
-.banner-item:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* Banner */
+.banner-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
 }
 
 .banner-image {
   width: 100%;
-  border-radius: 15px;
-}
-
-.banner-controls {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-}
-
-.banner-item h2, .banner-item h3 {
-  margin: 0;
-  color: #444;
-}
-
-.dog-breeds-container-with-banner, .cat-breeds-container-with-banner {
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-
-.dog-breeds-banner, .cat-breeds-banner {
-  flex: 0 0 100%;
-  max-width: 300px;
-  margin-right: 30px;
-}
-
-.dog-breeds-banner-image, .cat-breeds-banner-image {
-  width: 100%;
-  height: auto;
+  height: 200px;
   object-fit: cover;
-  border-radius: 15px;
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-.dog-breeds-container, .cat-breeds-container {
-  flex: 1;
-  padding: 20px;
-}
-
-.dog-breeds, .cat-breeds {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+/* Các phần tử hiển thị sản phẩm và danh mục */
+.product-list, .category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
   justify-content: center;
-}
-
-.dog-breed-item, .cat-breed-item {
-  width: calc(50% - 30px);
-  max-width: 200px;
-  text-align: center;
   padding: 20px;
+}
+
+.product-card, .category-card {
   background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.dog-breed-image, .cat-breed-image {
+.product-card:hover, .category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img, .category-card img {
   width: 100%;
-  border-radius: 15px;
-  transition: transform 0.3s ease;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid #ddd;
 }
 
-.dog-breed-item:hover, .cat-breed-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+.product-card h3, .category-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
 }
 
-.dog-breed-image:hover, .cat-breed-image:hover {
-  transform: scale(1.1);
+.product-card p, .category-card p {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive design cho màn hình nhỏ */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .banner-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-list, .category-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .product-card, .category-card {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .product-card, .category-card {
+    width: 100%;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
 }
 </style>

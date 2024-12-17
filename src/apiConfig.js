@@ -1,95 +1,79 @@
 import axiosInstance from './axiosInstance';
 import Cookies from 'js-cookie';
 
+// Utility function to get Authorization headers
+const getAuthHeaders = () => {
+    const token = Cookies.get('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 const apiConfig = {
+    // Login and Register
     login: (data) => axiosInstance.post('/api/login', data),
     register: (data) => axiosInstance.post('/api/register', data),
-    getAllCategory: (data) => {
-        return axiosInstance.get('/api/view-category', data,{
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
+
+    // Category-related API methods
+    getAllCategory: (params) => {
+        return axiosInstance.get('/api/view-category', {
+            params,
+            headers: getAuthHeaders(),
         });
     },
+
     addCategory: (data) => {
         return axiosInstance.post('/api/store-category', data, {
             headers: {
                 "Content-Type": "multipart/form-data",
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    updateCategory: (id, data) => {
-        return axiosInstance.put(`/api/update-category/${id}`, data, {
-            headers: {
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    deleteCategory: (id) => {
-        return axiosInstance.delete(`/api/delete-category/${id}`, {
-            headers: {
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    getAllProduct: (data ) => {
-        return axiosInstance.get('/api/view-product', data,{
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    addProduct: (data) => {
-        return axiosInstance.post('/api/store-product', data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    updateProduct: (id, data) => {
-        return axiosInstance.put(`/api/update-product/${id}`, data, {
-            headers: {
-                // 'Access-Control-Allow-Origin': '*',
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
-            },
-        });
-    },
-    deleteProduct: (id) => {
-        return axiosInstance.delete(`/api/delete-product/${id}`, {
-            headers: {
-                Authorization:
-                    Cookies.get('token') != (null || undefined)
-                        ? `Bearer ${Cookies.get('token')}`
-                        : '',
+                ...getAuthHeaders(),
             },
         });
     },
 
+    updateCategory: (id, data) => {
+        return axiosInstance.put(`/api/update-category/${id}`, data, {
+            headers: getAuthHeaders(),
+        });
+    },
+
+    deleteCategory: (id) => {
+        return axiosInstance.delete(`/api/delete-category/${id}`, {
+            headers: getAuthHeaders(),
+        });
+    },
+
+    // Product-related API methods
+    getAllProduct: (params) => {
+        return axiosInstance.get('/api/view-product', {
+            params,
+            headers: getAuthHeaders(),
+        });
+    },
+
+    addProduct: (data) => {
+        return axiosInstance.post('/api/store-product', data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                ...getAuthHeaders(),
+            },
+        });
+    },
+
+    updateProduct: (id, data) => {
+        return axiosInstance.put(`/api/update-product/${id}`, data, {
+            headers: getAuthHeaders(),
+        });
+    },
+
+    deleteProduct: (id) => {
+        return axiosInstance.delete(`/api/delete-product/${id}`, {
+            headers: getAuthHeaders(),
+        });
+    },
+    getHomePageData: () => {
+        return axiosInstance.get('/api/viewHomePage', {
+            headers: getAuthHeaders(),
+        });
+    },
 };
 
 export default apiConfig;
