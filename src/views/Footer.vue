@@ -113,7 +113,7 @@
 }
 
 .footer-content {
-  max-width: 1400px;
+  max-width: 70%;
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
@@ -172,7 +172,7 @@ ul {
   padding: 0;
 }
 .logo{
-  width: 20%;
+  width: 25%;
   margin-right: 12%;
   top : 0;
 }
