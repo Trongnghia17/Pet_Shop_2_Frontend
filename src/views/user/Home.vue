@@ -23,7 +23,7 @@
               width="200px"
           />
           <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
+          <p>{{ product.quantity }}</p>
           <p>Giá: {{ product.selling_price }} VND</p>
           <button @click="addToCart(product)">Thêm vào giỏ</button>
         </div>
@@ -43,7 +43,7 @@
               width="200px"
           />
           <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
+          <p>{{ product.quantity }}</p>
           <p>Giá: {{ product.selling_price }} VND</p>
           <button @click="addToCart(product)">Thêm vào giỏ</button>
         </div>
@@ -63,7 +63,7 @@
               width="200px"
           />
           <h3>{{ category.name }}</h3>
-          <p>{{ category.description }}</p>
+          <p>{{ category.quantity }}</p>
           <button @click="viewCategoryProducts(category)">Xem sản phẩm trong danh mục</button>
         </div>
       </div>
