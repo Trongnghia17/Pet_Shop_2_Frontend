@@ -4,37 +4,40 @@
       <div :class="['logo', { 'logo-closed': !isSidebarOpen }]">
         <img src="../../assets/images/logo.png" alt="Logo" />
       </div>
-      <ul class="admin-list" >
-        <li class="admin-block"><router-link 
-          to="/admin/dashboard"
-          active-class="active-link" 
-          exact-active-class="exact-active-link">
-          <i class="fa-solid fa-chart-line menu-icon"></i>
-          <span v-if="isSidebarOpen">Thống kê</span>
-        </router-link>
-        </li>
-        <li class="admin-block"><router-link 
-          to="/admin/product"
-          active-class="active-link" 
-          exact-active-class="exact-active-link">
-          <i class="fa-solid fa-paw menu-icon"></i>
-          <span v-if="isSidebarOpen">Thú cưng</span> 
-        </router-link>
-      </li>
-        <li class="admin-block"><router-link 
-          to="/admin/category"
-          active-class="active-link" 
-          exact-active-class="exact-active-link">
-          <i class="fa-solid fa-layer-group menu-icon"></i>
-          <span v-if="isSidebarOpen">Giống loài</span>
-        </router-link></li>
-        <v-list-item @click="handleEvent('logout')">
-          <v-list-item-title class="logout-item">
-            <i class="fa-solid fa-right-from-bracket menu-icon logout-icon"></i>
-            <span v-if="isSidebarOpen" class="logout-text">Đăng xuất</span>
-          </v-list-item-title>
+      <v-list class="admin-list" >
+        <v-list-item class="list-menu" @click="handleEvent('/admin/dashboard')" :class="{ 'active-link': isActive('/admin/dashboard') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-chart-line menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title >Thống kê</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
-      </ul>
+        <v-list-item class="list-menu" @click="handleEvent('/admin/product')" :class="{ 'active-link': isActive('/admin/product') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-paw menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title>Thú cưng</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item class="list-menu" @click="handleEvent('/admin/category')" :class="{ 'active-link': isActive('/admin/category') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-layer-group menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title>Giống loài</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item class="list-menu" @click="handleEvent('logout')">
+          <v-list-item-icon>
+            <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="logout-item" v-if="isSidebarOpen">
+            <v-list-item-title class="logout-text">Đăng xuất</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </div>
     <div class="main-content">
       <div class="nav-toggle">
@@ -59,12 +62,32 @@ export default {
     };
   },
   methods: {
+    isActive(route) {
+      return this.$route.path === route;
+    },
     handleEvent(action) {
-      if (action === 'logout') {
+      switch(action){
+        case '/admin/dashboard':
+        if (this.$route.path !== "/admin/dashboard") {
+            this.$router.push("/admin/dashboard");
+          }
+          break;
+        case '/admin/product':
+        if (this.$route.path !== "/admin/product") {
+            this.$router.push("/admin/product");
+          }
+          break;
+        case '/admin/category':
+        if (this.$route.path !== "/admin/category") {
+            this.$router.push("/admin/category");
+          }
+          break;
+        case 'logout':
         Cookies.remove('token');
         Cookies.remove('auth_name');
         this.$router.push("/login");
-      }
+          break;
+    }
     },
     toggleMenu() {
       this.isSidebarOpen = !this.isSidebarOpen;
@@ -79,17 +102,12 @@ export default {
   display: flex;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-.admin-container .admin-list li a{
-  text-decoration: none;
-  color: white;
-}
 .sidebar {
   height: 100vh;
-  width: 250px;
+  width: 180px;
   transition: width 0.3s;
   background-color: #2c3e50;
   color: white; 
-  padding: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -112,36 +130,63 @@ export default {
 }
 
 .admin-list {
-  list-style: none;
   padding: 0;
 }
-
-.admin-block {
-  padding: 30px;
+.list-menu{
+  background-color:#2c3e50 ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
 }
-
+.sidebar .list-menu {
+  width: 180px;
+  transition: width 0.3s;
+}
+.sidebar-closed .list-menu {
+  width: 100px;
+  transition: width 0.3s;
+  justify-content: center;
+}
 .main-content {
   flex-grow: 1;
   padding: 20px;
 }
 .logo img {
-  max-width: 150px; /* Điều chỉnh kích thước logo */
+  max-width: 200px; 
   height: auto;
+  padding-top: 20px;
 }
 .logo-closed img {
-  max-width: 70px; /* Kích thước logo khi sidebar đóng */
+  max-width: 100px; 
   height: auto;
 }
 .logout-item{
   color: red;
-  text-align: center;
-  padding-top: 30px;
 }
 .menu-icon {
-  font-size: 20px;
-  margin-right: 20px; /* Khoảng cách giữa icon và text */
+  font-size: 35px;
+  color: white;
 }
+.logout-icon {
+  font-size: 35px;
+  color: red;
+}
+.logout-tex
 .sidebar-closed .menu-icon {
   margin-right: 0;
+}
+.active-link {
+  background-color: white;
+}
+.active-link .menu-icon {
+  color: black; 
+}
+.active-link .title {
+  color: black;
+}
+.title {
+  color: white;
 }
 </style>

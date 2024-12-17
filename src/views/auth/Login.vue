@@ -73,7 +73,7 @@ export default {
           Cookies.set('auth_name', response.data.username, { expires: 365 });
           if (response.data.role === 'admin') {
             this.$toast.success('Đăng nhập dưới quyền quản trị viên!');
-            this.$router.push('/admin');
+            this.$router.push('/admin/dashboard');
           } else {
             this.$toast.success('Đăng nhập thành công!');
             this.$router.push('/home');

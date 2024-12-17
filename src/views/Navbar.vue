@@ -119,7 +119,7 @@ methods: {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    padding: 0 50px;
+    padding: 0 150px;
 }
 .navbar ul li a{
     text-decoration: none;

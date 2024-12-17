@@ -11,7 +11,6 @@ const apiConfig = {
     // Login and Register
     login: (data) => axiosInstance.post('/api/login', data),
     register: (data) => axiosInstance.post('/api/register', data),
-
     // Category-related API methods
     getAllCategory: (params) => {
         return axiosInstance.get('/api/view-category', {
