@@ -114,18 +114,16 @@ methods: {
 }
 .navbar-list{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    padding: 0 150px;
 }
 .navbar ul li a{
     text-decoration: none;
     color: black;
     font-size: 15px;
     transition: color 0.3s, font-weight 0.3s;
+    max-width: 70%;
 }
 .navbar ul li a:hover{
     color: #ff7070;
