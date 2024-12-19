@@ -143,11 +143,17 @@ p {
 }
 
 .banner-image {
-  width: calc(33.33% - 15px);
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 395px; /* Đặt kích thước giống với các product-card */
+  height: 250px; /* Đặt chiều cao giống với các product-card */
+  object-fit: cover; /* Đảm bảo hình ảnh giữ đúng tỉ lệ */
+  border-radius: 10px; /* Đồng bộ border-radius */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Đồng bộ shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.banner-image:hover {
+  transform: translateY(-5px); /* Thêm hiệu ứng hover để đồng nhất */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Sản phẩm và danh mục */
