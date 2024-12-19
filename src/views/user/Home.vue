@@ -15,7 +15,6 @@
       <h2>Sản phẩm nổi bật</h2>
       <div class="product-list">
         <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card">
-          <!-- Sử dụng ảnh từ API -->
           <img
               v-if="product.image"
               :src="`http://127.0.0.1:8000/${product.image}`"
@@ -35,7 +34,6 @@
       <h2>Sản phẩm phổ biến</h2>
       <div class="product-list">
         <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card">
-          <!-- Sử dụng ảnh từ API -->
           <img
               v-if="product.image"
               :src="`http://127.0.0.1:8000/${product.image}`"
@@ -55,7 +53,6 @@
       <h2>Danh mục sản phẩm</h2>
       <div class="category-list">
         <div v-for="category in homePageData.categories" :key="category.id" class="category-card">
-          <!-- Sử dụng ảnh danh mục từ API -->
           <img
               v-if="category.image"
               :src="`http://127.0.0.1:8000/${category.image}`"
@@ -72,11 +69,10 @@
 </template>
 
 <script>
-// Adjust the import path if needed
-import apiConfig from '@/apiConfig'; // Ensure this path points correctly to apiConfig.js
+import apiConfig from "@/apiConfig"; // Đảm bảo đường dẫn đúng
 
 export default {
-  name: 'HomePage',  // Ensure the name is multi-word to avoid ESLint error
+  name: "HomePage",
   data() {
     return {
       homePageData: null,
@@ -86,105 +82,109 @@ export default {
     this.fetchHomePageData();
   },
   methods: {
-    // Fetch homepage data from the API
     async fetchHomePageData() {
       try {
         const response = await apiConfig.getHomePageData();
         this.homePageData = response.data;
       } catch (error) {
-        console.error('Error fetching homepage data:', error);
+        console.error("Error fetching homepage data:", error);
       }
     },
-
-    // Add product to cart
     addToCart(product) {
-      console.log('Adding to cart:', product);
-      // Add logic to handle cart addition here
+      console.log("Adding to cart:", product);
     },
-
-    // View products by category
     viewCategoryProducts(category) {
       console.log(`View products in ${category.name} category`);
-      // Add logic to navigate or display category products
-    }
-  }
+    },
+  },
 };
 </script>
 
+#### CSS (`Style`)
+```css
 <style scoped>
 /* Tổng thể layout */
-* {
-  box-sizing: border-box;
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
-}
-
-body {
-  background-color: #f8f8f8;
-  color: #333;
   line-height: 1.6;
 }
 
 h1, h2, h3 {
-  color: #333;
-  margin-bottom: 10px;
+  color: #222;
+  margin-bottom: 15px;
+  text-align: center; /* Căn giữa các tiêu đề */
 }
 
 h1 {
-  font-size: 2rem;
-  text-align: center;
+  font-size: 2.5rem;
   margin-top: 20px;
+}
+
+h2 {
+  font-size: 1.8rem;
 }
 
 p {
   color: #555;
   font-size: 1rem;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-/* Banner */
+/* Banner Section */
 .banner-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   padding: 20px;
 }
 
 .banner-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
+  width: 395px; /* Đặt kích thước giống với các product-card */
+  height: 250px; /* Đặt chiều cao giống với các product-card */
+  object-fit: cover; /* Đảm bảo hình ảnh giữ đúng tỉ lệ */
+  border-radius: 10px; /* Đồng bộ border-radius */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Đồng bộ shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Các phần tử hiển thị sản phẩm và danh mục */
+.banner-image:hover {
+  transform: translateY(-5px); /* Thêm hiệu ứng hover để đồng nhất */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Sản phẩm và danh mục */
 .product-list, .category-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Căn giữa các sản phẩm */
+  gap: 30px;
   padding: 20px;
 }
 
 .product-card, .category-card {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  width: 280px; /* Định kích thước cố định cho các card */
+  text-align: center; /* Căn giữa nội dung */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product-card:hover, .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .product-card img, .category-card img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .product-card h3, .category-card h3 {
@@ -194,14 +194,15 @@ p {
 
 .product-card p, .category-card p {
   font-size: 0.9rem;
-  color: #777;
+  color: #666;
 }
 
+/* Nút bấm */
 button {
   margin-top: 10px;
-  padding: 10px;
-  width: 100%;
-  background-color: #4CAF50;
+  padding: 12px 16px;
+  width: 90%;
+  background-color: #ff6f61;
   color: white;
   border: none;
   border-radius: 5px;
@@ -211,32 +212,23 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #e65a50;
 }
 
-/* Responsive design cho màn hình nhỏ */
+/* Responsive Design */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  .banner-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
   .product-list, .category-list {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
   }
 
   .product-card, .category-card {
-    padding: 15px;
+    width: 90%;
   }
 }
 
 @media (max-width: 480px) {
   h1 {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 
   .product-card, .category-card {
@@ -245,7 +237,6 @@ button:hover {
 
   button {
     font-size: 0.9rem;
-    padding: 8px;
   }
 }
 </style>
