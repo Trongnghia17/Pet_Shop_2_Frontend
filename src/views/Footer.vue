@@ -113,7 +113,7 @@
 }
 
 .footer-content {
-  max-width: 70%;
+  width: 1250px;
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
@@ -171,9 +171,11 @@ ul {
   list-style-type: none;
   padding: 0;
 }
-.logo{
-  width: 25%;
+.logo {
+  width: 120px;
+  height: auto;
   margin-right: 12%;
   top : 0;
 }
+
 </style>

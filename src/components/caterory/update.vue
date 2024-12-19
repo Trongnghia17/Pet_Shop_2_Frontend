@@ -109,6 +109,7 @@
 <script>
 import apiConfig from '@/apiConfig';
 import { isNullOrEmpty } from "@/utils/validators";
+import axiosInstance from "../../axiosInstance";
 
 export default {
   name: 'UpdateCategory',
@@ -140,6 +141,7 @@ export default {
       slug: null,
       picture: null,
       picturePreview: null, // URL để hiển thị ảnh preview
+      baseURL: axiosInstance.defaults.baseURL,
     }
   },
   computed: {
@@ -243,7 +245,7 @@ export default {
         this.slug = this.dataItem.slug
         this.picture = null; // Reset ảnh mới
         this.picturePreview = this.dataItem.image
-            ? `http://127.0.0.1:8000/${this.dataItem.image}`
+            ? `${this.baseURL}/${this.dataItem.image}`
             : null; // URL của ảnh từ dữ liệu
 
       }

@@ -85,7 +85,7 @@
               <template v-slot:[`item.image`]="{ item }">
                 <img
                     v-if="item.image"
-                    :src="`http://127.0.0.1:8000/${item.image}`"
+                    :src="`${baseURL}/${item.image}`"
                     width="50px"
                 />
               </template>
@@ -157,6 +157,8 @@ import apiConfig from "@/apiConfig";
 import Insert from "../../components/caterory/insert.vue";
 import Update from "../../components/caterory/update.vue";
 import Delete from "../../components/caterory/delete.vue";
+import axiosInstance from "../../axiosInstance";
+
 
 export default {
   name: 'CategoryPage',
@@ -190,7 +192,9 @@ export default {
       sortAsc: true,
       valueSort: null,
       dataItemUpdateCategory: {},
-      openUpdateCategory: false
+      openUpdateCategory: false,
+      baseURL: axiosInstance.defaults.baseURL,
+
     }
   },
 

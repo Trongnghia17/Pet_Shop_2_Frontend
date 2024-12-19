@@ -1,78 +1,107 @@
 import axiosInstance from './axiosInstance';
 import Cookies from 'js-cookie';
 
-// Utility function to get Authorization headers
-const getAuthHeaders = () => {
-    const token = Cookies.get('token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-};
-
 const apiConfig = {
-    // Login and Register
     login: (data) => axiosInstance.post('/api/login', data),
     register: (data) => axiosInstance.post('/api/register', data),
-    // Category-related API methods
-    getAllCategory: (params) => {
-        return axiosInstance.get('/api/view-category', {
-            params,
-            headers: getAuthHeaders(),
+    getAllCategory: (data) => {
+        return axiosInstance.get('/api/view-category', data,{
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
-
     addCategory: (data) => {
         return axiosInstance.post('/api/store-category', data, {
             headers: {
                 "Content-Type": "multipart/form-data",
-                ...getAuthHeaders(),
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
             },
         });
     },
-
     updateCategory: (id, data) => {
         return axiosInstance.put(`/api/update-category/${id}`, data, {
-            headers: getAuthHeaders(),
+            headers: {
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
-
     deleteCategory: (id) => {
         return axiosInstance.delete(`/api/delete-category/${id}`, {
-            headers: getAuthHeaders(),
+            headers: {
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
-
-    // Product-related API methods
-    getAllProduct: (params) => {
-        return axiosInstance.get('/api/view-product', {
-            params,
-            headers: getAuthHeaders(),
+    getAllProduct: (data ) => {
+        return axiosInstance.get('/api/view-product', data,{
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
-
     addProduct: (data) => {
         return axiosInstance.post('/api/store-product', data, {
             headers: {
                 "Content-Type": "multipart/form-data",
-                ...getAuthHeaders(),
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
             },
         });
     },
-
     updateProduct: (id, data) => {
         return axiosInstance.put(`/api/update-product/${id}`, data, {
-            headers: getAuthHeaders(),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
-
     deleteProduct: (id) => {
         return axiosInstance.delete(`/api/delete-product/${id}`, {
-            headers: getAuthHeaders(),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
     getHomePageData: () => {
         return axiosInstance.get('/api/viewHomePage', {
-            headers: getAuthHeaders(),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
         });
     },
+
 };
 
 export default apiConfig;

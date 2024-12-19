@@ -17,7 +17,7 @@
         <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card">
           <img
               v-if="product.image"
-              :src="`http://127.0.0.1:8000/${product.image}`"
+              :src="`${baseURL}/${product.image}`"
               alt="Product Image"
               width="200px"
           />
@@ -36,7 +36,7 @@
         <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card">
           <img
               v-if="product.image"
-              :src="`http://127.0.0.1:8000/${product.image}`"
+              :src="`${baseURL}/${product.image}`"
               alt="Product Image"
               width="200px"
           />
@@ -55,7 +55,7 @@
         <div v-for="category in homePageData.categories" :key="category.id" class="category-card">
           <img
               v-if="category.image"
-              :src="`http://127.0.0.1:8000/${category.image}`"
+              :src="`${baseURL}/${category.image}`"
               alt="Category Image"
               width="200px"
           />
@@ -69,18 +69,22 @@
 </template>
 
 <script>
-import apiConfig from "@/apiConfig"; // Đảm bảo đường dẫn đúng
+import apiConfig from "@/apiConfig";
+import axiosInstance from "../../axiosInstance";
+
 
 export default {
   name: "HomePage",
   data() {
     return {
       homePageData: null,
+      baseURL: axiosInstance.defaults.baseURL,
     };
   },
   mounted() {
     this.fetchHomePageData();
   },
+
   methods: {
     async fetchHomePageData() {
       try {
@@ -100,8 +104,7 @@ export default {
 };
 </script>
 
-#### CSS (`Style`)
-```css
+
 <style scoped>
 /* Tổng thể layout */
 body {
