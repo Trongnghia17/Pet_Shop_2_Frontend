@@ -4,6 +4,7 @@
     <table class="cart-table" v-if="cartItems.length">
       <thead>
       <tr>
+        <th>Chọn</th>
         <th>Ảnh sản phẩm</th>
         <th>Tên sản phẩm</th>
         <th>Đơn giá</th>
@@ -14,9 +15,14 @@
       <tbody>
       <tr v-for="item in cartItems" :key="item.id">
         <td>
-          <img :src="`${baseURL}/${item.product.image}`" alt="Ảnh sản phẩm"
-               style="width: 100px; height: 100px;" />
-
+          <input
+              type="checkbox"
+              v-model="item.is_selected"
+              @change="updateCartQuantity(item)"
+          />
+        </td>
+        <td>
+          <img :src="`${baseURL}/${item.product.image}`" alt="Ảnh sản phẩm" style="width: 100px; height: 100px;" />
         </td>
         <td>
           {{ item.product.name }}
@@ -44,12 +50,12 @@
       </tbody>
     </table>
     <div class="cart-summary" v-if="cartItems.length">
-      <p><strong>Tạm tính:</strong> {{ totalPrice }}đ</p>
-      <p><strong>Thành tiền:</strong> <span class="highlight">{{ totalPrice }}đ</span></p>
+      <p><strong>Tạm tính:</strong> {{ selectedTotalPrice }}đ</p>
+      <p><strong>Thành tiền:</strong> <span class="highlight">{{ selectedTotalPrice }}đ</span></p>
     </div>
     <div class="cart-actions" v-if="cartItems.length">
       <button class="btn btn-secondary" @click="$router.push({ path: '/home' })">Tiếp tục mua hàng</button>
-      <button class="btn btn-primary">Thực hiện thanh toán</button>
+      <button class="btn btn-primary" @click="checkoutSelected">Thực hiện thanh toán</button>
     </div>
     <p v-else>Giỏ hàng của bạn đang trống.</p>
     <Delete
@@ -80,15 +86,16 @@ export default {
     Delete,
   },
   computed: {
-    totalPrice() {
-      return this.cartItems.reduce((total, item) => total + item.product.selling_price * item.product_quantity, 0);
+    selectedTotalPrice() {
+      return this.cartItems
+          .filter(item => item.is_selected)
+          .reduce((total, item) => total + item.product.selling_price * item.product_quantity, 0);
     },
   },
   methods: {
     fetchCart() {
       apiConfig.getListCart()
           .then(response => {
-            console.log('Cart data:', response);
             this.cartItems = response.data.cart;
           })
           .catch(error => {
@@ -107,7 +114,8 @@ export default {
     },
     updateCartQuantity(item) {
       const data = {
-        quantity: item.product_quantity
+        quantity: item.product_quantity,
+        is_selected: item.is_selected
       };
       apiConfig.updateCart(item.id, data)
           .then(response => {
@@ -147,11 +155,34 @@ export default {
     cancelDelete() {
       this.openDelete = false;
     },
+    checkoutSelected() {
+      // Lọc danh sách sản phẩm được chọn
+      const selectedItems = this.cartItems.filter(item => item.is_selected);
+      if (selectedItems.length === 0) {
+        this.$toast.warning('Vui lòng chọn ít nhất một sản phẩm để thanh toán');
+        return;
+      }
+      // Gửi danh sách sản phẩm được chọn đến API thanh toán
+      // apiConfig.checkout(selectedItems)
+      //     .then(response => {
+      //       if (response.status === 200) {
+      //         this.$toast.success('Thanh toán thành công');
+      //         this.fetchCart();
+      //       } else {
+      //         this.$toast.warning('Thanh toán thất bại');
+      //       }
+      //     })
+      //     .catch(error => {
+      //       console.error('Error during checkout:', error);
+      //       this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
+      //     });
+    },
   },
   created() {
     this.fetchCart();
   },
 };
+
 </script>
 
 <style scoped>
@@ -259,4 +290,15 @@ export default {
   background-color: #ddd;
   color: #000;
 }
+.cart-table th:first-child,
+.cart-table td:first-child {
+  text-align: center;
+  width: 50px;
+}
+
+.cart-table input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
 </style>
