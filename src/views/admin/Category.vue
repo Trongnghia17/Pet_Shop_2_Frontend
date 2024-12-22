@@ -98,6 +98,20 @@
                     <template v-slot:activator="{ on }">
                       <v-icon
                           class="mr-2"
+                          @click="setActionDetailCategory(item)"
+                          v-on="on"
+                      >
+                        mdi-eye
+                      </v-icon
+                      >
+                    </template>
+                    <span> Xem chi tiết </span>
+                  </v-tooltip>
+                  <v-tooltip bottom
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                          class="mr-2"
                           @click="setActionUpdateCategory(item)"
                           v-on="on"
                       >
@@ -142,6 +156,12 @@
         @toggle="openUpdateCategory = !openUpdateCategory"
         @success="getListItems"
     ></Update>
+    <Detail
+        :dataItem="dataItemDetailCategory"
+        :open="openDialogDetail"
+        @toggle="openDialogDetail = !openDialogDetail"
+        @success="getListItems"
+    ></Detail>
     <Delete
         :open="openDelete"
         :check="true"
@@ -158,11 +178,12 @@ import Insert from "../../components/caterory/insert.vue";
 import Update from "../../components/caterory/update.vue";
 import Delete from "../../components/caterory/delete.vue";
 import axiosInstance from "../../axiosInstance";
-
+import Detail from "../../components/caterory/detail.vue";
 
 export default {
   name: 'CategoryPage',
   components: {
+    Detail,
     Insert,
     Update,
     Delete,
@@ -192,6 +213,7 @@ export default {
       sortAsc: true,
       valueSort: null,
       dataItemUpdateCategory: {},
+      dataItemDetailCategory: {},
       openUpdateCategory: false,
       baseURL: axiosInstance.defaults.baseURL,
 
@@ -264,6 +286,10 @@ export default {
     setActionUpdateCategory(item) {
       this.dataItemUpdateCategory = item
       this.openUpdateCategory = true
+    },
+    setActionDetailCategory(item) {
+      this.dataItemDetailCategory = item
+      this.openDialogDetail = true
     },
     reset() {
       this.active = null

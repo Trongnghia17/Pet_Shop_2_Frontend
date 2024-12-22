@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title class="border-title-dialog"  style="padding-left: 33px">
-        Xem thông tin thú cưng
+      Xem giống loài
         <v-btn
             @click="toggle"
             icon
@@ -20,9 +20,9 @@
       <v-card-text class="pb-2">
         <v-row class="ma-0" no-gutters style="color: black">
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                Tên thú cưng(<span class="red--text">*</span>)</span
-              >
+            <span class="fw-500">
+              Tên giống loài(<span class="red--text">*</span>)</span
+            >
             <v-text-field
                 class="pt-1"
                 outlined
@@ -34,9 +34,9 @@
             ></v-text-field>
           </v-col>
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                Slug
-              </span>
+            <span class="fw-500">
+              Slug
+            </span>
             <v-text-field
                 class="pt-1"
                 outlined
@@ -46,77 +46,42 @@
             ></v-text-field>
           </v-col>
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-          <span class="fw-500">
-            Thể loại
-          </span>
-            <v-autocomplete
+            <span class="fw-500">
+              Mô tả</span
+            >
+            <v-text-field
                 class="pt-1"
-                v-model="category_id"
-                :items="listItemCategory"
                 outlined
                 dense
-                item-text="name"
-                item-value="id"
+                v-model="description"
+                :error-messages="descriptionError"
+                @input="descriptionError = []"
+                readonly
+            ></v-text-field>
+          </v-col>
+          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+            <span class="fw-500">
+                  Trạng thái
+                 </span>
+            <v-autocomplete
+                class="pt-1"
+                v-model="status"
+                :items="statusList"
+                item-text="text"
+                outlined
+                dense
+                readonly
             ></v-autocomplete>
           </v-col>
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                Thương hiệu</span
-              >
-            <v-text-field
-                class="pt-1"
-                outlined
-                dense
-                v-model="brand"
-                :error-mesages="brandError"
-                @input="brandError = []"
-                readonly
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                    Giá bán
-                   </span>
-            <v-text-field
-                class="pt-1"
-                outlined
-                dense
-                v-model="sellingPrice"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                    Giá gốc
-                   </span>
-            <v-text-field
-                class="pt-1"
-                outlined
-                dense
-                v-model="originalPrice"
-                readonly
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-              <span class="fw-500">
-                    Số lượng
-                   </span>
-            <v-text-field
-                class="pt-1"
-                outlined
-                dense
-                v-model="quantity"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
-             <span class="fw-500">
-                  Hình ảnh
-                 </span>
-            <!-- <v-file-input
-                ref="fileInput"
-                outlined
-                accept="image/*"
-                @change="handleImage"
-            ></v-file-input> -->
+            <span class="fw-500">Hình ảnh</span>
+            <!--            <v-file-input-->
+            <!--                ref="fileInput"-->
+            <!--                outlined-->
+            <!--                accept="image/*"-->
+            <!--                @change="handleImage"-->
+            <!--            ></v-file-input>-->
+            <!-- Thêm thẻ img để hiển thị ảnh -->
             <div v-if="picturePreview" style="margin-top: 10px;">
               <img
                   :src="picturePreview"
@@ -125,11 +90,16 @@
               />
             </div>
           </v-col>
+
         </v-row>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions style="position: sticky; bottom: 0; background: #f6f9ff; padding-right: 2rem; padding-top: 10px; padding-bottom: 10px;">
         <v-spacer></v-spacer>
+        <v-btn class="text-none primary ma" depressed @click="checkValidate()"
+        ><span class="caption-btn">Lưu</span>
+        </v-btn
+        >
         <v-btn class="text-none secondary ma" depressed @click="toggle">
           <span class="caption-btn">Hủy</span>
         </v-btn>
@@ -138,12 +108,14 @@
     </v-card>
   </v-dialog>
 </template>
+
 <script>
-import apiConfig from "@/apiConfig";
-import axiosInstance from "@/axiosInstance";
+import apiConfig from '@/apiConfig';
+import { isNullOrEmpty } from "@/utils/validators";
+import axiosInstance from "../../axiosInstance";
 
 export default {
-  name: 'DetailProduct',
+  name: 'DetailCategory',
   props: {
     open: {
       type: Boolean,
@@ -154,24 +126,24 @@ export default {
       required: true,
     },
   },
+  components: {
 
+  },
   data() {
     return {
-      categoryList: [],
-      category_id: null,
       name: null,
       nameError: [],
-      brandError: [],
-      brand: null,
+      descriptionError: [],
+      description: null,
+      status: 1,
       openLoading: false,
-      sellingPrice: null,
-      originalPrice: null,
-      quantity: null,
-      selectedFile: null,
-      picturePreview: null,
-      picture: null,
+      statusList: [
+        {text: 'Mở bán', value: 1},
+        {text: 'Đừng bán', value: 2},
+      ],
       slug: null,
-      listItemCategory: [],
+      picture: null,
+      picturePreview: null, // URL để hiển thị ảnh preview
       baseURL: axiosInstance.defaults.baseURL,
     }
   },
@@ -193,35 +165,75 @@ export default {
           : '';
     },
   },
-  mounted() {
-    this.getListItems()
-  },
   methods: {
-    getListItems() {
-      apiConfig.getAllCategory().then((res) => {
-        if (res.status === 200) {
-          console.log(res.data.category);
-          this.listItemCategory = res.data.category;
-        }
-      });
+    handleImage(file) {
+      if (file) {
+        this.picture = file;
+        this.picturePreview = URL.createObjectURL(file);
+      } else {
+        this.picture = null;
+        this.picturePreview = null;
+      }
     },
-    toggle() {
-      this.reset();
-      this.$emit('toggle')
+
+    checkValidate() {
+      let hasError = false;
+
+      if (isNullOrEmpty(this.name)) {
+        hasError = true;
+        this.nameError = ['Thông tin tên không được để trống'];
+        return;
+      }
+
+      if (!hasError) {
+        this.save();
+      }
+    },
+
+    async save() {
+      try {
+        let id = this.dataItem.id;
+        const formData = {
+          name: this.name,
+          description: this.description,
+          status: this.status,
+          slug: this.slug,
+          image: this.picture,
+        }
+        // const formData = new FormData();
+        // formData.append('name', this.name);
+        // formData.append('description', this.description);
+        // formData.append('status', this.status);
+        // formData.append('slug', this.slug);
+        // formData.append('image', this.picture);
+
+        const response = await apiConfig.updateCategory(id, formData);
+        if (response.data.status === 200) {
+          this.$toast.success(response.data.message);
+          this.toggle();
+          this.$emit('success');
+        } else {
+          this.$toast.warning(response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+        this.$toast.error('An error occurred, please try again');
+      }
     },
     reset() {
       this.name = null;
       this.nameError = [];
-      this.brand = null;
-      this.brandError = [];
-      this.sellingPrice = null;
-      this.originalPrice = null;
-      this.quantity = null;
-      this.selectedFile = null;
-      this.imagePreview = null;
-      this.slug = null;
-      this.category_id = null;
+      this.description = null;
+      this.descriptionError = [];
+      this.status = null;
       this.picture = null;
+      this.slug = null;
+      // this.$refs.fileInput.reset();
+    },
+
+    toggle() {
+      this.reset()
+      this.$emit('toggle')
     },
   },
   watch: {
@@ -230,23 +242,17 @@ export default {
     },
     open(value) {
       if (value) {
-        console.log(this.dataItem)
         this.name = this.dataItem.name
-        this.brand = this.dataItem.brand
-        this.sellingPrice = this.dataItem.selling_price
-        this.originalPrice = this.dataItem.original_price
-        this.quantity = this.dataItem.quantity
-        this.category_id = this.dataItem.category_id
+        this.description = this.dataItem.description
+        this.status = this.dataItem.status
         this.slug = this.dataItem.slug
-        this.picture = null;
+        this.picture = null; // Reset ảnh mới
         this.picturePreview = this.dataItem.image
-
             ? `${this.baseURL}/${this.dataItem.image}`
-            : null;
+            : null; // URL của ảnh từ dữ liệu
 
       }
     },
-
-  }
-};
+  },
+}
 </script>

@@ -96,7 +96,7 @@
                       </v-icon
                       >
                     </template>
-                    <span> Sửa </span>
+                    <span> Xem chi tiết </span>
                   </v-tooltip>
                   <v-tooltip bottom
                   >
