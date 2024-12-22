@@ -148,7 +148,7 @@
 import apiConfig from '@/apiConfig';
 import {isNullOrEmpty} from '@/utils/validators';
 import axiosInstance from "../../axiosInstance";
-// thêm
+
 
 export default {
   name: 'UpdateProduct',
@@ -181,7 +181,6 @@ export default {
       slug: null,
       listItemCategory: [],
       baseURL: axiosInstance.defaults.baseURL,
-      // thêm
     }
   },
   computed: {
@@ -307,4 +306,3 @@ export default {
   }
 };
 </script>
-  
