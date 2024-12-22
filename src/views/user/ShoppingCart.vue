@@ -156,27 +156,18 @@ export default {
       this.openDelete = false;
     },
     checkoutSelected() {
-      // Lọc danh sách sản phẩm được chọn
       const selectedItems = this.cartItems.filter(item => item.is_selected);
       if (selectedItems.length === 0) {
         this.$toast.warning('Vui lòng chọn ít nhất một sản phẩm để thanh toán');
         return;
       }
-      // Gửi danh sách sản phẩm được chọn đến API thanh toán
-      // apiConfig.checkout(selectedItems)
-      //     .then(response => {
-      //       if (response.status === 200) {
-      //         this.$toast.success('Thanh toán thành công');
-      //         this.fetchCart();
-      //       } else {
-      //         this.$toast.warning('Thanh toán thất bại');
-      //       }
-      //     })
-      //     .catch(error => {
-      //       console.error('Error during checkout:', error);
-      //       this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
-      //     });
+      const amount = selectedItems.reduce(
+          (total, item) => total + item.product.selling_price * item.product_quantity,
+          0
+      );
+      this.$router.push({ path: '/checkout', query: { amount } });
     },
+
   },
   created() {
     this.fetchCart();

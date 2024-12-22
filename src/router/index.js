@@ -16,6 +16,7 @@ import DashboardPage from '../views/admin/Dashboard.vue';
 import ProductPage from '../views/admin/Product.vue';
 import CategoryPage from '../views/admin/Category.vue';
 import DetailPage from '../views/user/Detail.vue';
+import CheckoutPage from '../views/user/Checkout.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -42,6 +43,8 @@ const routes = [
     },
     { path: '/detail', name: 'DetailPage', component: DetailPage },
     { path: '/Accessory', name: 'AccessoryPage', component: AccessoryPage },
+    { path: '/checkout', name: 'CheckoutPage', component : CheckoutPage }
+
 ];
 
 const router = new VueRouter({

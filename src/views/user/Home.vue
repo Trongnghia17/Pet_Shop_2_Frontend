@@ -89,6 +89,8 @@ export default {
     async fetchHomePageData() {
       try {
         const response = await apiConfig.getHomePageData();
+
+        console.log("Homepage data:", response.data);
         this.homePageData = response.data;
       } catch (error) {
         console.error("Error fetching homepage data:", error);
