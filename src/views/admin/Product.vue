@@ -89,6 +89,20 @@
                     <template v-slot:activator="{ on }">
                       <v-icon
                           class="mr-2"
+                          @click="setActionDetailProduct(item)"
+                          v-on="on"
+                      >
+                        mdi-eye
+                      </v-icon
+                      >
+                    </template>
+                    <span> Sửa </span>
+                  </v-tooltip>
+                  <v-tooltip bottom
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                          class="mr-2"
                           @click="setActionUpdateProduct(item)"
                           v-on="on"
                       >
@@ -132,6 +146,12 @@
     @toggle="openUpdateProduct = !openUpdateProduct"
     @success="getListItems"
     ></Update>
+    <Detail
+        :dataItem="dataItemDetailProduct"
+        :open="openDialogDetail"
+        @toggle="openDialogDetail = !openDialogDetail"
+        @success="getListItems"
+    ></Detail>
     <Delete
         :open="openDelete"
         :check="true"
@@ -149,7 +169,7 @@ import apiConfig from "@/apiConfig";
 import Update from '@/components/product/Update.vue';
 import Delete from '@/components/product/Delete.vue';
 import axiosInstance from "../../axiosInstance";
-
+import Detail from '@/components/product/Detail.vue';
 
 export default {
   name: 'ProductPage',
@@ -157,6 +177,7 @@ export default {
     Insert,
     Update,
     Delete,
+    Detail,
   },
   data() {
     return {
@@ -183,6 +204,7 @@ export default {
       sortAsc: true,
       valueSort: null,
       dataItemUpdateProduct: {},
+      dataItemDetailProduct: {},
       openUpdateProduct: false,
       baseURL: axiosInstance.defaults.baseURL,
     };
@@ -288,6 +310,10 @@ export default {
     setActionUpdateProduct(item) {
       this.dataItemUpdateProduct = item
       this.openUpdateProduct = true
+    },
+    setActionDetailProduct(item) {
+      this.dataItemDetailProduct = item
+      this.openDialogDetail = true
     },
     reset() {
       this.active = null
