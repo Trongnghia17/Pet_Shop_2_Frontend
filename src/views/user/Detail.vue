@@ -1,32 +1,16 @@
 <template>
   <div class="product-detail-container">
-    <div class="product-detail-content">
+    <div v-if="product" class="product-detail-content">
       <div class="product-image">
-        <img src="../../assets/images/Alaska.jpg" alt="Product Image" class="product-main-image">
+        <img :src="`http://127.0.0.1:8000/${product.image}`" alt="Product Image" class="product-main-image" />
       </div>
       <div class="product-info">
-        <h1 class="product-title">Giống Chó Alaska</h1>
+        <h1 class="product-title">{{ product.name }}</h1>
         <p class="product-price">Giá: {{ formattedPrice }} VNĐ</p>
         <p class="product-description">
-          Alaska là giống chó cảnh nổi tiếng với bộ lông dày và tính cách thân thiện. Chúng rất thích hợp làm bạn đồng hành trong gia đình.
+          {{ product.description || "Sản phẩm chất lượng cao, phù hợp cho mọi gia đình." }}
         </p>
         <div class="product-options">
-          <div class="option">
-            <label for="color">Màu sắc:</label>
-            <select id="color" class="product-select">
-              <option value="white">Trắng</option>
-              <option value="brown">Nâu</option>
-              <option value="black">Đen</option>
-            </select>
-          </div>
-          <div class="option">
-            <label for="size">Kích thước:</label>
-            <select id="size" class="product-select">
-              <option value="small">Nhỏ</option>
-              <option value="medium">Vừa</option>
-              <option value="large">Lớn</option>
-            </select>
-          </div>
           <div class="option">
             <label for="quantity">Số lượng:</label>
             <input
@@ -34,106 +18,58 @@
                 id="quantity"
                 v-model="quantity"
                 min="1"
-                :max="maxQuantity"
+                :max="product.stock"
                 class="quantity-input"
             />
           </div>
         </div>
         <div class="product-buttons">
           <button class="add-to-cart-button" @click="addToCart">Thêm vào giỏ hàng</button>
-          <button class="add-to-wishlist-button" @click="addToWishlist">Thêm vào danh sách yêu thích</button>
         </div>
       </div>
     </div>
 
-    <!-- Phần đánh giá của khách hàng -->
-    <div class="product-reviews">
-      <h2 class="reviews-title">Đánh Giá Khách Hàng</h2>
-
-      <!-- Hiển thị danh sách các đánh giá -->
-      <div class="reviews-list">
-        <div v-for="review in reviews" :key="review.id" class="review-item">
-          <div class="review-user">
-            <strong>{{ review.username }}</strong> <span class="review-date">{{ review.date }}</span>
-          </div>
-          <div class="review-rating">
-            <span v-for="star in 5" :key="star" :class="{'filled': review.rating >= star}" class="star">&#9733;</span>
-          </div>
-          <p class="review-comment">{{ review.comment }}</p>
-        </div>
-      </div>
-
-      <!-- Form gửi đánh giá -->
-      <div class="review-form">
-        <h3>Viết Đánh Giá Của Bạn</h3>
-        <textarea v-model="newReview.comment" placeholder="Chia sẻ cảm nhận của bạn về sản phẩm..." class="review-textarea"></textarea>
-        <div class="review-rating-input">
-          <label>Đánh giá:</label>
-          <select v-model="newReview.rating" class="product-select">
-            <option value="1">1 sao</option>
-            <option value="2">2 sao</option>
-            <option value="3">3 sao</option>
-            <option value="4">4 sao</option>
-            <option value="5">5 sao</option>
-          </select>
-        </div>
-        <button class="submit-review-button" @click="submitReview">Gửi Đánh Giá</button>
-      </div>
+    <div v-else>
+      <p>Đang tải thông tin sản phẩm...</p>
     </div>
   </div>
 </template>
 
 <script>
+import apiConfig from "@/apiConfig"; // Đảm bảo đường dẫn đúng
+
 export default {
-  name: 'ProductDetailPage',
+  name: "ProductDetailPage",
   data() {
     return {
+      product: null,
       quantity: 1,
-      price: 10000000,
-      maxQuantity: 10,
-      reviews: [
-        { id: 1, username: "Nguyễn Văn A", rating: 5, comment: "Chó Alaska rất đẹp và thân thiện, mình rất hài lòng!", date: "2024-10-01" },
-        { id: 2, username: "Trần Thị B", rating: 4, comment: "Mới mua chó Alaska, rất đáng yêu nhưng có chút khó chăm sóc.", date: "2024-11-15" },
-        { id: 3, username: "Lê Minh C", rating: 3, comment: "Chó khỏe mạnh, nhưng bộ lông hơi rụng nhiều.", date: "2024-09-30" },
-      ],
-      newReview: {
-        username: "Người dùng",
-        rating: 5,
-        comment: "",
-      },
     };
   },
   computed: {
-    totalPrice() {
-      return this.price * this.quantity;
-    },
     formattedPrice() {
-      return this.totalPrice.toLocaleString();
-    }
+      return (this.product?.selling_price || 0).toLocaleString();
+    },
+  },
+  mounted() {
+    this.fetchProductDetail();
   },
   methods: {
-    addToCart() {
-      alert(`Sản phẩm đã được thêm vào giỏ hàng! Số lượng: ${this.quantity}`);
-    },
-    addToWishlist() {
-      alert(`Sản phẩm đã được thêm vào danh sách yêu thích!`);
-    },
-    submitReview() {
-      if (this.newReview.comment.trim() === "") {
-        alert("Vui lòng nhập nhận xét của bạn!");
-        return;
+    async fetchProductDetail() {
+      try {
+        const response = await apiConfig.getHomePageData();
+        const allProducts = [...response.data.featuredProducts, ...response.data.popularProducts];
+        const productId = Number(this.$route.params.id);
+        this.product = allProducts.find((p) => p.id === productId);
+      } catch (error) {
+        console.error("Error fetching product detail:", error);
       }
-
-      const newReview = {
-        ...this.newReview,
-        id: this.reviews.length + 1,
-        date: new Date().toLocaleDateString(),
-      };
-      this.reviews.push(newReview);
-      this.newReview.comment = ""; // Reset comment field after submitting
-      alert("Cảm ơn bạn đã gửi đánh giá!");
-    }
-  }
+    },
+    addToCart() {
+      if (!this.product) return;
+      alert(`Đã thêm sản phẩm ${this.product.name} vào giỏ hàng với số lượng: ${this.quantity}`);
+    },
+  },
 };
 </script>
 
