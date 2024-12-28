@@ -5,7 +5,7 @@
           style="font-size: 1.3rem; font-weight: 500;"
           class="pa-1 primary--text"
       >
-        Aibat - Quản lý bán hàng
+        Thống kê
       </div>
     </CardGlobal>
     <v-col class="ma-0">
