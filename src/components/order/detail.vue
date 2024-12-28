@@ -26,7 +26,7 @@
               <strong>Mã đơn hàng:</strong> {{ dataItem.id }}
             </v-col>
             <v-col cols="6">
-              <strong>Ngày tạo:</strong> {{ formatDate(dataItem.created_at) }}
+              <strong>Ngày tạo đơn mua:</strong> {{ formatDate(dataItem.created_at) }}
             </v-col>
           </v-row>
           <v-row>
@@ -34,7 +34,7 @@
               <strong>Địa chỉ:</strong> {{ dataItem.address }}
             </v-col>
             <v-col cols="6">
-              <strong>Phương thức thanh toán:</strong> {{ dataItem.payment_mode }}
+              <strong>Phương thức thanh toán:</strong> {{ paymentMode }}
             </v-col>
           </v-row>
           <v-row>
@@ -52,7 +52,7 @@
           <h5>Danh sách sản phẩm</h5>
           <v-row v-for="item in dataItem.order_items" :key="item.id" class="mb-3">
             <v-col cols="2">
-              <v-img :src="item.image" max-height="50" max-width="50" class="rounded"></v-img>
+              <v-img  :src="`${baseURL}/${item.image}`" max-height="50" max-width="50" class="rounded"></v-img>
             </v-col>
             <v-col cols="6">
               <strong>{{ item.name }}</strong>
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import axiosInstance from "@/axiosInstance";
+
 export default {
   name: 'DetailProduct',
   props: {
@@ -90,6 +92,17 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      baseURL: axiosInstance.defaults.baseURL,
+
+    }
+  },
+  computed: {
+    paymentMode() {
+      return this.dataItem.payment_mode === 'cod' ? 'Nhận hàng thanh toán' : this.dataItem.payment_mode === 'stripe' ? 'Thanh toán online' : this.dataItem.payment_mode;
+    }
   },
   methods: {
     toggle() {
@@ -115,11 +128,92 @@ export default {
 </script>
 
 <style scoped>
+/* Đặt tiêu đề và bố cục chính */
 .border-title-dialog {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3f51b5;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/* Nút đóng ở góc trên phải */
+.v-btn[icon] {
+  color: #9e9e9e;
+  transition: color 0.3s;
+}
+.v-btn[icon]:hover {
+  color: #f44336;
+}
+
+/* Phần thông tin đơn hàng */
+.v-container {
+  background: #f9fafe;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+v-row {
+  margin-bottom: 10px;
+}
+
+/* Thông tin sản phẩm */
+h5 {
   font-size: 1.25rem;
   font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 16px;
 }
+
+.v-img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Cột thông tin sản phẩm */
+.v-col {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.v-col strong {
+  font-size: 1rem;
+  color: #424242;
+}
+
+/* Divider */
+.v-divider {
+  margin: 12px 0;
+  border-color: #e0e0e0;
+}
+
+/* Nút hành động */
+.v-card-actions {
+  background: #f6f9ff;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 16px;
+}
+.v-btn.secondary {
+  background: #e0e0e0;
+  color: #424242;
+  transition: background 0.3s, color 0.3s;
+}
+.v-btn.secondary:hover {
+  background: #d32f2f;
+  color: white;
+}
+
+/* Nút Hủy */
 .caption-btn {
   font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* Hiệu ứng hover cho thông tin sản phẩm */
+.v-row:hover {
+  background: #f5f5f5;
+  border-radius: 8px;
+  transition: background 0.3s;
 }
 </style>
+

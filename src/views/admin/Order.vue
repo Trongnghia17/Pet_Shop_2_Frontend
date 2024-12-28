@@ -37,7 +37,7 @@
             <template v-slot:[`item.payment_mode`]="{ item }">
               <div class="">
                 <v-chip v-if="item.payment_mode === 'cod'" small outlined color="green">
-                  Thanh toán nhận hàng
+                  Nhận hàng thanh toán
                 </v-chip>
                 <v-chip v-if="item.payment_mode === 'stripe'" small outlined color="orange">
                   Thanh toán online
