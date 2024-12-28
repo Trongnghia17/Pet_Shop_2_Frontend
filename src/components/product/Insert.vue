@@ -205,6 +205,8 @@
         {text: 'Có', value: 1},
         {text: 'Không', value: 0},
       ],
+        status: null,
+        featured: false,
       }
     },
     computed: {
@@ -254,8 +256,7 @@
       getListItems(){
         apiConfig.getAllCategory().then((res) => {
         if (res.status === 200) {
-          console.log(res.data.category);
-          
+
           this.listItemCategory = res.data.category;
         }
       });
@@ -278,7 +279,6 @@
           // }
   
           const response = await apiConfig.addProduct(formData);
-          console.log(response);
           if (response.data.status === 200) {
             this.$toast.success(response.data.message);
             this.toggle();

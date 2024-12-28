@@ -3,7 +3,7 @@
       <div
           style="font-size: 1.3rem; font-weight: 500; padding-bottom: 2rem  "
       >
-        Quản lý sản phẩm thú cưng
+        Quản lý thú cưng
       </div>
     <v-row class="ma-0">
       <v-col cols="12" class="pb-0 px-0">
@@ -300,7 +300,7 @@ export default {
           value: 'action',
           sortable: false,
           align: 'center',
-          width: '1%'
+          width: '5%'
         }
       ]
     }
@@ -329,8 +329,7 @@ export default {
         },
       };
       apiConfig.getAllProduct(data).then((res) => {
-        console.log(res);
-                
+
         if (res.status === 200) {
           this.listItemProduct = res.data.products;
         }

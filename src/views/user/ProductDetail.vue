@@ -69,7 +69,6 @@ export default {
       try {
         const response = await apiConfigHome.detailProduct(category_slug,product_slug);
         this.product = response.data.product;
-        console.log(response.data.product);
       } catch (error) {
         console.error("Error fetching product detail:", error);
       }

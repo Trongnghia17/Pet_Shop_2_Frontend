@@ -206,6 +206,8 @@ export default {
         {text: 'Có', value: 1},
         {text: 'Không', value: 0},
       ],
+      status: null,
+      featured: false,
     }
   },
   computed: {
@@ -233,7 +235,6 @@ export default {
     getListItems() {
       apiConfig.getAllCategory().then((res) => {
         if (res.status === 200) {
-          console.log(res.data.category);
           this.listItemCategory = res.data.category;
         }
       });
@@ -265,7 +266,6 @@ export default {
     },
     open(value) {
       if (value) {
-        console.log(this.dataItem)
         this.name = this.dataItem.name
         this.brand = this.dataItem.brand
         this.sellingPrice = this.dataItem.selling_price

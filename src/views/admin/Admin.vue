@@ -32,6 +32,24 @@
           </v-list-item-content>
           <span class="tooltip">Thú cưng</span>
         </v-list-item>
+        <v-list-item class="list-menu" @click="handleEvent('/admin/order')" :class="{ 'active-link': isActive('/admin/order') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-box menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title>Đơn hàng</v-list-item-title>
+          </v-list-item-content>
+          <span class="tooltip">Đơn hàng</span>
+        </v-list-item>
+        <v-list-item class="list-menu" @click="handleEvent('/admin/comment')" :class="{ 'active-link': isActive('/admin/comment') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-comments menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title>Bình luận</v-list-item-title>
+          </v-list-item-content>
+          <span class="tooltip">Bình luận</span>
+        </v-list-item>
         <v-list-item class="list-menu" @click="handleEvent('logout')">
           <v-list-item-icon>
             <i class="fa-solid fa-right-from-bracket logout-icon"></i>
@@ -84,6 +102,16 @@ export default {
         case '/admin/category':
         if (this.$route.path !== "/admin/category") {
             this.$router.push("/admin/category");
+          }
+          break;
+        case '/admin/order':
+          if (this.$route.path !== "/admin/order") {
+            this.$router.push("/admin/order");
+          }
+          break;
+        case '/admin/comment':
+          if (this.$route.path !== "/admin/comment") {
+            this.$router.push("/admin/comment");
           }
           break;
         case 'logout':

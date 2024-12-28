@@ -24,7 +24,9 @@ export default {
                path !== '/admin' &&
                path !== '/admin/dashboard' &&
                path !== '/admin/product' &&
-               path !== '/admin/category';
+               path !== '/admin/category' &&
+               path !== '/admin/order' &&
+               path !== '/admin/comment';
       }
     },
     showFooter() {
@@ -35,7 +37,9 @@ export default {
         path !== '/admin' &&
         path !== '/admin/dashboard' &&
         path !== '/admin/product' &&
-        path !== '/admin/category'
+        path !== '/admin/category' &&
+        path !== '/admin/order' &&
+        path !== '/admin/comment'
       );
     },
   }

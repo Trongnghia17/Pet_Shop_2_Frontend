@@ -147,7 +147,6 @@ export default {
     getDashBoard() {
       apiDashboard.getDashBoard()
           .then(response => {
-            console.log(response);
             this.dashboard = response.data;
             this.category = response.data.categories,
             this.product = response.data.products;

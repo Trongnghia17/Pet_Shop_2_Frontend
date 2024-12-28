@@ -107,7 +107,6 @@ export default {
         const response = await apiConfigHome.getHomePageData();
 
         this.homePageData = response.data;
-        console.log(this.homePageData);
         if (this.homePageData.categories && this.homePageData.categories.length > 0) {
           this.selectedCategoryProducts = this.homePageData.categories[0].products;
         }
@@ -142,7 +141,6 @@ export default {
       this.selectedCategoryProducts = category.products;
     },
     viewProductDetail(product) {
-      console.log(product)
       const categorySlug = product.category.slug;
       const productSlug = product.slug;
       this.$router.push({ path: `/product-detail/${categorySlug}/${productSlug}` });

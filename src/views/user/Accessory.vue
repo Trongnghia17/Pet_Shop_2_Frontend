@@ -106,7 +106,6 @@ export default {
         const response = await apiConfigHome.getHomePageData(data);
 
         this.homePageData = response.data;
-        console.log(this.homePageData);
           this.selectedCategoryProducts = this.homePageData.products;
       } catch (error) {
         console.error("Error fetching homepage data:", error);
@@ -139,7 +138,6 @@ export default {
       this.selectedCategoryProducts = category.products;
     },
     viewProductDetail(product) {
-      console.log(product)
       const categorySlug = product.category.slug;
       const productSlug = product.slug;
       this.$router.push({ path: `/product-detail/${categorySlug}/${productSlug}` });

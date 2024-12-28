@@ -15,6 +15,8 @@ import AccessoryPage from '../views/user/Accessory.vue';
 import DashboardPage from '../views/admin/Dashboard.vue';
 import ProductPage from '../views/admin/Product.vue';
 import CategoryPage from '../views/admin/Category.vue';
+import OrderPage from '../views/admin/Order.vue';
+import CommentPage from '../views/admin/Comment.vue';
 import CheckoutPage from '../views/user/Checkout.vue';
 import ProductDetail from '../views/user/ProductDetail.vue';
 Vue.use(VueRouter);
@@ -39,6 +41,8 @@ const routes = [
                 { path: 'dashboard', name: 'DashboardPage', component: DashboardPage },
                 { path: 'product', name: 'ProductPage', component: ProductPage },
                 { path: 'category', name: 'CategoryPage', component: CategoryPage },
+                { path: 'order', name: 'OrderPage', component: OrderPage },
+                { path: 'comment', name: 'CommentPage', component: CommentPage }
             ]
     },
     { path: '/product-detail/:category_slug/:product_slug', name: 'ProductDetail', component: ProductDetail },
