@@ -12,14 +12,7 @@
           <v-list-item-content class="title" v-if="isSidebarOpen">
             <v-list-item-title >Thống kê</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
-        <v-list-item class="list-menu" @click="handleEvent('/admin/product')" :class="{ 'active-link': isActive('/admin/product') }">
-          <v-list-item-icon>
-            <i class="fa-solid fa-paw menu-icon"></i>
-          </v-list-item-icon>
-          <v-list-item-content class="title" v-if="isSidebarOpen">
-            <v-list-item-title>Thú cưng</v-list-item-title>
-          </v-list-item-content>
+          <span class="tooltip">Thống kê</span>
         </v-list-item>
         <v-list-item class="list-menu" @click="handleEvent('/admin/category')" :class="{ 'active-link': isActive('/admin/category') }">
           <v-list-item-icon>
@@ -28,6 +21,16 @@
           <v-list-item-content class="title" v-if="isSidebarOpen">
             <v-list-item-title>Giống loài</v-list-item-title>
           </v-list-item-content>
+          <span class="tooltip">Giống loài</span>
+        </v-list-item>
+        <v-list-item class="list-menu" @click="handleEvent('/admin/product')" :class="{ 'active-link': isActive('/admin/product') }">
+          <v-list-item-icon>
+            <i class="fa-solid fa-paw menu-icon"></i>
+          </v-list-item-icon>
+          <v-list-item-content class="title" v-if="isSidebarOpen">
+            <v-list-item-title>Thú cưng</v-list-item-title>
+          </v-list-item-content>
+          <span class="tooltip">Thú cưng</span>
         </v-list-item>
         <v-list-item class="list-menu" @click="handleEvent('logout')">
           <v-list-item-icon>
@@ -36,6 +39,7 @@
           <v-list-item-content class="logout-item" v-if="isSidebarOpen">
             <v-list-item-title class="logout-text">Đăng xuất</v-list-item-title>
           </v-list-item-content>
+          <span class="tooltip">Đăng xuất</span>
         </v-list-item>
       </v-list>
     </div>
@@ -191,5 +195,26 @@ export default {
 }
 .title {
   color: white;
+}
+.tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; 
+  left: 70%; 
+  margin-left: -60px; 
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.list-menu:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 </style>

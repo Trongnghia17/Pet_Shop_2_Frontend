@@ -105,6 +105,19 @@
             ></v-text-field>
           </v-col>
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+            <span class="fw-500">
+                  Trạng thái
+                 </span>
+            <v-autocomplete
+                class="pt-1"
+                v-model="status"
+                :items="statusList"
+                item-text="text"
+                outlined
+                dense
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
              <span class="fw-500">
                   Hình ảnh
                  </span>
@@ -122,6 +135,14 @@
               />
             </div>
           </v-col>
+          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+        <v-checkbox
+          v-model="featured"
+          :item="featuredList"
+          label="Sản phẩm nổi bật"
+          item-text="text"
+        ></v-checkbox>
+      </v-col>
         </v-row>
       </v-card-text>
       <v-divider></v-divider>
@@ -181,6 +202,14 @@ export default {
       slug: null,
       listItemCategory: [],
       baseURL: axiosInstance.defaults.baseURL,
+      statusList: [
+        {text: 'Mở bán', value: 1},
+        {text: 'Đừng bán', value: 2},
+      ],
+      featuredList: [
+        {text: 'Có', value: 1},
+        {text: 'Không', value: 0},
+      ],
     }
   },
   computed: {
@@ -239,6 +268,8 @@ export default {
           category_id: this.category_id,
           slug: this.slug,
           image: this.picture,
+          status: this.status,
+          featured: this.featured,
         }
         const response = await apiConfig.updateProduct(id, formData);
         console.log(response);
@@ -279,6 +310,8 @@ export default {
       this.slug = null;
       this.category_id = null;
       this.picture = null;
+      this.status = null;
+      this.featured = false;
     },
   },
   watch: {
@@ -295,7 +328,9 @@ export default {
         this.quantity = this.dataItem.quantity
         this.category_id = this.dataItem.category_id
         this.slug = this.dataItem.slug
+        this.status = this.dataItem.status
         this.picture = null;
+        this.featured = this.dataItem.featured;
         this.picturePreview = this.dataItem.image
             ? `${this.baseURL}/${this.dataItem.image}`
             : null;
