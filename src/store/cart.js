@@ -1,7 +1,7 @@
 import axiosInstance from '../axiosInstance';
 import Cookies from 'js-cookie';
 
-const apiConfig = {
+const apiConfigCart = {
 
     getListCart: () => {
         return axiosInstance.get('/api/cart', {
@@ -15,7 +15,7 @@ const apiConfig = {
         });
     },
     addCart: (data) => {
-        return axiosInstance.post('/api/cart', data, {
+        return axiosInstance.post('api/add-to-cart', data, {
             headers: {
                 'Access-Control-Allow-Origin': '*', // Required for CORS support to work
                 Authorization:
@@ -52,4 +52,4 @@ const apiConfig = {
 
 };
 
-export default apiConfig;
+export default apiConfigCart;

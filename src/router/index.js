@@ -15,8 +15,8 @@ import AccessoryPage from '../views/user/Accessory.vue';
 import DashboardPage from '../views/admin/Dashboard.vue';
 import ProductPage from '../views/admin/Product.vue';
 import CategoryPage from '../views/admin/Category.vue';
-import DetailPage from '../views/user/Detail.vue';
 import CheckoutPage from '../views/user/Checkout.vue';
+import ProductDetail from '../views/user/ProductDetail.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -41,7 +41,7 @@ const routes = [
                 { path: 'category', name: 'CategoryPage', component: CategoryPage },
             ]
     },
-    { path: '/detail', name: 'DetailPage', component: DetailPage },
+    { path: '/product-detail/:category_slug/:product_slug', name: 'ProductDetail', component: ProductDetail },
     { path: '/Accessory', name: 'AccessoryPage', component: AccessoryPage },
     { path: '/checkout', name: 'CheckoutPage', component : CheckoutPage }
 

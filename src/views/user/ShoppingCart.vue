@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import apiConfig from "../../store/cart";
+import apiConfigCart from "../../store/cart";
 import Delete from "../../components/cart/Delete.vue";
 import axiosInstance from "../../axiosInstance";
 export default {
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     fetchCart() {
-      apiConfig.getListCart()
+      apiConfigCart.getListCart()
           .then(response => {
             this.cartItems = response.data.cart;
           })
@@ -117,7 +117,7 @@ export default {
         quantity: item.product_quantity,
         is_selected: item.is_selected
       };
-      apiConfig.updateCart(item.id, data)
+      apiConfigCart.updateCart(item.id, data)
           .then(response => {
             if (response.status === 200) {
               // this.$toast.success('Cập nhật số lượng thành công');
@@ -138,7 +138,7 @@ export default {
     },
     async confirmDelete() {
       try {
-        const response = await apiConfig.deleteCart(this.id);
+        const response = await apiConfigCart.deleteCart(this.id);
         if (response.status === 200) {
           this.$toast.success('Xóa thành công');
           this.fetchCart();
