@@ -1,48 +1,73 @@
 <template>
-  <div class="checkout-container">
+  <v-container class="checkout-container">
     <h2>Thông tin thanh toán</h2>
-    <form @submit.prevent="submitCheckout">
-      <div class="form-group">
-        <label for="address">Địa chỉ giao hàng</label>
-        <input type="text" id="address" v-model="checkoutInfo.address" required />
-      </div>
-      <div class="form-group">
-        <label for="nameCard">Tên trên thẻ</label>
-        <input type="text" id="nameCard" v-model="checkoutInfo.nameCard" />
-      </div>
-      <div class="form-group">
-        <label for="cardNumber">Số thẻ</label>
-        <input type="text" id="cardNumber" v-model="checkoutInfo.cardNumber" />
-      </div>
-      <div class="form-group">
-        <label for="cvc">CVC</label>
-        <input type="text" id="cvc" v-model="checkoutInfo.cvc" />
-      </div>
-      <div class="form-group">
-        <label>Tháng/Năm hết hạn</label>
-        <div class="expiration">
-          <input type="text" placeholder="Tháng" v-model="checkoutInfo.month" />
-          <input type="text" placeholder="Năm" v-model="checkoutInfo.year" />
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="payment_mode">Hình thức thanh toán</label>
-        <select id="payment_mode" v-model="checkoutInfo.payment_mode">
-          <option value="cod">Thanh toán khi nhận hàng</option>
-          <option value="card">Thẻ ngân hàng</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="amount">Tổng tiền</label>
-        <input type="text" id="amount" :value="checkoutInfo.amount" readonly />
-      </div>
-      <button type="submit" class="btn btn-primary">Xác nhận thanh toán</button>
-    </form>
-  </div>
+    <v-form @submit.prevent="submitCheckout">
+      <span>Địa chỉ giao hàng</span>
+      <v-text-field
+          v-model="checkoutInfo.address"
+          required
+          outlined
+          dense
+      ></v-text-field>
+      <span>Hình thức thanh toán</span>
+      <v-select
+          v-model="checkoutInfo.payment_mode"
+          :items="paymentModes"
+          outlined
+          dense
+      ></v-select>
+      <v-container v-if="checkoutInfo.payment_mode === 'card'">
+        <span>Tên trên thẻ</span>
+        <v-text-field
+            v-model="checkoutInfo.nameCard"
+            outlined
+            dense
+        ></v-text-field>
+        <span>Số thẻ</span>
+        <v-text-field
+            v-model="checkoutInfo.cardNumber"
+            outlined
+            dense
+        ></v-text-field>
+        <span>CVC</span>
+        <v-text-field
+            v-model="checkoutInfo.cvc"
+            outlined
+            dense
+        ></v-text-field>
+        <v-row>
+          <v-col>
+            <span>Tháng</span>
+            <v-text-field
+                v-model="checkoutInfo.month"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <span>Năm</span>
+            <v-text-field
+                v-model="checkoutInfo.year"
+                outlined
+                dense
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+      <span>Tổng tiền</span>
+      <v-text-field
+          :value="checkoutInfo.amount"
+          readonly
+          outlined
+          dense
+      ></v-text-field>
+      <v-btn type="submit" color="primary" class="custom-btn">Xác nhận thanh toán</v-btn>
+    </v-form>
+  </v-container>
 </template>
 
 <script>
-import apiConfigCheckout from "../../store/checkout";
+import apiConfigCheckout from '../../store/checkout';
 
 export default {
   name: 'CheckoutPage',
@@ -58,10 +83,18 @@ export default {
         amount: this.$route.query.amount || 0,
         payment_mode: 'cod',
       },
+      paymentModes: [
+        { text: 'Thanh toán khi nhận hàng', value: 'cod' },
+        { text: 'Thẻ ngân hàng', value: 'card' },
+      ],
     };
   },
   methods: {
     submitCheckout() {
+      if (!this.checkoutInfo.address) {
+        this.$toast.warning('Vui lòng nhập địa chỉ giao hàng');
+        return;
+      }
       apiConfigCheckout.checkout(this.checkoutInfo)
           .then(response => {
             if (response.status === 200) {
@@ -75,7 +108,7 @@ export default {
             console.error('Error during checkout:', error);
             this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
           });
-    },
+    }
   },
 };
 </script>
@@ -103,14 +136,25 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.expiration {
-  display: flex;
-  gap: 10px;
+.custom-btn {
+  background-color: #ff6f61 !important;
+  color: white !important;
+  padding: 14px 18px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
 }
-.btn-primary {
-  background-color: #ffcc00;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
+
+.custom-btn:hover {
+  background-color: #e65a50 !important;
+  transform: translateY(-2px) !important;
+}
+
+.custom-btn:active {
+  background-color: #d95448 !important;
+  transform: translateY(0) !important;
 }
 </style>
