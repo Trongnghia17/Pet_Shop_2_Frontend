@@ -105,6 +105,19 @@
               ></v-text-field>
             </v-col>
             <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+            <span class="fw-500">
+                  Trạng thái
+                 </span>
+            <v-autocomplete
+                class="pt-1"
+                v-model="status"
+                :items="statusList"
+                item-value="value"
+                outlined
+                dense
+            ></v-autocomplete>
+          </v-col>
+            <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
              <span class="fw-500">
                   Hình ảnh
                  </span>
@@ -122,6 +135,14 @@
               />
             </div>
           </v-col>
+          <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
+        <v-checkbox
+          v-model="featured"
+          :item="featuredList"
+          label="Sản phẩm nổi bật"
+          item-text="text"
+        ></v-checkbox>
+      </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -175,7 +196,15 @@
         picturePreview: null,
         slug: null,
         picture: null,
-        listItemCategory: []
+        listItemCategory: [],
+        statusList: [
+        {text: 'Mở bán', value: 1},
+        {text: 'Đừng bán', value: 2},
+      ],
+      featuredList: [
+        {text: 'Có', value: 1},
+        {text: 'Không', value: 0},
+      ],
       }
     },
     computed: {
@@ -239,6 +268,8 @@
           formData.append('selling_price', this.sellingPrice);
           formData.append('original_price', this.originalPrice);
           formData.append('slug', this.slug);
+          formData.append('status', this.status);
+          formData.append('featured', this.featured);
           formData.append('quantity', this.quantity);
           formData.append('category_id', this.category_id);
           formData.append('image',this.picture);
@@ -272,6 +303,8 @@
         this.slug = null;
         this.category_id = null;
         this.picture=null;
+        this.status = null;
+        this.featured = false;
       },
   
       toggle() {

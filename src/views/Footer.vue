@@ -172,7 +172,7 @@ ul {
   padding: 0;
 }
 .logo {
-  width: 120px;
+  width: 250px;
   height: auto;
   margin-right: 12%;
   top : 0;
