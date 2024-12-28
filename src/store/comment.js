@@ -14,6 +14,17 @@ const apiConfigComment = {
             },
         });
     },
+    addComment: (slug, data) => {
+        return axiosInstance.post(`/api/comments/${slug}`, data, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization:
+                    Cookies.get('token') != (null || undefined)
+                        ? `Bearer ${Cookies.get('token')}`
+                        : '',
+            },
+        });
+    }
 
 
 

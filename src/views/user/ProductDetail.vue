@@ -30,6 +30,23 @@
     <div v-else class="loading">
       <p>Đang tải thông tin sản phẩm...</p>
     </div>
+
+    <!-- Comments Section -->
+    <div v-if="product && product.comments && product.comments.length" class="comments-section">
+      <h2>Bình luận</h2>
+      <ul>
+        <li v-for="comment in product.comments" :key="comment.id">
+          <p><strong>{{ comment.user.name }}:</strong> {{ comment.comment }}</p>
+          <p><small>{{ new Date(comment.created_at).toLocaleString() }}</small></p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Add Comment Section -->
+    <div v-if="product" class="add-comment-section">
+      <textarea v-model="comment" placeholder="Viết bình luận của bạn..."></textarea>
+      <button @click="addComment">Gửi bình luận</button>
+    </div>
   </div>
 </template>
 
@@ -37,6 +54,7 @@
 import axiosInstance from "../../axiosInstance";
 import apiConfigCart from "../../store/cart";
 import apiConfigHome from "../../store/home";
+import apiConfigComment from "../../store/comment";
 import Cookies from "js-cookie";
 
 export default {
@@ -46,12 +64,42 @@ export default {
       product: null,
       baseURL: axiosInstance.defaults.baseURL,
       quantity: 1,
+      comment: "",
     };
   },
   mounted() {
     this.fetchProductDetail();
   },
   methods: {
+    addComment() {
+      const isLoggedIn = Cookies.get("token");
+      if (!isLoggedIn) {
+        this.$toast.error('Bạn cần đăng nhập mới có thể bình luận');
+        this.$router.push({ path: '/login' });
+        return;
+      }
+      const slug = this.$route.params.product_slug;
+      let data = {
+        comment: this.comment,
+      };
+      apiConfigComment.addComment(slug,data)
+          .then(response => {
+            if (response.status === 200) {
+              this.$toast.success('Bình luận thành công');
+              this.product.comments.push({
+                user: { name: 'Bản thân' }, // Replace with actual user data
+                comment: this.comment,
+                created_at: new Date().toISOString()
+              });
+              this.comment = ''; // Clear the comment input
+            } else {
+              console.error("Failed to add comment:", response);
+            }
+          })
+          .catch(error => {
+            console.error("Error adding comment:", error);
+          });
+    },
     increaseQuantity() {
       this.quantity++;
     },
@@ -68,6 +116,7 @@ export default {
       const product_slug = this.$route.params.product_slug
       try {
         const response = await apiConfigHome.detailProduct(category_slug,product_slug);
+        console.log(response.data.product)
         this.product = response.data.product;
       } catch (error) {
         console.error("Error fetching product detail:", error);
@@ -77,7 +126,7 @@ export default {
       const isLoggedIn = Cookies.get("token");
       if (!isLoggedIn) {
         this.$toast.error('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
-        this.$router.push({ path: '/login' });
+        this.$router.push({path: '/login'});
         return;
       }
       const data = {
@@ -88,7 +137,7 @@ export default {
         const response = await apiConfigCart.addCart(data);
         if (response.status === 200) {
           this.$toast.success("Thêm vào giỏ hàng thành công");
-          this.$router.push({ path: "/shopping-cart" });
+          this.$router.push({path: "/shopping-cart"});
         } else {
           console.error("Failed to add product to cart:", response.data);
         }
@@ -102,7 +151,8 @@ export default {
 
 <style scoped>
 .product-detail {
-  display: flex;
+  width: 1250px;
+  margin: 0 auto;
   flex-direction: column;
   align-items: center;
   padding: 40px;
@@ -119,8 +169,6 @@ export default {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  max-width: 1200px;
   width: 100%;
 }
 
@@ -224,6 +272,44 @@ button:active {
   text-align: center;
 }
 
+.comments-section {
+  margin: 0 auto;
+}
+
+.comments-section h2 {
+  margin-top: 20px;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.comments-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.comments-section li {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.comments-section li p {
+  margin: 0;
+}
+
+.comments-section li p strong {
+  color: #555;
+}
+
+.comments-section li p small {
+  color: #999;
+  display: block;
+  margin-top: 5px;
+}
+
 @media screen and (max-width: 768px) {
   .product-container {
     flex-direction: column;
@@ -244,5 +330,32 @@ button:active {
     font-size: 1.3rem;
   }
 }
+.add-comment-section {
+  margin: 0 auto;
+}
 
+.add-comment-section textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.add-comment-section button {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-comment-section button:hover {
+  background-color: #e65a50;
+}
 </style>
