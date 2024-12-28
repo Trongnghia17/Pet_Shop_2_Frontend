@@ -11,10 +11,10 @@
     <h2>Khám phá các sản phẩm thú cưng tuyệt vời.</h2>
 
     <!-- Featured Products Section -->
-    <section>
+    <section v-if="homePageData">
       <h2>Sản phẩm nổi bật</h2>
       <div class="product-list">
-        <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card">
+        <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">
           <img
               v-if="product.image"
               :src="`${baseURL}/${product.image}`"
@@ -22,15 +22,16 @@
               width="200px"
           />
           <h3>{{ product.name }}</h3>
-          <p>{{ product.quantity }}</p>
-          <p>Giá: {{ product.selling_price }} VND</p>
-          <button @click="addToCart(product)">Thêm vào giỏ</button>
+          <div> Số lượng {{ product.quantity }}</div>
+          <div>Giá gốc: {{ product.original_price }} VND</div>
+          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>
+          <button @click.stop="addToCart(product)">Thêm vào giỏ</button>
         </div>
       </div>
     </section>
 
     <!-- Popular Products Section -->
-    <section>
+    <section v-if="homePageData">
       <h2>Sản phẩm phổ biến</h2>
       <div class="product-list">
         <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card">
@@ -41,15 +42,16 @@
               width="200px"
           />
           <h3>{{ product.name }}</h3>
-          <p>{{ product.quantity }}</p>
-          <p>Giá: {{ product.selling_price }} VND</p>
+          <div> Số lượng {{ product.quantity }}</div>
+          <div>Giá gốc: {{ product.original_price }} VND</div>
+          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>
           <button @click="addToCart(product)">Thêm vào giỏ</button>
         </div>
       </div>
     </section>
 
     <!-- Product Categories Section -->
-    <section>
+    <section v-if="homePageData">
       <h2>Danh mục sản phẩm</h2>
       <div class="category-list">
         <div v-for="category in homePageData.categories" :key="category.id" class="category-card">
@@ -69,8 +71,9 @@
 </template>
 
 <script>
-import apiConfig from "@/apiConfig";
 import axiosInstance from "../../axiosInstance";
+import apiConfigCart from "../../store/cart";
+import apiConfigHome from "../../store/home";
 
 
 export default {
@@ -88,19 +91,38 @@ export default {
   methods: {
     async fetchHomePageData() {
       try {
-        const response = await apiConfig.getHomePageData();
+        const response = await apiConfigHome.getHomePageData();
 
-        console.log("Homepage data:", response.data);
         this.homePageData = response.data;
       } catch (error) {
         console.error("Error fetching homepage data:", error);
       }
     },
-    addToCart(product) {
-      console.log("Adding to cart:", product);
+    async addToCart(product) {
+      let data = {
+        product_id: product.id,
+        product_quantity: 1,
+      };
+      try {
+        const response = await apiConfigCart.addCart(data);
+        if (response.status === 200) {
+          this.$toast.success('Thêm vào giỏ hàng thành công');
+          this.$router.push({ path: '/shopping-cart' });
+        } else {
+          console.error("Failed to add product to cart:", response.data);
+        }
+      } catch (error) {
+        console.error("Error adding product to cart:", error);
+      }
     },
     viewCategoryProducts(category) {
       console.log(`View products in ${category.name} category`);
+    },
+    viewProductDetail(product) {
+      console.log(product)
+      const categorySlug = product.category.slug;
+      const productSlug = product.slug;
+      this.$router.push({ path: `/product-detail/${categorySlug}/${productSlug}` });
     },
   },
 };
@@ -117,7 +139,7 @@ body {
   padding: 0;
   line-height: 1.6;
 }
-
+product-detail
 h1, h2, h3 {
   color: #222;
   margin-bottom: 15px;
@@ -243,5 +265,10 @@ button:hover {
   button {
     font-size: 0.9rem;
   }
+}
+.discounted-price {
+  color: #ff0000; /* Red color to highlight */
+  font-weight: bold; /* Bold text */
+  font-size: 1.2rem; /* Slightly larger font size */
 }
 </style>
