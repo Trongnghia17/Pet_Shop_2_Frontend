@@ -18,6 +18,15 @@
       </li>
       <li class="navbar-item">
         <router-link
+            to="/accessory"
+            class="navbar-link"
+            active-class="active-link"
+            exact-active-class="exact-active-link">
+          <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-image"></span>Sản phẩm
+        </router-link>
+      </li>
+      <li class="navbar-item">
+        <router-link
             to="/introduce"
             class="navbar-link"
             active-class="active-link"
@@ -34,15 +43,6 @@
           <span style="margin-right: 8px;font-size: 20px;" class="fa-brands fa-stack-overflow"></span>Album
         </router-link>
       </li>
-<!--      <li class="navbar-item">-->
-<!--        <router-link-->
-<!--            to="/accessory"-->
-<!--            class="navbar-link"-->
-<!--            active-class="active-link"-->
-<!--            exact-active-class="exact-active-link">-->
-<!--          <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-image"></span>Phụ kiện-->
-<!--        </router-link>-->
-<!--      </li>-->
       <li class="navbar-item">
         <router-link
             to="/contact"

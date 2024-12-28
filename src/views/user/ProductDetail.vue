@@ -37,6 +37,7 @@
 import axiosInstance from "../../axiosInstance";
 import apiConfigCart from "../../store/cart";
 import apiConfigHome from "../../store/home";
+import Cookies from "js-cookie";
 
 export default {
   name: "ProductDetail",
@@ -74,6 +75,12 @@ export default {
       }
     },
     async addToCart(product) {
+      const isLoggedIn = Cookies.get("token");
+      if (!isLoggedIn) {
+        this.$toast.error('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
+        this.$router.push({ path: '/login' });
+        return;
+      }
       const data = {
         product_id: product.id,
         product_quantity: this.quantity,

@@ -2,8 +2,8 @@ import axiosInstance from '../axiosInstance';
 import Cookies from 'js-cookie';
 
 const apiConfigHome = {
-    getHomePageData: () => {
-        return axiosInstance.get('/api/viewHomePage', {
+    getHomePageData: (data) => {
+        return axiosInstance.get('/api/viewHomePage', data ,{
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 Authorization:

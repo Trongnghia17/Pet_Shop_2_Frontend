@@ -7,8 +7,35 @@
       <img src="../../assets/images/banner3.jpg" alt="Banner 3" class="banner-image" />
     </div>
 
-    <h1>PETSHOP</h1>
     <h2>Khám phá các sản phẩm thú cưng tuyệt vời.</h2>
+<!--    <section v-if="homePageData">-->
+<!--      <h2>Danh mục sản phẩm</h2>-->
+<!--      <div class="category-list">-->
+<!--        <div v-for="category in homePageData.categories" :key="category.id" class="category-card">-->
+<!--          <button @click="viewCategoryProducts(category)">{{ category.name }}</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+
+<!--    &lt;!&ndash; Selected Category Products Section &ndash;&gt;-->
+<!--    <section v-if="selectedCategoryProducts.length">-->
+<!--      <h2>Sản phẩm trong danh mục</h2>-->
+<!--      <div class="product-list">-->
+<!--        <div v-for="product in selectedCategoryProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">-->
+<!--          <img-->
+<!--              v-if="product.image"-->
+<!--              :src="`${baseURL}/${product.image}`"-->
+<!--              alt="Product Image"-->
+<!--              width="200px"-->
+<!--          />-->
+<!--          <h3>{{ product.name }}</h3>-->
+<!--          <div> Số lượng {{ product.quantity }}</div>-->
+<!--          <div>Giá gốc: {{ product.original_price }} VND</div>-->
+<!--          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>-->
+<!--          <button @click="addToCart(product)">Thêm vào giỏ</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
 
     <!-- Featured Products Section -->
     <section v-if="homePageData">
@@ -34,7 +61,7 @@
     <section v-if="homePageData">
       <h2>Sản phẩm phổ biến</h2>
       <div class="product-list">
-        <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card">
+        <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">
           <img
               v-if="product.image"
               :src="`${baseURL}/${product.image}`"
@@ -50,23 +77,7 @@
       </div>
     </section>
 
-    <!-- Product Categories Section -->
-    <section v-if="homePageData">
-      <h2>Danh mục sản phẩm</h2>
-      <div class="category-list">
-        <div v-for="category in homePageData.categories" :key="category.id" class="category-card">
-          <img
-              v-if="category.image"
-              :src="`${baseURL}/${category.image}`"
-              alt="Category Image"
-              width="200px"
-          />
-          <h3>{{ category.name }}</h3>
-          <p>{{ category.quantity }}</p>
-          <button @click="viewCategoryProducts(category)">Xem sản phẩm trong danh mục</button>
-        </div>
-      </div>
-    </section>
+
   </div>
 </template>
 
@@ -74,6 +85,7 @@
 import axiosInstance from "../../axiosInstance";
 import apiConfigCart from "../../store/cart";
 import apiConfigHome from "../../store/home";
+import Cookies from "js-cookie";
 
 
 export default {
@@ -82,6 +94,7 @@ export default {
     return {
       homePageData: null,
       baseURL: axiosInstance.defaults.baseURL,
+      selectedCategoryProducts: [],
     };
   },
   mounted() {
@@ -94,11 +107,21 @@ export default {
         const response = await apiConfigHome.getHomePageData();
 
         this.homePageData = response.data;
+        console.log(this.homePageData);
+        if (this.homePageData.categories && this.homePageData.categories.length > 0) {
+          this.selectedCategoryProducts = this.homePageData.categories[0].products;
+        }
       } catch (error) {
         console.error("Error fetching homepage data:", error);
       }
     },
     async addToCart(product) {
+      const isLoggedIn = Cookies.get("token");
+      if (!isLoggedIn) {
+        this.$toast.error('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
+        this.$router.push({ path: '/login' });
+        return;
+      }
       let data = {
         product_id: product.id,
         product_quantity: 1,
@@ -116,7 +139,7 @@ export default {
       }
     },
     viewCategoryProducts(category) {
-      console.log(`View products in ${category.name} category`);
+      this.selectedCategoryProducts = category.products;
     },
     viewProductDetail(product) {
       console.log(product)
