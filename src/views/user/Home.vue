@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <!-- Banner Section -->
     <div class="banner-container">
       <img src="../../assets/images/banner1.jpg" alt="Banner 1" class="banner-image" />
@@ -151,6 +151,10 @@ export default {
 
 
 <style scoped>
+.home{
+  width: 1250px;
+  margin: 0 auto;
+}
 /* Tổng thể layout */
 body {
   background-color: #f5f5f5;
