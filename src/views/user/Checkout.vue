@@ -9,6 +9,7 @@
           outlined
           dense
       ></v-text-field>
+
       <span>Hình thức thanh toán</span>
       <v-select
           v-model="checkoutInfo.payment_mode"
@@ -16,44 +17,14 @@
           outlined
           dense
       ></v-select>
-      <v-container v-if="checkoutInfo.payment_mode === 'card'">
-        <span>Tên trên thẻ</span>
-        <v-text-field
-            v-model="checkoutInfo.nameCard"
-            outlined
-            dense
-        ></v-text-field>
-        <span>Số thẻ</span>
-        <v-text-field
-            v-model="checkoutInfo.cardNumber"
-            outlined
-            dense
-        ></v-text-field>
-        <span>CVC</span>
-        <v-text-field
-            v-model="checkoutInfo.cvc"
-            outlined
-            dense
-        ></v-text-field>
-        <v-row>
-          <v-col>
-            <span>Tháng</span>
-            <v-text-field
-                v-model="checkoutInfo.month"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <span>Năm</span>
-            <v-text-field
-                v-model="checkoutInfo.year"
-                outlined
-                dense
-            ></v-text-field>
-          </v-col>
-        </v-row>
+
+      <!-- Phần tử Stripe Elements -->
+      <v-container v-if="checkoutInfo.payment_mode === 'stripe'">
+        <span>Thông tin thẻ</span>
+        <div id="card-element" class="stripe-card-element"></div>
+        <p v-if="stripeError" class="error-message">{{ stripeError }}</p>
       </v-container>
+
       <span>Tổng tiền</span>
       <v-text-field
           :value="checkoutInfo.amount"
@@ -61,42 +32,91 @@
           outlined
           dense
       ></v-text-field>
+
       <v-btn type="submit" color="primary" class="custom-btn">Xác nhận thanh toán</v-btn>
     </v-form>
   </v-container>
 </template>
-
 <script>
+import { loadStripe } from '@stripe/stripe-js';
 import apiConfigCheckout from '../../store/checkout';
 
 export default {
   name: 'CheckoutPage',
   data() {
     return {
+      stripe: null, // Stripe instance
+      elements: null, // Stripe Elements instance
+      cardElement: null, // Stripe card element
+      stripeError: null, // Error from Stripe
+
       checkoutInfo: {
         address: '',
-        nameCard: '',
-        cardNumber: '',
-        cvc: '',
-        month: '',
-        year: '',
-        amount: this.$route.query.amount || 0,
         payment_mode: 'cod',
+        amount: this.$route.query.amount || 0,
       },
+
       paymentModes: [
         { text: 'Thanh toán khi nhận hàng', value: 'cod' },
-        { text: 'Thẻ ngân hàng', value: 'card' },
+        { text: 'Thẻ ngân hàng', value: 'stripe' },
       ],
     };
   },
+  async mounted() {
+    try {
+      // Load Stripe instance
+      this.stripe = await loadStripe('pk_test_51QSIce04G9pDHJKpuQjhstz1mBkR7l9hxZgrzSauIkIk7ZgtfEOMbJ35mLu8WMNGMElFhe3p7GQh4qMFnT0NmFRu00ypc83FB8');
+      this.elements = this.stripe.elements();
+
+      // Watch for payment mode changes
+      this.$watch(
+          () => this.checkoutInfo.payment_mode,
+          (newMode) => {
+            if (newMode === 'stripe') {
+              this.$nextTick(() => {
+                const cardElementContainer = document.querySelector('#card-element');
+                if (cardElementContainer && !this.cardElement) {
+                  this.cardElement = this.elements.create('card');
+                  this.cardElement.mount('#card-element');
+                }
+              });
+            } else if (this.cardElement) {
+              this.cardElement.unmount();
+              this.cardElement = null;
+            }
+          }
+      );
+    } catch (error) {
+      console.error('Error initializing Stripe:', error);
+    }
+  },
   methods: {
-    submitCheckout() {
+    async submitCheckout() {
       if (!this.checkoutInfo.address) {
         this.$toast.warning('Vui lòng nhập địa chỉ giao hàng');
         return;
       }
-      apiConfigCheckout.checkout(this.checkoutInfo)
-          .then(response => {
+
+      if (this.checkoutInfo.payment_mode === 'stripe') {
+        try {
+          // Create a Stripe token
+          const { token, error } = await this.stripe.createToken(this.cardElement);
+          if (error) {
+            this.stripeError = error.message;
+            return;
+          }
+          this.checkoutInfo.stripeToken = token.id;
+        } catch (error) {
+          console.error('Error creating Stripe token:', error);
+          this.$toast.error('Đã xảy ra lỗi khi tạo token. Vui lòng thử lại.');
+          return;
+        }
+      }
+
+      // Process the checkout
+      apiConfigCheckout
+          .checkout(this.checkoutInfo)
+          .then((response) => {
             if (response.status === 200) {
               this.$toast.success('Thanh toán thành công');
               this.$router.push({ path: '/home' });
@@ -104,15 +124,14 @@ export default {
               this.$toast.warning('Thanh toán thất bại');
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Error during checkout:', error);
             this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
           });
-    }
+    },
   },
 };
 </script>
-
 <style scoped>
 .checkout-container {
   width: 500px;
@@ -122,20 +141,20 @@ export default {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.form-group {
+
+.stripe-card-element {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
   margin-bottom: 15px;
 }
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -10px;
 }
-.form-group input, .form-group select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+
 .custom-btn {
   background-color: #ff6f61 !important;
   color: white !important;
@@ -151,10 +170,5 @@ export default {
 .custom-btn:hover {
   background-color: #e65a50 !important;
   transform: translateY(-2px) !important;
-}
-
-.custom-btn:active {
-  background-color: #d95448 !important;
-  transform: translateY(0) !important;
 }
 </style>
