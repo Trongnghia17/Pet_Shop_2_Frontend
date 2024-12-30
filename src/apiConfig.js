@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 const apiConfig = {
     login: (data) => axiosInstance.post('/api/login', data),
     register: (data) => axiosInstance.post('/api/register', data),
+    getQrCode: (data) => axiosInstance.post('/api/get-qr-code', data),
     getAllCategory: (data) => {
         return axiosInstance.get('/api/view-category', data,{
             headers: {

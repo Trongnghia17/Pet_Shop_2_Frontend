@@ -35,6 +35,7 @@
 import apiConfig from '@/apiConfig';
 import Cookies from 'js-cookie';
 import { validateEmail } from '@/utils/validators';
+import { validatePassword } from '@/utils/validators';
 
 
 export default {
@@ -57,8 +58,8 @@ export default {
         this.$toast.error('Email không đúng định dạng!');
         return;
       }
-      if (this.password.length < 8) {
-        this.$toast.error('Mật khẩu phải có ít nhất 8 ký tự!');
+      if (!validatePassword(this.password)) {
+        this.$toast.error('Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất 1 chữ viết hoa và 1 ký tự đặc biệt!');
         return;
       }
 

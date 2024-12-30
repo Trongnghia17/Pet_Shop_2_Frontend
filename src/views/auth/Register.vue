@@ -6,11 +6,11 @@
       <v-form @submit.prevent="checkComfirmPassword">
         <div class="form-input">
           <label for="username">Tên:</label>
-          <v-text-field class="input" outlined type="text" id="username" v-model="username"  required />
+          <v-text-field class="input" outlined type="text" id="username" v-model="username" required />
         </div>
         <div class="form-input">
           <label for="email">Email:</label>
-          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
+          <v-text-field class="input" outlined type="text" id="email" v-model="email" required />
         </div>
         <div class="form-input">
           <label for="password">Mật khẩu:</label>
@@ -43,18 +43,25 @@
           </div>
         </div>
       </v-form>
+      <v-dialog v-model="showTwoFactorAuth" max-width="500px" >
+        <TwoFactorAuth :qrImage="qrImage" @verify="registerUser" />
+      </v-dialog>
     </div>
   </div>
 </template>
 
-
 <script>
 import apiConfig from '@/apiConfig';
 import { validateEmail } from '@/utils/validators';
-
+import QRCode from 'qrcode';
+import TwoFactorAuth from '@/components/TwoFactorAuth.vue';
+import { validatePassword } from '@/utils/validators';
 
 export default {
   name: 'RegisterPage',
+  components: {
+    TwoFactorAuth,
+  },
   data() {
     return {
       username: '',
@@ -63,11 +70,13 @@ export default {
       confirmPassword: '',
       showConfirmPassword: false,
       showPassword: false,
+      qrImage: null,
+      showTwoFactorAuth: false,
     };
   },
   methods: {
     async checkComfirmPassword() {
-      if(!this.email || !this.password) {
+      if (!this.email || !this.password) {
         this.$toast.error('Vui lòng nhập đầy đủ thông tin!');
         return;
       }
@@ -75,46 +84,61 @@ export default {
         this.$toast.error('Email không đúng định dạng!');
         return;
       }
-
-      if (this.password.length < 8) {
-        this.$toast.error('Mật khẩu phải có ít nhất 8 ký tự!');
+      if (!validatePassword(this.password)) {
+        this.$toast.error('Mật khẩu phải có ít nhất 6 ký tự, chứa ít nhất 1 chữ viết hoa và 1 ký tự đặc biệt!');
         return;
       }
       if (this.password !== this.confirmPassword) {
         this.$toast.warning('Mật khẩu và xác nhận mật khẩu không khớp!');
         return;
       }
-      if (this.password.length < 8 || this.confirmPassword.length < 8) {
-        this.$toast.warning('Mật khẩu và xác nhận mật khẩu phải có ít nhất 8 ký tự!');
-        return;
+      try {
+        const response = await apiConfig.getQrCode({
+          name: this.username,
+          email: this.email,
+          password: this.password,
+        });
+        if (response.data.status === 200) {
+          const otpauthUrl = response.data.qr_image;
+          this.qrImage = await QRCode.toDataURL(otpauthUrl);
+          this.qrImageSecret = response.data.google2fa_secret; // Store the secret
+          this.showTwoFactorAuth = true;
+          this.$toast.success('Vui lòng quét mã QR và nhập mã xác thực 2FA!');
+        } else if (response.data.status === 409) {
+          this.$toast.warning(response.data.message);
+        } else {
+          this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
+        }
+      } catch (error) {
+        this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
       }
+    },
+    async registerUser(twoFactorCode) {
       try {
         const response = await apiConfig.register({
           name: this.username,
           email: this.email,
           password: this.password,
+          google2fa_code: twoFactorCode,
+          google2fa_secret: this.qrImageSecret, // Include the google2fa_secret
         });
-      if (response.data.status === 200){
-        this.$toast.success('Đăng ký thành công!');
-        this.$router.push('/login');
-      } else if(response.data.status === 409){
-        this.$toast.warning(response.data.message);
-      } else {  
-        this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
-      }
+        if (response.data.status === 200) {
+          this.$toast.success('Đăng ký thành công!');
+          this.$router.push('/login');
+        } else {
+          this.$toast.error('Mã xác thực 2FA không hợp lệ!');
+        }
       } catch (error) {
-        this.$toast.error('Đăng ký thất bại, vui lòng thử lại!');
+        this.$toast.error('Xác thực 2FA thất bại, vui lòng thử lại!');
       }
     },
     togglePasswordVisibility(field) {
       if (field === 'password') {
-        this.showPassword = !this.showPassword
+        this.showPassword = !this.showPassword;
       } else if (field === 'confirmPassword') {
-        this.showConfirmPassword = !this.showConfirmPassword
+        this.showConfirmPassword = !this.showConfirmPassword;
       }
-
-
-    }
+    },
   },
 };
 </script>
@@ -147,7 +171,7 @@ export default {
 .register-form h1 {
   margin: 20px;
   text-align: center;
-  color:#ED1D22;
+  color: #ED1D22;
 }
 
 .button {
@@ -176,9 +200,14 @@ export default {
   margin-bottom: 20px;
   background: linear-gradient(45deg, #ff0044, #ff7070);
 }
-.button .register-btn:hover{
-  background: linear-gradient(45deg,  #ed2775, #fb6452);
+
+.button .register-btn:hover {
+  background: linear-gradient(45deg, #ed2775, #fb6452);
   color: white;
 }
 
+.qr-code {
+  margin-top: 20px;
+  max-width: 100%;
+}
 </style>
