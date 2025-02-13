@@ -1,23 +1,26 @@
-# Sử dụng hình ảnh Node.js 14 làm base
+# Sử dụng image Node.js 14
 FROM node:14
 
-# Thiết lập thư mục làm việc bên trong container
+# Thiết lập thư mục làm việc trong container
 WORKDIR /app
 
 # Sao chép package.json và package-lock.json vào container
 COPY package*.json ./
 
-# Cài đặt các dependencies
+# Cài đặt dependencies
 RUN npm install
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Build ứng dụng Vue.js (nếu có script build)
+# Build ứng dụng Vue
 RUN npm run build
 
-# Expose port mà ứng dụng sẽ chạy
-EXPOSE 8080
+# Cài đặt một web server nhẹ để phục vụ ứng dụng Vue (serve)
+RUN npm install -g serve
 
-# Chạy ứng dụng (chỉnh sửa nếu cần)
-CMD ["npm", "run", "serve"]
+# Chạy ứng dụng Vue.js với serve
+CMD ["serve", "-s", "dist"]
+
+# Expose cổng 5000 (hoặc cổng bạn muốn chạy ứng dụng)
+EXPOSE 5000
