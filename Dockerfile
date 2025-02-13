@@ -20,7 +20,7 @@ RUN npm run build
 RUN npm install -g serve
 
 # Chạy ứng dụng Vue.js với serve
-CMD ["serve", "-s", "dist"]
+CMD ["serve", "-s", "dist", "-l", "5000"]
 
 # Expose cổng 5000 (hoặc cổng bạn muốn chạy ứng dụng)
 EXPOSE 5000
