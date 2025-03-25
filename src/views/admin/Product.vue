@@ -3,7 +3,7 @@
       <div
           style="font-size: 1.3rem; font-weight: 500; padding-bottom: 2rem  "
       >
-        Quản lý thú cưng
+        Quản lý quà
       </div>
     <v-row class="ma-0">
       <v-col cols="12" class="pb-0 px-0">
@@ -34,7 +34,7 @@
                         outlined
                         dense
                         v-model="name"
-                        label="Tên sản phẩm thú cưng"
+                        label="Tên sản phẩm quà"
                         @keydown.enter="search"
                         @keyup="searchEmpty"
                         :append-icon="'mdi-magnify'"

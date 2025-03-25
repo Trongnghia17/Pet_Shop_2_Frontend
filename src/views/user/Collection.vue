@@ -2,11 +2,11 @@
   <div class="introduce-container">
     <h1>Giới thiệu về Pet Shop</h1>
     <p>
-      Chào mừng bạn đến với Pet Shop, nơi cung cấp các sản phẩm và dịch vụ tốt nhất cho thú cưng của bạn. Chúng tôi tự hào là một trong những cửa hàng thú cưng hàng đầu, cung cấp mọi thứ từ thức ăn, đồ chơi, phụ kiện đến các dịch vụ chăm sóc sức khỏe cho thú cưng.
+      Chào mừng bạn đến với Pet Shop, nơi cung cấp các sản phẩm và dịch vụ tốt nhất cho quà của bạn. Chúng tôi tự hào là một trong những cửa hàng thú cưng hàng đầu, cung cấp mọi thứ từ thức ăn, đồ chơi, phụ kiện đến các dịch vụ chăm sóc sức khỏe cho thú cưng.
     </p>
     <h2>Sứ mệnh của chúng tôi</h2>
     <p>
-      Sứ mệnh của chúng tôi là mang đến cho thú cưng của bạn những sản phẩm và dịch vụ tốt nhất, giúp chúng có một cuộc sống khỏe mạnh và hạnh phúc. Chúng tôi cam kết cung cấp các sản phẩm chất lượng cao và dịch vụ chuyên nghiệp, đáp ứng mọi nhu cầu của thú cưng và chủ nhân.
+      Sứ mệnh của chúng tôi là mang đến cho quà của bạn những sản phẩm và dịch vụ tốt nhất, giúp chúng có một cuộc sống khỏe mạnh và hạnh phúc. Chúng tôi cam kết cung cấp các sản phẩm chất lượng cao và dịch vụ chuyên nghiệp, đáp ứng mọi nhu cầu của thú cưng và chủ nhân.
     </p>
     <h2>Sản phẩm và dịch vụ</h2>
     <ul>

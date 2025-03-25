@@ -24,7 +24,7 @@
                     <v-icon style="color: #01BC63" large>mdi-cat</v-icon>
                   </v-avatar>
                   <v-list-item-content class="text-right">
-                    <span class="overline caption-btn">Tổng số giống loài</span>
+                    <span class="overline caption-btn">Tổng số loại quà</span>
                     <v-list-item-title class="headline mb-1 text-right">
                       <span class="number-report">{{ category }}</span>
                     </v-list-item-title>
@@ -33,7 +33,7 @@
                 </v-list-item>
               </v-card>
             </template>
-            <span>{{ category }} giống loài </span>
+            <span>{{ category }} loại quà </span>
           </v-tooltip>
         </v-col>
         <v-col cols="12" md="3" class="d-flex">
@@ -50,7 +50,7 @@
                     <v-icon large style="color: #01BC63">mdi-paw</v-icon>
                   </v-avatar>
                   <v-list-item-content class="text-right">
-                    <span class="overline caption-btn">Tổng số thú cưng</span>
+                    <span class="overline caption-btn">Tổng số quà</span>
                     <v-list-item-title class="headline mb-1 text-right">
                       <span class="number-report">{{ product }}</span>
                     </v-list-item-title>
@@ -59,7 +59,7 @@
                 </v-list-item>
               </v-card>
             </template>
-            <span>{{ product }} thú cưng</span>
+            <span>{{ product }} quà</span>
           </v-tooltip>
         </v-col>
 

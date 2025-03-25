@@ -22,7 +22,7 @@
     <p>
       Bạn có thể ghé thăm cửa hàng của chúng tôi tại địa chỉ:
     </p>
-    <p><strong>Cửa hàng thú cưng PetShop</strong></p>
+    <p><strong>Cửa hàng quà</strong></p>
     <p>Trường đại học Kiến Trúc Hà Nội</p>
 
     <h2>Bản đồ</h2>

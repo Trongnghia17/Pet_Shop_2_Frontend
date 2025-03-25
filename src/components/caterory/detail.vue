@@ -8,7 +8,7 @@
   >
     <v-card>
       <v-card-title class="border-title-dialog"  style="padding-left: 33px">
-      Xem giống loài
+      Xem loại quà
         <v-btn
             @click="toggle"
             icon
@@ -21,7 +21,7 @@
         <v-row class="ma-0" no-gutters style="color: black">
           <v-col cols="6" style="padding-right: 10px ; padding-left: 10px">
             <span class="fw-500">
-              Tên giống loài(<span class="red--text">*</span>)</span
+              Tên loại quà(<span class="red--text">*</span>)</span
             >
             <v-text-field
                 class="pt-1"

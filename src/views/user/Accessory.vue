@@ -9,7 +9,7 @@
             outlined
             dense
             v-model="name"
-            label="Tên sản phẩm thú cưng"
+            label="Tên sản phẩm quà"
             :append-icon="'mdi-magnify'"
             @keydown.enter="search"
             @keyup="searchEmpty"

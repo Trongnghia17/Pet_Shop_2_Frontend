@@ -19,18 +19,18 @@
             <i class="fa-solid fa-layer-group menu-icon"></i>
           </v-list-item-icon>
           <v-list-item-content class="title" v-if="isSidebarOpen">
-            <v-list-item-title>Giống loài</v-list-item-title>
+            <v-list-item-title>Loại quà</v-list-item-title>
           </v-list-item-content>
-          <span class="tooltip">Giống loài</span>
+          <span class="tooltip">Loại quà</span>
         </v-list-item>
         <v-list-item class="list-menu" @click="handleEvent('/admin/product')" :class="{ 'active-link': isActive('/admin/product') }">
           <v-list-item-icon>
             <i class="fa-solid fa-paw menu-icon"></i>
           </v-list-item-icon>
           <v-list-item-content class="title" v-if="isSidebarOpen">
-            <v-list-item-title>Thú cưng</v-list-item-title>
+            <v-list-item-title>Quà</v-list-item-title>
           </v-list-item-content>
-          <span class="tooltip">Thú cưng</span>
+          <span class="tooltip">Quà</span>
         </v-list-item>
         <v-list-item class="list-menu" @click="handleEvent('/admin/order')" :class="{ 'active-link': isActive('/admin/order') }">
           <v-list-item-icon>

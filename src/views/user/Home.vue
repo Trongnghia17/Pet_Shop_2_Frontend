@@ -1,13 +1,13 @@
 <template>
   <div class="home">
     <!-- Banner Section -->
-    <div class="banner-container">
-      <img src="../../assets/images/banner1.jpg" alt="Banner 1" class="banner-image" />
-      <img src="../../assets/images/banner2.jpg" alt="Banner 2" class="banner-image" />
-      <img src="../../assets/images/banner3.jpg" alt="Banner 3" class="banner-image" />
-    </div>
+<!--    <div class="banner-container">-->
+<!--      <img src="../../assets/images/banner1.jpg" alt="Banner 1" class="banner-image" />-->
+<!--      <img src="../../assets/images/banner2.jpg" alt="Banner 2" class="banner-image" />-->
+<!--      <img src="../../assets/images/banner3.jpg" alt="Banner 3" class="banner-image" />-->
+<!--    </div>-->
 
-    <h2>Khám phá các sản phẩm thú cưng tuyệt vời.</h2>
+    <h2>Khám phá các sản phẩm quà tuyệt vời.</h2>
 <!--    <section v-if="homePageData">-->
 <!--      <h2>Danh mục sản phẩm</h2>-->
 <!--      <div class="category-list">-->
