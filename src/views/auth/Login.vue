@@ -1,32 +1,55 @@
 <template>
-  <div class="login-page">
-    <img src="../../assets/images/logo.png" alt="logo" class="logo">
-    <div class="login-form">
-      <h1>ĐĂNG NHẬP</h1>
-      <v-form @submit.prevent="handleLogin">
-        <div class="form-input">
-          <label for="email">Email:</label>
-          <v-text-field class="input" outlined type="text" id="email" v-model="email"  required />
-        </div>
-        <div class="form-input">
-          <label for="password">Mật khẩu:</label>
-          <v-text-field
-              outlined
-              :type="showPassword ? 'text' : 'password'"
-              id="password"
-              v-model="password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="togglePasswordVisibility"
-              class="input"
-              required />
-        </div>
-        <div class="button">
-          <v-btn type="submit" class="login-btn">Đăng nhập</v-btn>
-          <div>
-            Bạn chưa có tài khoản ? <router-link class="register-router" to="register">Đăng ký ngay</router-link>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo-section">
+        <img src="../../assets/images/logo.png" alt="logo" class="logo">
+      </div>
+      <div class="form-section">
+        <h1>ĐĂNG NHẬP</h1>
+        <v-form @submit.prevent="handleLogin">
+          <div class="form-input">
+            <label for="email">Email:</label>
+            <v-text-field
+                class="input"
+                outlined
+                dense
+                type="text"
+                id="email"
+                v-model="email"
+                placeholder="Nhập email của bạn"
+                prepend-inner-icon="mdi-email-outline"
+                required
+            />
           </div>
-        </div>
-      </v-form>
+          <div class="form-input">
+            <label for="password">Mật khẩu:</label>
+            <v-text-field
+                outlined
+                dense
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                v-model="password"
+                placeholder="Nhập mật khẩu của bạn"
+                prepend-inner-icon="mdi-lock-outline"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="togglePasswordVisibility"
+                class="input"
+                required
+            />
+          </div>
+          <div class="forgot-password">
+            <a href="#">Quên mật khẩu?</a>
+          </div>
+          <div class="login-actions">
+            <v-btn type="submit" class="login-btn" elevation="2" x-large>
+              <span>Đăng nhập</span>
+            </v-btn>
+            <div class="register-prompt">
+              Bạn chưa có tài khoản? <router-link class="register-router" to="register">Đăng ký ngay</router-link>
+            </div>
+          </div>
+        </v-form>
+      </div>
     </div>
   </div>
 </template>
@@ -36,14 +59,13 @@ import apiConfig from '@/apiConfig';
 import Cookies from 'js-cookie';
 import { validateEmail } from '@/utils/validators';
 
-
 export default {
   name: 'LoginPage',
   data() {
     return {
-        email: '',
-        password: '',
-        showPassword: false,
+      email: '',
+      password: '',
+      showPassword: false,
     };
   },
   methods: {
@@ -91,63 +113,169 @@ export default {
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
-
   },
 };
 </script>
 
 <style scoped>
-.login-page {
-  border: 1px solid #ccc;
-  box-shadow: 0 0  10px rgba(0, 0, 0, 0.1);
-  margin: 20px 20px;
-  padding: 20px;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+.login-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
-  gap: 10%;
-  border-radius: 12px;
-  min-height: 95vh;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
 }
+
+.login-card {
+  display: flex;
+  max-width: 900px;
+  width: 90%;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.logo-section {
+  flex: 0 0 45%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e5e9f2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
 .logo {
-  max-width: 30vw;
+  max-width: 80%;
   height: auto;
 }
-.login-form {
-  min-width: 40vw;
+
+.form-section {
+  flex: 0 0 55%;
+  padding: 40px;
 }
-.login-form h1 {
-  margin: 20px;
+
+.form-section h1 {
+  margin-bottom: 30px;
   text-align: center;
-  color:#ED1D22;
+  color: #764ba2;
+  font-weight: 700;
+  font-size: 28px;
 }
-.button{
+
+.form-input {
+  margin-bottom: 20px;
+}
+
+.form-input label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.input {
+  border-radius: 8px;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 25px;
+}
+
+.forgot-password a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.forgot-password a:hover {
+  color: #764ba2;
+}
+
+.login-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.form-input .input{
-  margin-top: 10px;
-  border-radius: 12px;
-}
-.register-router{
-  text-decoration: none;
-  color: #ED1D22;
-}
-.register-router:hover{
-  font-weight: bold;
-  color: #ED1D22;
-}
-.button .login-btn{
-  width: 50%;
-  margin-bottom: 20px;
-  background: linear-gradient(45deg, #ff0044, #ff7070);
-}
-.button .login-btn:hover{
-  background: linear-gradient(45deg,  #ed2775, #fb6452);
-  color: white;
+
+.login-btn {
+  width: 100%;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg, #667eea, #764ba2) !important;
+  color: white !important;
+  font-weight: 600;
+  height: 48px !important;
+  border-radius: 8px !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.3s !important;
 }
 
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 15px rgba(118, 75, 162, 0.3) !important;
+}
+
+.register-prompt {
+  text-align: center;
+  color: #666;
+  font-size: 15px;
+}
+
+.register-router {
+  text-decoration: none;
+  color: #764ba2;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.register-router:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .logo-section, .form-section {
+    flex: 1;
+    width: 100%;
+    padding: 30px;
+  }
+
+  .logo-section {
+    padding: 25px;
+  }
+
+  .logo {
+    max-width: 180px;
+  }
+
+  .form-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 100%;
+  }
+
+  .form-section {
+    padding: 20px;
+  }
+
+  .login-btn {
+    height: 45px !important;
+  }
+}
 </style>

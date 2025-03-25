@@ -20,9 +20,9 @@
           />
           <button @click="increaseQuantity">+</button>
         </div>
-        <p><strong>Giá gốc:</strong> {{ product.original_price }} VND</p>
+        <p><strong>Giá gốc:</strong> {{ formatPrice(product.original_price) }} VND</p>
         <p class="discounted-price">
-          <strong>Giảm còn:</strong> {{ product.selling_price }} VND
+          <strong>Giảm còn:</strong> {{ formatPrice(product.selling_price) }} VND
         </p>
         <button @click="addToCart(product)">Thêm vào giỏ</button>
       </div>
@@ -56,6 +56,7 @@ import apiConfigCart from "../../store/cart";
 import apiConfigHome from "../../store/home";
 import apiConfigComment from "../../store/comment";
 import Cookies from "js-cookie";
+import { formatPrice } from '@/utils/formatters';
 
 export default {
   name: "ProductDetail",
@@ -71,6 +72,7 @@ export default {
     this.fetchProductDetail();
   },
   methods: {
+    formatPrice,
     addComment() {
       const isLoggedIn = Cookies.get("token");
       if (!isLoggedIn) {
@@ -151,211 +153,359 @@ export default {
 
 <style scoped>
 .product-detail {
-  width: 1250px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 40px;
-  background-color: #f2f2f2;
+  gap: 25px;
+  padding: 0;
+  font-family: 'Poppins', 'Roboto', sans-serif;
   color: #333;
-  font-family: 'Arial', sans-serif;
 }
 
 .product-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 40px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(118, 75, 162, 0.08);
   width: 100%;
+  padding: 0;
+  overflow: hidden;
 }
 
 .product-image {
-  width: 100%;
-  max-width: 450px;
-  border-radius: 12px;
+  width: 45%;
+  height: 500px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.product-image:hover {
-  transform: scale(1.05);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  transition: all 0.5s ease;
 }
 
 .product-info {
-  max-width: 600px;
-  text-align: left;
-  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+  padding: 40px 40px 40px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
-  font-size: 2.4rem;
-  color: #222;
+  font-size: 2.2rem;
+  color: #333;
   margin-bottom: 20px;
-  font-weight: bold;
+  font-weight: 600;
+  line-height: 1.2;
+  border-bottom: none;
+  padding-bottom: 0;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #764ba2, #9778c3);
 }
 
 .product-description {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 20px;
-  line-height: 1.6;
+  font-size: 1rem;
+  color: #666;
+  margin: 25px 0;
+  line-height: 1.7;
+  background: none;
+  padding: 0;
+  border-left: none;
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 20px 0;
+  gap: 15px;
+  margin: 25px 0;
+  background: none;
+  padding: 0;
+  max-width: 200px;
 }
 
 .quantity-control button {
-  background-color: #ff6f61;
+  background: linear-gradient(to right, #764ba2, #8a65b7);
   color: white;
-  padding: 8px 12px;
+  width: 40px;
+  height: 40px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.quantity-control button:hover {
-  background-color: #e65a50;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(118, 75, 162, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .quantity-control input {
   width: 60px;
   text-align: center;
   font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 6px;
+  font-weight: 500;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px 5px;
+  transition: all 0.3s;
 }
 
 .discounted-price {
-  color: #ff3b30;
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin: 15px 0;
+  color: #764ba2;
+  font-weight: 600;
+  font-size: 1.7rem;
+  margin: 10px 0 25px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  display: block;
 }
 
-button {
-  background-color: #ff6f61;
+.add-to-cart-btn {
+  background: linear-gradient(to right, #764ba2, #8a65b7);
   color: white;
-  padding: 14px 18px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  align-self: flex-start;
 }
 
-button:hover {
-  background-color: #e65a50;
+.add-to-cart-btn:hover {
+  box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4);
   transform: translateY(-2px);
 }
 
-button:active {
-  background-color: #d95448;
-  transform: translateY(0);
-}
-
 .loading {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #666;
-  margin: 50px 0;
+  margin: 40px auto;
   text-align: center;
+  padding: 30px;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  width: 80%;
 }
 
 .comments-section {
-  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(118, 75, 162, 0.08);
 }
 
 .comments-section h2 {
-  margin-top: 20px;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  position: relative;
+  padding-left: 0;
+}
+
+.comments-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(to right, #764ba2, #8a65b7);
 }
 
 .comments-section ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .comments-section li {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #f9f9f9;
+  padding: 20px 25px;
+  border-radius: 15px;
   margin-bottom: 15px;
+  transition: all 0.3s;
+  border: none;
+  border-left: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
 }
 
 .comments-section li p {
   margin: 0;
+  line-height: 1.6;
 }
 
 .comments-section li p strong {
   color: #555;
+  font-weight: 600;
 }
 
 .comments-section li p small {
   color: #999;
-  display: block;
+  font-size: 0.8rem;
   margin-top: 5px;
+  display: block;
+}
+
+.add-comment-section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(118, 75, 162, 0.08);
+}
+
+.add-comment-section textarea {
+  width: 100%;
+  height: 120px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.add-comment-section textarea:focus {
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+  outline: none;
+}
+
+.add-comment-section button {
+  background: linear-gradient(to right, #764ba2, #8a65b7);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(118, 75, 162, 0.2);
+}
+
+@media screen and (max-width: 1200px) {
+  .product-detail {
+    width: 90%;
+    margin: 30px auto;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .product-image {
+    width: 100%;
+    height: 400px;
+  }
+
+  .product-info {
+    padding: 30px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .product-container {
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
+  }
+
+  .product-image {
+    height: 350px;
+    width: 100%;
   }
 
   .product-info {
-    padding: 10px;
-    text-align: center;
+    padding: 25px;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    text-align: left;
+  }
+
+  .comments-section,
+  .add-comment-section {
+    padding: 25px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .product-detail {
+    margin: 20px auto;
+  }
+
+  .product-image {
+    height: 280px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
   }
 
   .discounted-price {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 }
-.add-comment-section {
-  margin: 0 auto;
-}
-
-.add-comment-section textarea {
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.add-comment-section button {
-  background-color: #ff6f61;
+/* Add this style for the generic button styling */
+button {
+  background: linear-gradient(to right, #764ba2, #8a65b7);
   color: white;
-  padding: 10px 15px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
 }
 
-.add-comment-section button:hover {
-  background-color: #e65a50;
+button:hover {
+  background: linear-gradient(to right, #8a65b7, #9778c3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4);
+}
+
+/* Keep specific styling for quantity buttons */
+.quantity-control button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(118, 75, 162, 0.2);
+}
+
+/* Keep specific styling for the comment button */
+.add-comment-section button {
+  padding: 12px 30px;
+  font-size: 1rem;
+  box-shadow: 0 5px 15px rgba(118, 75, 162, 0.2);
 }
 </style>

@@ -29,7 +29,7 @@
           <br/>
           <button class="remove-btn" @click="askForDeleteItem(item)">Xóa sản phẩm</button>
         </td>
-        <td>{{ item.product.selling_price }}đ</td>
+        <td>{{ formatPrice(item.product.selling_price) }}đ</td>
         <td>
           <div class="quantity-control">
             <button @click="decreaseQuantity(item)">-</button>
@@ -44,14 +44,14 @@
           </div>
         </td>
         <td>
-          {{ item.product.selling_price * item.product_quantity }}đ
+          {{ formatPrice(item.product.selling_price * item.product_quantity) }}đ
         </td>
       </tr>
       </tbody>
     </table>
     <div class="cart-summary" v-if="cartItems.length">
-      <p><strong>Tạm tính:</strong> {{ selectedTotalPrice }}đ</p>
-      <p><strong>Thành tiền:</strong> <span class="highlight">{{ selectedTotalPrice }}đ</span></p>
+      <p><strong>Tạm tính:</strong> {{ formatPrice(selectedTotalPrice) }}đ</p>
+      <p><strong>Thành tiền:</strong> <span class="highlight">{{ formatPrice(selectedTotalPrice) }}đ</span></p>
     </div>
     <div class="cart-actions" v-if="cartItems.length">
       <button class="btn btn-secondary" @click="$router.push({ path: '/home' })">Tiếp tục mua hàng</button>
@@ -71,6 +71,8 @@
 import apiConfigCart from "../../store/cart";
 import Delete from "../../components/cart/Delete.vue";
 import axiosInstance from "../../axiosInstance";
+import { formatPrice } from "../../utils/formatters";
+
 export default {
   name: 'ShoppingCart',
   data() {
@@ -93,6 +95,7 @@ export default {
     },
   },
   methods: {
+    formatPrice,
     fetchCart() {
       apiConfigCart.getListCart()
           .then(response => {
@@ -130,7 +133,6 @@ export default {
             this.$toast.error('Đã xảy ra lỗi, vui lòng thử lại');
           });
     },
-
     askForDeleteItem(item) {
       this.id = item.id;
       this.openDelete = true;
@@ -167,120 +169,192 @@ export default {
       );
       this.$router.push({ path: '/checkout', query: { amount } });
     },
-
   },
   created() {
     this.fetchCart();
   },
 };
-
 </script>
 
 <style scoped>
 .cart-container {
-  font-family: Arial, sans-serif;
-  width: 1250px;
-  margin: 0 auto;
-  padding-top: 30px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  width: 1200px;
+  margin: 30px auto;
+  padding: 30px;
   background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
 }
 
 .cart-container h2 {
   text-align: left;
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  color: #34495e;
+  font-weight: 600;
 }
 
-.cart-container span {
-  color: #666;
-  font-size: 14px;
+.cart-container h2 span {
+  color: #764ba2;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .cart-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .cart-table th,
 .cart-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  border: none;
+  padding: 15px;
   text-align: center;
 }
 
+.cart-table tr {
+  border-bottom: 1px solid #f1f1f1;
+}
+
 .cart-table th {
-  background-color: #f9f9f9;
+  background: linear-gradient(to right, #764ba2, #8a65b7);
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.cart-table tbody tr:hover {
+  background-color: #f8f9fa;
 }
 
 .cart-table img {
   max-width: 100px;
-  height: auto;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .remove-btn {
-  color: #ff0000;
+  color: #764ba2;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  padding: 5px 10px;
+}
+
+.remove-btn:hover {
+  color: #ff5252;
+  text-decoration: underline;
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .quantity-control button {
-  width: 30px;
-  height: 30px;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
+  width: 36px;
+  height: 36px;
+  background-color: #f5f5f5;
+  border: none;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #34495e;
+  transition: all 0.2s ease;
+}
+
+.quantity-control button:hover {
+  background-color: #e0e0e0;
+  color: #764ba2;
 }
 
 .quantity-control input {
   width: 50px;
+  height: 36px;
   text-align: center;
-  border: 1px solid #ddd;
+  border: none;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  font-size: 0.9rem;
 }
 
 .cart-summary {
+  margin-top: 30px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
   text-align: right;
-  margin-top: 20px;
 }
 
 .cart-summary p {
-  margin: 5px 0;
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #34495e;
 }
 
 .cart-summary .highlight {
-  color: #ff9900;
-  font-size: 18px;
+  color: #764ba2;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .cart-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 15px;
+  margin-top: 25px;
 }
 
 .cart-actions .btn {
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
 .cart-actions .btn-primary {
-  background-color: #ffcc00;
-  color: #000;
+  background-color: #764ba2;
+  color: white;
+}
+
+.cart-actions .btn-primary:hover {
+  background-color: #8a65b7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(118, 75, 162, 0.3);
 }
 
 .cart-actions .btn-secondary {
-  background-color: #ddd;
-  color: #000;
+  background-color: #f5f5f5;
+  color: #34495e;
 }
+
+.cart-actions .btn-secondary:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .cart-table th:first-child,
 .cart-table td:first-child {
   text-align: center;
@@ -290,6 +364,14 @@ export default {
 .cart-table input[type="checkbox"] {
   transform: scale(1.2);
   cursor: pointer;
+  accent-color: #764ba2;
 }
 
+/* Empty cart message */
+.cart-container > p {
+  text-align: center;
+  padding: 40px 0;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
 </style>

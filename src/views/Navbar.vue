@@ -34,15 +34,15 @@
           <span style="margin-right: 8px;font-size: 20px;" class="fa-solid fa-circle-info"></span>Giới thiệu
         </router-link>
       </li>
-      <li class="navbar-item">
-        <router-link
-            to="/album"
-            class="navbar-link"
-            active-class="active-link"
-            exact-active-class="exact-active-link">
-          <span style="margin-right: 8px;font-size: 20px;" class="fa-brands fa-stack-overflow"></span>Album
-        </router-link>
-      </li>
+<!--      <li class="navbar-item">-->
+<!--        <router-link-->
+<!--            to="/album"-->
+<!--            class="navbar-link"-->
+<!--            active-class="active-link"-->
+<!--            exact-active-class="exact-active-link">-->
+<!--          <span style="margin-right: 8px;font-size: 20px;" class="fa-brands fa-stack-overflow"></span>Album-->
+<!--        </router-link>-->
+<!--      </li>-->
       <li class="navbar-item">
         <router-link
             to="/contact"
@@ -153,14 +153,14 @@ export default {
 }
 
 .navbar ul li a:hover {
-  color: #ff7070;
+  color: #764ba2;
   font-weight: bold;
 }
 
 .navbar-item .active-link {
-  color: #ff7070;
+  color: #764ba2;
   font-weight: bold;
-  border-bottom: 2px solid #ff7070;
+  border-bottom: 2px solid #764ba2;
   padding-bottom: 5px;
 }
 
@@ -203,7 +203,7 @@ export default {
 }
 
 .profile-item:hover {
-  color: #ff7070;
+  color: #764ba2;
   font-weight: bold;
 }
 

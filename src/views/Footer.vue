@@ -11,15 +11,15 @@
           <ul>
             <li>
               <div class="footer1">
-            <router-link 
-            to="/home" 
-            active-class="active-link" 
+            <router-link
+            to="/home"
+            active-class="active-link"
             exact-active-class="exact-active-link">
             <span style="margin-right: 8px; font-size: 20px;" class="fa-solid fa-house"></span>Trang chủ</router-link>
             </div>
             </li>
             <li class="footer1">
-            <router-link 
+            <router-link
             to="/introduce"
             class="navbar-link"
             active-class="active-link"
@@ -46,7 +46,7 @@
         </div>
         <img src="../assets/images/logo.png" alt="logo" class="logo">
 
-        
+
         <div class="footer-right">
           <h3>LIÊN HỆ</h3>
           <p>
@@ -69,26 +69,26 @@
           </p>
           <p>
             <span class="fa-solid fa-phone"></span>
-            <a href="tel:+0123445567">0865202584 </a>
+            <a href="tel:+0338989024">0338989024 </a>
           </p>
           <p>
             <span class="fa-solid fa-envelope"></span>
-            <a href="mailto:petshop@gmail.com">petshop@gmail.com</a>
+            <a href="mailto:trannghia270403@gmail.com">trannghia270403@gmail.com</a>
           </p>
         </div>
       </div>
       <p style="text-align: center">
-        &copy; 2024 Pet Shop. All rights reserved.
+        &copy; 2025 GiftShop. All rights reserved.
       </p>
     </footer>
   </template>
-  
+
   <script>
   export default {
     name: "AppFooter",
   };
   </script>
-  
+
   <style scoped>
 .footer {
   color: grey;

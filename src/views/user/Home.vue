@@ -1,83 +1,73 @@
 <template>
-  <div class="home">
+  <div class="home-container">
     <!-- Banner Section -->
-<!--    <div class="banner-container">-->
-<!--      <img src="../../assets/images/banner1.jpg" alt="Banner 1" class="banner-image" />-->
-<!--      <img src="../../assets/images/banner2.jpg" alt="Banner 2" class="banner-image" />-->
-<!--      <img src="../../assets/images/banner3.jpg" alt="Banner 3" class="banner-image" />-->
-<!--    </div>-->
-
-    <h2>Khám phá các sản phẩm quà tuyệt vời.</h2>
-<!--    <section v-if="homePageData">-->
-<!--      <h2>Danh mục sản phẩm</h2>-->
-<!--      <div class="category-list">-->
-<!--        <div v-for="category in homePageData.categories" :key="category.id" class="category-card">-->
-<!--          <button @click="viewCategoryProducts(category)">{{ category.name }}</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </section>-->
-
-<!--    &lt;!&ndash; Selected Category Products Section &ndash;&gt;-->
-<!--    <section v-if="selectedCategoryProducts.length">-->
-<!--      <h2>Sản phẩm trong danh mục</h2>-->
-<!--      <div class="product-list">-->
-<!--        <div v-for="product in selectedCategoryProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">-->
-<!--          <img-->
-<!--              v-if="product.image"-->
-<!--              :src="`${baseURL}/${product.image}`"-->
-<!--              alt="Product Image"-->
-<!--              width="200px"-->
-<!--          />-->
-<!--          <h3>{{ product.name }}</h3>-->
-<!--          <div> Số lượng {{ product.quantity }}</div>-->
-<!--          <div>Giá gốc: {{ product.original_price }} VND</div>-->
-<!--          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>-->
-<!--          <button @click="addToCart(product)">Thêm vào giỏ</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </section>-->
+    <div class="banner-section">
+      <div class="banner-content">
+        <h1>Khám phá các sản phẩm quà tuyệt vời</h1>
+        <p>Tìm những món quà độc đáo và ý nghĩa cho người thân yêu</p>
+        <button class="shop-now-btn" @click="$router.push({ path: '/accessory' })">Mua sắm ngay</button>
+      </div>
+    </div>
 
     <!-- Featured Products Section -->
-    <section v-if="homePageData">
-      <h2>Sản phẩm nổi bật</h2>
+    <section v-if="homePageData" class="products-section">
+      <div class="section-header">
+        <h2>Sản phẩm nổi bật</h2>
+        <div class="section-divider"></div>
+      </div>
       <div class="product-list">
-        <div v-for="product in homePageData.featuredProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">
-          <img
-              v-if="product.image"
-              :src="`${baseURL}/${product.image}`"
-              alt="Product Image"
-              width="200px"
-          />
-          <h3>{{ product.name }}</h3>
-          <div> Số lượng {{ product.quantity }}</div>
-          <div>Giá gốc: {{ product.original_price }} VND</div>
-          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>
-          <button @click.stop="addToCart(product)">Thêm vào giỏ</button>
+        <div v-for="product in homePageData.featuredProducts" :key="product.id"
+             class="product-card" @click="viewProductDetail(product)">
+          <div class="product-image">
+            <img v-if="product.image" :src="`${baseURL}/${product.image}`" alt="Product Image"/>
+            <div class="quick-actions">
+              <button class="action-btn" @click.stop="addToCart(product)">
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-stock">Còn lại: {{ product.quantity }}</div>
+            <div class="product-price">
+              <span class="original-price">{{ formatPrice(product.original_price.toLocaleString()) }}₫</span>
+              <span class="selling-price">{{ formatPrice(product.selling_price.toLocaleString()) }}₫</span>
+            </div>
+            <button class="add-to-cart" @click.stop="addToCart(product)">Thêm vào giỏ</button>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Popular Products Section -->
-    <section v-if="homePageData">
-      <h2>Sản phẩm phổ biến</h2>
+    <section v-if="homePageData" class="products-section">
+      <div class="section-header">
+        <h2>Sản phẩm phổ biến</h2>
+        <div class="section-divider"></div>
+      </div>
       <div class="product-list">
-        <div v-for="product in homePageData.popularProducts" :key="product.id" class="product-card" @click="viewProductDetail(product)">
-          <img
-              v-if="product.image"
-              :src="`${baseURL}/${product.image}`"
-              alt="Product Image"
-              width="200px"
-          />
-          <h3>{{ product.name }}</h3>
-          <div> Số lượng {{ product.quantity }}</div>
-          <div>Giá gốc: {{ product.original_price }} VND</div>
-          <div class="discounted-price">Giảm còn: {{ product.selling_price }} VND</div>
-          <button @click="addToCart(product)">Thêm vào giỏ</button>
+        <div v-for="product in homePageData.popularProducts" :key="product.id"
+             class="product-card" @click="viewProductDetail(product)">
+          <div class="product-image">
+            <img v-if="product.image" :src="`${baseURL}/${product.image}`" alt="Product Image"/>
+            <div class="quick-actions">
+              <button class="action-btn" @click.stop="addToCart(product)">
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-stock">Còn lại: {{ product.quantity }}</div>
+            <div class="product-price">
+              <span class="original-price">{{ formatPrice(product.original_price.toLocaleString()) }}₫</span>
+              <span class="selling-price">{{ formatPrice(product.selling_price.toLocaleString()) }}₫</span>
+            </div>
+            <button class="add-to-cart" @click.stop="addToCart(product)">Thêm vào giỏ</button>
+          </div>
         </div>
       </div>
     </section>
-
-
   </div>
 </template>
 
@@ -86,7 +76,7 @@ import axiosInstance from "../../axiosInstance";
 import apiConfigCart from "../../store/cart";
 import apiConfigHome from "../../store/home";
 import Cookies from "js-cookie";
-
+import { formatPrice } from '@/utils/formatters';
 
 export default {
   name: "HomePage",
@@ -99,13 +89,19 @@ export default {
   },
   mounted() {
     this.fetchHomePageData();
+    this.loadFontAwesome();
   },
-
   methods: {
+    formatPrice,
+    loadFontAwesome() {
+      const script = document.createElement('script');
+      script.src = 'https://kit.fontawesome.com/a076d05399.js';
+      script.crossOrigin = 'anonymous';
+      document.head.appendChild(script);
+    },
     async fetchHomePageData() {
       try {
         const response = await apiConfigHome.getHomePageData();
-
         this.homePageData = response.data;
         if (this.homePageData.categories && this.homePageData.categories.length > 0) {
           this.selectedCategoryProducts = this.homePageData.categories[0].products;
@@ -118,7 +114,7 @@ export default {
       const isLoggedIn = Cookies.get("token");
       if (!isLoggedIn) {
         this.$toast.error('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng');
-        this.$router.push({ path: '/login' });
+        this.$router.push({path: '/login'});
         return;
       }
       let data = {
@@ -129,7 +125,7 @@ export default {
         const response = await apiConfigCart.addCart(data);
         if (response.status === 200) {
           this.$toast.success('Thêm vào giỏ hàng thành công');
-          this.$router.push({ path: '/shopping-cart' });
+          this.$router.push({path: '/shopping-cart'});
         } else {
           console.error("Failed to add product to cart:", response.data);
         }
@@ -143,157 +139,283 @@ export default {
     viewProductDetail(product) {
       const categorySlug = product.category.slug;
       const productSlug = product.slug;
-      this.$router.push({ path: `/product-detail/${categorySlug}/${productSlug}` });
+      this.$router.push({path: `/product-detail/${categorySlug}/${productSlug}`});
     },
   },
 };
 </script>
 
-
 <style scoped>
-.home{
-  width: 1250px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+.home-container {
+  max-width: 1280px;
   margin: 0 auto;
-}
-/* Tổng thể layout */
-body {
-  background-color: #f5f5f5;
-  color: #333;
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-}
-product-detail
-h1, h2, h3 {
-  color: #222;
-  margin-bottom: 15px;
-  text-align: center; /* Căn giữa các tiêu đề */
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-top: 20px;
-}
-
-h2 {
-  font-size: 1.8rem;
-}
-
-p {
-  color: #555;
-  font-size: 1rem;
-  margin-bottom: 10px;
+  padding: 0 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Banner Section */
-.banner-container {
+.banner-section {
+  height: 400px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  margin: 30px 0;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-.banner-image {
-  width: 395px; /* Đặt kích thước giống với các product-card */
-  height: 250px; /* Đặt chiều cao giống với các product-card */
-  object-fit: cover; /* Đảm bảo hình ảnh giữ đúng tỉ lệ */
-  border-radius: 10px; /* Đồng bộ border-radius */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Đồng bộ shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.banner-image:hover {
-  transform: translateY(-5px); /* Thêm hiệu ứng hover để đồng nhất */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* Sản phẩm và danh mục */
-.product-list, .category-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Căn giữa các sản phẩm */
-  gap: 30px;
-  padding: 20px;
-}
-
-.product-card, .category-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 280px; /* Định kích thước cố định cho các card */
-  text-align: center; /* Căn giữa nội dung */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover, .category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.product-card img, .category-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-bottom: 2px solid #f0f0f0;
-}
-
-.product-card h3, .category-card h3 {
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-
-.product-card p, .category-card p {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* Nút bấm */
-button {
-  margin-top: 10px;
-  padding: 12px 16px;
-  width: 90%;
-  background-color: #ff6f61;
+  text-align: center;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  padding: 0 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-  background-color: #e65a50;
+.banner-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.banner-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.shop-now-btn {
+  background-color: white;
+  color: #764ba2;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shop-now-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.section-divider {
+  height: 3px;
+  width: 80px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  margin: 0 auto;
+  border-radius: 3px;
+}
+
+/* Products Section */
+.products-section {
+  margin: 60px 0;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .product-list, .category-list {
-    gap: 20px;
+@media (max-width: 1024px) {
+  .product-list {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
 
-  .product-card, .category-card {
-    width: 90%;
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  h1 {
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.quick-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .quick-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: #764ba2;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #333;
+  height: 50px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-stock {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9rem;
+  margin-right: 10px;
+}
+
+.selling-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.add-to-cart {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #764ba2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #667eea;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .banner-section {
+    height: 350px;
+  }
+
+  .banner-content h1 {
+    font-size: 2rem;
+  }
+
+  .banner-content p {
+    font-size: 1rem;
+  }
+
+  .section-header h2 {
     font-size: 1.8rem;
   }
 
-  .product-card, .category-card {
-    width: 100%;
-  }
-
-  button {
-    font-size: 0.9rem;
+  .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
   }
 }
-.discounted-price {
-  color: #ff0000; /* Red color to highlight */
-  font-weight: bold; /* Bold text */
-  font-size: 1.2rem; /* Slightly larger font size */
+
+@media (max-width: 480px) {
+  .banner-section {
+    height: 300px;
+    margin: 20px 0;
+  }
+
+  .banner-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .products-section {
+    margin: 40px 0;
+  }
 }
 </style>
